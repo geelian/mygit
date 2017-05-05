@@ -51,5 +51,5 @@ javadoc -d /home/ file.java
 
 
 # 第3章  操作符
-- >>> 零扩展
+- \>\>\> 零扩展
 
