@@ -53,3 +53,27 @@ javadoc -d /home/ file.java
 # 第3章  操作符
 - \>\>\> 零扩展
 
+# 第4章 控制执行流程
+就像有知觉的生物一样，程序必须在执行过程中控制它的世界，并做出选择。在java中你要使用执行控制语句来做出选择。
+## return 
+- 返回值
+- 退出
+## 臭名昭著的goto
+```
+label1: //一定要在outer-iteration之上，中间不能有语句
+outer-iteration{
+	inner-iteratio{
+		continue; //(1)
+		continue label1; // (2)
+		back; //(3)
+		break label1; // (4)
+	}
+}
+```
+(1).一般continue会退回最内层循环的开头，并继续执行
+(2).带标签的continue会到达标签的位置，并重新进入紧接在那个标签后面的循环
+(3).一般的break会中断并跳出当前循环
+(4).带标签的break会中断并跳出标签所指的循环
+
+# switch
+()只能放整数类型，可以考虑用enum
