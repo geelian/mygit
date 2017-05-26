@@ -193,4 +193,81 @@ implements 实现
 - 接口可以继承其他接口，不能继承其他类
 
 # 第10章 内部类
+可以将一个类的定义放在另一个类的定义内部，这就是内部类 
+* 内部类与组合是完全不同的概念 *
+```
+public class Parcel1{
+	class Contents{
+	}
+}
+```
+访问外部类：
+OutterClassName.InnerClassName  
+目的：
+> 每个内部类都能独立的继承自一个实现，所以无论外围类是否已经继承了某个实现，对与内部类都没有影响。
 
+> 设计模式总是将变化的事物与保持不变的事物分离
+
+## 链接到外部类
+内部类对象可以访问他的外围对象的所有成员，内部类还有外围了的所有元素的访问权
+原理
+> 当某个外围类的对象创建了一个内部类对象时，此内部类必定会秘密的捕获一个指向那个外围类对象的引用。
+> 然后，在你访问此外围类的成员时，就是用那个引用来选择外围类对象的成员
+> 有外部类才能有外部类(非static内部类) 
+内-》外： OutterClassName.this 
+外部建立内部类： OutterClassName.InnerClassName = outterClass.new InnerClassName(); // 必须有外部类outterClass
+
+## 嵌套类（静态内部类static）
+* 不需要外部类对象的引用 *
+* 普通内部类不能有static数据和static字段但是嵌套类可以
+要求：
+1. 要创建嵌套类对象，并不需要外围类的对象
+2. 不能从嵌套类的对象中访问非静态的外围类对象。
+### 接口内部的嵌套类
+```
+public interface ClassInInterface{
+	class Test implementes ClassInInterface{}
+}
+```
+空格
+
+
+## 在方法和作用域内的内部类
+目的
+1. 实现了某类型的接口，于是可以创建并返回对其的引用
+2. 要决绝一个复杂问题，想创建一个类来辅助你的解决方案，但是又不希望这个类是公共可用的。
+
+## 匿名内部类
+内部a类的简化
+```
+public new Contents()
+	return new Contents(){};
+}
+```
+注意：
+1. 如果定义一个匿名内部类，并希望它使用一个在其外部的定义的对象，那么编译器会要求其参数引用是final的
+2. 匿名内部类即可以扩展类，也可以实现接口，但是太难同时兼备，而且如果是实现接口，也只能实现一个接口
+不使理由：需要不止一个内部类对象
+
+## 继承内部类
+```
+class WithInner{
+	class Inner{}
+}
+
+class Inner2 extends WithInner.Inner{
+	Inner2(WithInner wf){
+		wf.super();
+	}
+}
+```
+1. 必须带他的外部类到构造函数中 
+2. 内部类不能被覆盖
+
+
+## 闭包和回调
+闭包：是一个可调用的对象，它记录了一些信息，这些信息来自于创建它的作用域：内部类是面向对象的闭包
+
+## 内部类标识符
+LoclaInnerClass$1.class 匿名的
+LoclaInnerClass$LoalCounter.calss
