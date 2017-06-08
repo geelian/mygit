@@ -271,3 +271,340 @@ class Inner2 extends WithInner.Inner{
 ## 内部类标识符
 LoclaInnerClass$1.class 匿名的
 LoclaInnerClass$LoalCounter.calss
+
+# 第11章 持有对象
+如果一个程序只包含固定数量的且其生命周期都是已知的对象，那么这是一个非常简单的程序
+
+## 加入一组元素
+collection.AddAll只能接受Collection参数
+Arrays.asList|Collections.addAll更灵活，可以接受可变参数
+_ 优化是一个很棘手的问题，最好的策略就是置之不理，直达你发现要担心它了 _
+## 迭代器
+1. 使用方法iterator()要求容器返回一个Iterator
+2. 使用next()获取序列中的下一个元素
+3. 使用hasNext()检查序列中是否还有元素
+4. 使用remove()将迭代器新近返回的元素删除
+
+# 第12章 通过异常处理错误
+Java的基本理念是“结构不佳的代码不能运行”
+- 对于构件大型、健壮、可维护的程序而言，这种错误处理模式已经成为了主要障碍。
+- 异常机制使代码的阅读、编写和调试工作更加井井有条
+异常情景：阻止当前方法或作用域继续执行的问题
+异常处理程序：将使用new在堆上创建异常对象，然后，当前的执行路径被终止，并且从当前环境中弹出对异常对象的引用，此时异常处理机制接管程序，并开始寻找一个恰当的地方来继续执行程序。
+事务：基本保障是我们所需的在分布式计算中的异常处理，事务是计算机中的合同法，如果出了什么问题，我们只需要放弃这个计算。
+异常参数：throw new NullPointerException("t = null") // str是信息
+监控区域：它是一段可能产生异常的代码，并且后面跟着处理这些异常的代码
+_ 被捕获后的代码都可以运行 _
+异常处理程序：抛出的异常必须在某处得到处理 catch
+try{}
+catch(Type1 ){}
+finally{}
+终止模型：在这种模型中，将假设错误非常关键，以至于程序无法返回到异常发生的地方继续执行。一旦异常被抛出，就表示错误已无法挽回，也不能回来继续执行。
+## 创建自定义异常
+class MyException extends Exception(){}
+### 日志
+java.util.logging
+static Logger logger = Logger.getLogger("MyLogger");
+logger.server(str..)
+## 异常说明
+void f()throws
+可以预留抛出异常的可能
+异常代码处理
+1. 要么处理这个异常
+2. 要么就在异常说明中表明此方法将产生异常
+
+## 捕获异常
+Throwable 方法
+fillInStackTrace 在异常堆栈中填充异常
+getCause
+getMessage
+getLocalizedMessage
+getStackTrace
+initCause(Throwable) 将次throwable的cause初始化为指定值
+printStackTrace() //输出栈轨迹
+setStackTrace
+toString
+
+### 程序抛出异常
+1. throw e
+丢失信息
+2. e.fillInStackTrace(); //成为新的异常发生地 
+3. throw new Exception(); //抛出新的异常
+丢失信息2
+1. try{try{}finally{}}catch(){} 2层try
+2. try{}finally{return;} return导致
+
+### 异常链
+常常会想在捕获一个异常后抛出另一个异常，并希望原始异常的信息保存下来
+
+## java标准异常
+Throwable
+### 特例 RuntimeException 不受检查的异常
+编译器不需要把异常说明，其输出被报告给System.err
+
+## finally进行起来
+最终都运行
+使用场景：打开文件&网络链接，屏幕上画的图形，开关
+finally总回执行就算是在return后
+
+
+## 异常的限制-- 继承
+当覆盖方法的时候，只能抛出在基类方法的异常说明里列出的那些异常。
+
+## 异常匹配
+异常处理系统回按照代码的书写顺序找出“最近”的处理程序
+
+
+# 第13章 字符串
+可以证明，字符串操作是计算机程序设计中最常见的行为
+难道你真的希望Function()改变器参数吗？
+* 对于数学而言z = x + y参数应该是不变的 *
+> 除非你用代码将系统实现，并让它动起来，否则你无法真正了解它会有什么问题
+## 重载“+”和StringBuilder
+String s = "abc" + "mango" + "def" + 47;
+= new StringBuilder() .append().append().append().append();
+
+* append("abc" + "mange"); 会先建立StringBuilder完成+再append
+
+## 陷阱--无意识的递归
+1. ArrayList.toString会遍历ArrayList中所的对象 
+2. toString中使用this+字符串加入死循环
+```
+public String toString(){
+	return "my address" + this + "\n"; 
+	// this会递归调用toStirng();
+}
+```
+## String API
+方法	参数
+构造器	Sting StringBuilder StringBuffer char[] byte[]
+length()
+charAt()
+getChars() getBytes()
+toCharArry()
+equals() equalsIngnoreCase()
+compareTo()
+contains()
+contentEquals()
+regionMatcher()   		段比较
+startsWith()
+endsWith()
+indexOf(),lastIndexOf()
+subString(),
+concat()			+
+replace()			代替
+toLowerCase(),toUpperCase()
+trim()
+valueOf()
+intern()			
+
+## 格式输出
+System.out.format() = System.out.printf()
+### Formatter类 翻译类
+(new Formatter(System.out)).format();
+同java的大部分IO的功能叠加
+格式化语法 %[argument_index$][flags][width].[precision]conversion
+(new Formatter(System.out)).format("%-15.15s","--");
+## 正则表达式
+解决问题：匹配，选择，编辑，验证
+String:
+.matches("pattern") 验证
+.split("pattern") 编辑
+.replaceFirst("pattern") .replaceAll("pattern")  替换
+
+Pattern 正则匹配
+Matcher 匹配后处理
+```
+Pattern p = Pattern.compile("pattern");
+Matcher m = p.matcher("数据");
+```
+Pattern:
+Pattern.compile("pattern")
+Pattern.matcher(regex,input)// 直接对比
+.matcher("数据") 生成Matcher
+.split(input,3)切分
+Matcher:
+matches()   | 只能在开始的地方	整个正则匹配才会成功
+lookingAt() |			一部分就会成功
+find() //多匹配	有组 可以输入任意位置定位正则
+find(int start)
+> 组是用括号划分的正则表达式，可以根据组的编号类引用某个组。组号为0表示整个表达式，组号1表示被第一对括号括起来的组
+```
+while(matcher.find()){
+	for(int i = 0; i <= m.groupCount();i++){
+		m.group(i);
+	}
+}
+```
+> 替换
+replaceFirst()
+replaceAll()
+appendReplacement()部分替换
+```
+whlie(m.find())
+	m.appendReplacement(sbuf,m.group().toUpperCase());
+```
+reset(“数据”) 替换数据
+
+## 扫描输入
+1. readLine + split + Interger.parseInt()
+2. Scnner(String) 
+改匹配
+scanner.useDelimiter("\\s*.\\s*");
+scanner.hasNextInt()
+scanner.nextInt()
+
+正则
+while(scanner.hasNext(pattern)){
+	scanner.next(pattern);
+	MatchResult match = scnner.match();
+	match.group(1);
+}
+
+# 第14章 类型信息 
+运行时类型信息使得你可以在程序运行是发现和使用类型信息
+运行是识别对象和类的信息
+1. RTTI 它假定我们在编译时已经知道了所有的类型
+2. 反射 它允许我们在运行是发现和使用类的信息
+
+## RTTI 运行时识别一个对象的类型
+多态：在不同情况下的不同形态
+使用RTTI,可以查询某个Shape引用所指向的对象的确切类型，然后选择或者剔除特例
+1. 传统的类型转换
+2. 代表对象的类型的Class对象
+3. instanceof
+## Class对象
+运行是信息表示：Class对象 
+1. 用来建立常规对象
+2. java用Class对象来执行其RTTI
+A.class ---> Class对象 ---> A对象
+		加载		链接	初始化.newInstance();
+获取Class对象 
+
+```
+Class.forName("A"); //A必须是全限定名
+Object.getClass();
+A.class;   // 使用类字面常量 
+A.getInterface()
+
+```
+
+Class Fun  
+Create:  
+forName  
+newInstance()   
+Read:   
+desiredAssertionStatus()如果要在调用此方法时将要初始化该类，则返回将分配给该类的断言状态  
+getAnnotaion返回注释  
+getCanonicalName 返回Java Language Specification中所定义的底层类的规范化名称  
+getClasses() Class对象数组  
+getClassLoader()类加载器  
+getComponentType() 表示数组组件类型的Class  
+getConstructor 返后构造方法  
+getConstructors  
+getDeclaredAnnotations存在此元素上的注解  
+getDeclaredClasses 返回类和接口的数组  
+getDeclaredConstructor 构造器  
+getDeclaredConstructors  
+getDeclaredField(name)  
+getDeclaredFields()  
+getDeclaredMethod(name,parameter)  
+getDeclaredMethods  
+getDeclaringClass()深层对象  
+getEnclosingClass() 返回底层了的立即封闭类  
+getEnclosingConstructor()     
+getEnclosingMethod()  
+getEnumConstans()   
+getField(name)  
+getFields()  
+getGenericInterfaces()   
+getGenericSuperclass()  
+getInterfaces()  
+getMethod(name,parame)  
+getMethods()  
+getModifiers() //java修饰  
+getName()  
+getPackage()  
+getProtectionDomain()  
+getResource()  
+getResourceAsStream(name)   
+getSigners() //标记  
+getSimpleName()  
+getSuperClass()    
+getTypeParameters()    
+isAnnotation()    
+isAnnotationPresent(annotationClass)  
+isAnonymousClass()  
+isArray()  
+isAssignableFrom(cls)  
+isEnum()  
+isInstance(obj)// 是否兼容  
+isInterface()  
+isLocalClass()  
+isMemberClass()  
+isPrimitive() //基本类型  
+isSynthetic() //复合类型  
+toString()  
+Update:  
+asSubclass(clazz)跟换该Class对象  
+cast(obj) 将obj改为这个对象类型  
+> getDeclaredField是可以获取一个类的所有字段.  
+> getField只能获取类的public 字段.
+
+
+### 泛型和Class引用
+1. 可以限定Class引用的类型
+```
+Class<Interger> gen;
+Class<?> = Class; // 通配符
+Class<? extends Number>
+Class<? super Nummber>
+```
+2. Interger Class 对象不是Number Class对象的子类
+
+## instanceof&Class的等价性
+instancoef和Class.isInstance() 结果相同  
+equals和==也一样
+1. instanceof保持了类型的概念，“你是这个类吗|派生类”
+2. == 对比的是实际的Class对象
+
+## 反射 
+目的
+1. java通过JavaBeans提供了基于构件的编程框架
+2. 希望通过跨网络的远程平台上创建和运行的能力，RML(远程方法调用)
+
+Class java.lang.reflect Field Method Constructor 类型对象是由JVM在运行是创建的  
+对于JVM.class文件要么在本机要么在网络
+1. 对于RTTI编译器在编译时打开和检查.class文件
+2. 反射，.class在编译时不可获取，在运行是打开和检查.class文件
+
+## 动态代理
+```
+Class D implements InvocationHandler{
+	private Object proxied;
+    public D(Object o){
+    	proxied = o;
+    }
+    public Object 
+    invoke(Object proxy,Method,Obejct[] args)
+    throws Throwable{
+    	return method.invoke(proxy,args);
+    }    
+}
+class SimpleDynameProxy{
+	public static void main(String [] args){
+    	Interface proxy = (Interface) Proxy.newProxyInstance(
+        	Interface.class.getClassLoader(),
+            new Class[]{Interface.class},
+            new D(new RealObject()
+        );
+    }
+}
+```
+## 空对象代替null
+
+> 没有任何方式可以阻止反射到达并调用那些非公共范围权限的方法
+# 第15章
+
+
+

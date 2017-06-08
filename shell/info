@@ -2,27 +2,38 @@ File: dir,	Node: Top,	This is the top of the INFO tree.
 文件 目录       节点: 最高      这是顶层的信息树
 
 This is the Info main menu (aka directory node).
+这是信息的首页（ask别名叫做目录节点）
 A few useful Info commands:
+一些实用的Info命令
 
-  'q' quits;
-  '?' lists all Info commands;
-  'h' starts the Info tutorial;
-  'mTexinfo RET' visits the Texinfo manual, etc.
+  'q' quits; //'q' 退出
+  '?' lists all Info commands; //'?' 列出所有的Info命令
+  'h' starts the Info tutorial; // 'h' 开始Info指导
+  'mTexinfo RET' visits the Texinfo manual, etc. // 看所有Texinfo菜单的例子
 
 * Menu:
-
-Basics
+菜单
+Basics 
+基础
 * Common options: (coreutils)Common options.
+命令参数:（代码工具集）命令参数
 * Coreutils: (coreutils).       Core GNU (file, text, shell) utilities.
+代码工具集：（代码工具集） 	实用的代码 GUN (文件，文本，命令) 
 * Date input formats: (coreutils)Date input formats.
+数据输入格式：（代码工具集）	数据输入格式
 * Ed: (ed).                     The GNU line editor
+Ed:(ed) 			GUN文件编辑器
 * File permissions: (coreutils)File permissions.
                                 Access modes.
+许可文件：（代码工具集） 	许可文件
+				存取方法
 * Finding files: (find).        Operating on files matching certain criteria.
+查找文件：(find)		操作在文件中配置确定的条件
 
 C++ libraries
+c++ 库
 * autosprintf: (autosprintf).   Support for printf format strings in C++.
-
+  autosprintf:（autosprintf).   正常输出格式在C++中
 Compression
 * Gzip: (gzip).                 General (de)compression of files (lzw).
 
