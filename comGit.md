@@ -59,6 +59,9 @@ git push -u mygit master
 5. 推送到github上
 git push mygit master
 
+6. 同步远程文件到本地
+git pull--rebase orgin master 
+
 ## 克隆
 git clone git@github.com:geelian/mygit.git
 
