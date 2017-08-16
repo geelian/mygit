@@ -13,6 +13,7 @@ git commit -m "wrote a readme file"
 
 
 # 版本控制
+-
 
 ## 查看状态 status
 git status
@@ -61,6 +62,7 @@ git push mygit master
 
 6. 同步远程文件到本地
 git pull--rebase orgin master 
+git pull --all
 
 ## 克隆
 git clone git@github.com:geelian/mygit.git
