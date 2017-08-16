@@ -94,10 +94,82 @@ IOC Inversion of Control 控制反转通过依赖注入实现
 其他 
 @ComponetScan自动扫描包名下的@Service,@Component,@Repository,@Contoller
 
-### Java配置
+### 1.3.2 Java配置
 实现
 - @Configuration声明当前类是一个配置类 
 - @Bean注解在方法上，声明当前方法的返回值为一个Bean
 场景： 
-全局配置使用java配置，业务Bean使用注释配置（@Service,@Component,@Repository,@Controller)
+全局配置使用java配置，业务Bean使用注释配置（@Service,@Component,@Repository,@Controller) 
+java配置是一个集中化管理的的思路，在不同的地方和系统配置，可以通过它调试。而注释配置的代码本身在一起，集中化需求比较小。
+
+### 1.3.3 AOP面向切面编程
+目的：解偶，可以让一组共享相同的行为。
+AspecJ的注释式切面编程 
+1. 使用Aspect声明一个切面
+2. 使用@After,@Before,@Around定义建言（advice),可直接将拦截规则（切点）作为参数
+3. 其中@After,@Before,@Around参数的拦截规则为切点（PointCut),为了使切点复用，可使用@PointCut专门定义拦截规则，然后在@After,@Before,@Around的参数中调用
+4. 其中符合条件的每一个被拦截处为链接点
+基于注释拦截和基于方法拦截
+基于注释  
+config中@EnableAspectJautoProxy开启Spring对象AspectJ代理的支持 
+
+
+# 第2章 Spring 常用配置 
+介绍
+## 2.1 Bean的Scope
+@Scope("singleton")默认单例 
+@Scope("Prototype")每次新键 
+
+## 2.2 Spring EL和资源调用
+包：commons-io
+```
+@Value("I love you") // 普通字符串
+private String normal;
+
+@Value("#{systemProperties['os.name']}") //系统属性
+@Value("#{ T(java.lang.Math).random() * 100.0}") //表达式结果
+@Value("#{demoService.anther}") //注入其他Bean属性
+@Value("classpath:com/.../text.txt") 
+@Value("http://www.baidu.com")
+@Value("${book.name}")
+
+```
+
+## 2.3 Bean 的初始化和销毁
+1) 使用java配置：@Bean的initMethod和destroyMethod 
+@Bean(initMethod = "init",destroyMethod = "destroy")
+2) 使用注解：JSR-250 @PostConstruct和PreDestroy  
+
+
+## 2.4 Profile轮廓
+作用：不同环境下使用不同的配置提供支持 
+1. 通过数组Environment的ActiveProfiles来设置当前context需要的配置环境，在开发中使用@Profile注释或方法，达到不同效果
+```
+@Bean  
+@Profile("dev")
+
+context.getEnironment().setActiveProfiles("dev");//选择
+context.register(ProfileConfig.class);//加载
+context.refresh();//刷新容器
+```
+2. jvm设置spring.profiles.active
+3. Web在Servlet的context parameter中
+
+
+## 2.5 事件 Applicaiton Event
+功能：Bean与Bean之间的消息通信提供了支持 
+流程： 
+1. 自定义事件，集成ApplicaitonEvent 
+2. 定义事件监听器，实现ApplicationListener 
+3. 使用容器发布事件 
+
+
+# 第3章 Spring 高级话题
+- 
+
+## 3.1 Spring Aware
+
+
+
+
 
