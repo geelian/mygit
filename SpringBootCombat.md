@@ -168,6 +168,17 @@ context.refresh();//刷新容器
 - 
 
 ## 3.1 Spring Aware
+Spring依赖注入的最大亮点所有Bean对Spring容器的存在是没有意识的。可以将容器替换车成别的：Google Guice 
+使用Spring Aware,你的Bean将会和Spring框架解耦 
+目的：让Bean 获取Spring容器的服务
+表3-1 Spring提供的Aware接口 
+|--|--|
+|BeanNameAware| 获取到容器中Bean的名称|
+|BeanFactoryAware| 获取当前bean factory,这样可以调用容器的服务|
+|ApplicationContextAware*|当前的application context,....|
+|MessageSourceAware| 获取message source,获取文本信息|
+|ApplicationEventPublisherAware|引用时间发布器，可以发布事件|
+|ResourceLoaderAware|获取资源加载器，可以获取外部资源文件|
 
 
 
