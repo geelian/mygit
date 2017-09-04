@@ -29,19 +29,12 @@
      use.  That means that you need to execute the commands to learn them
      properly.  If you only read the text, you will forget the commands!
 
-    这个最重要的是要记住这个导航只是个开始，学习还是得靠你自己。这意味着你需要
-    适当的练习这些命令为了学习。如果你只是读了这个文档，你将忘记这些命令。
-
      Now, make sure that your Shift-Lock key is NOT depressed and press
      the   j   key enough times to move the cursor so that Lesson 1.1
      completely fills the screen.
-
-     现在，确定你没有按左键shift和按下j花足够的时间将光标移动到1.1课。
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 1.1:  MOVING THE CURSOR
-            课 1.1      移动光标
 
-        
 
    ** To move the cursor, press the h,j,k,l keys as indicated. **
 	     ^
@@ -49,126 +42,101 @@
        < h	 l >		   The l key is at the right and moves right.
 	     j			   The j key looks like a down arrow.
 	     v
-
-   ** 通过h,j,kl键移动光标
-                    线索：h键最在最左边用来移动到左边
-                          l键最在最右边用来移动到右边
-                          j键看起来像一个向下的箭头
-
   1. Move the cursor around the screen until you are comfortable.
 
-  1. 移动光标到任何地方直到你熟悉。
   2. Hold down the down key (j) until it repeats.
      Now you know how to move to the next lesson.
-  2. 按下j键直到它回复
-     现在你知道怎么移动到洗一课了
 
   3. Using the down key, move to Lesson 1.2.
-  3. 使用向下键移动到1.2课
+
 NOTE: If you are ever unsure about something you typed, press <ESC> to place
       you in Normal mode.  Then retype the command you wanted.
-注意：如果你总是不确定呢的模式，按下<ESC>进入自然模式，这个重新输入键是你想要的。
+
 NOTE: The cursor keys should also work.  But using hjkl you will be able to
       move around much faster, once you get used to it.  Really!
-注意：鼠标键是可以工作的，但是经常使用hjkl你将能快速的移动，当你使用它时，真的。
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			    Lesson 1.2: EXITING VIM
-                课 1.2 退出vim
+
 
   !! NOTE: Before executing any of the steps below, read this entire lesson!!
 
-    注意：在执行下面步数之前，读完这一课
-
   1. Press the <ESC> key (to make sure you are in Normal mode).
-    1. 按下Esc键（这确保你进入了自然状态）
+
   2. Type:	:q! <ENTER>.
      This exits the editor, DISCARDING any changes you have made.
-    2. 打字：:q! <Enter>
-     这会退出编辑器，丢弃你所改变的任何东西
 
   3. When you see the shell prompt, type the command that got you into this
      tutor.  That would be:	vimtutor <ENTER>
-
-    3. vimtutor <ENTER>
-    当你想看到shell的提示是，这个命令可以让你进入导航
 
   4. If you have these steps memorized and are confident, execute steps
      1 through 3 to exit and re-enter the editor.
 
 NOTE:  :q! <ENTER>  discards any changes you made.  In a few lessons you
        will learn how to save the changes to a file.
-   4. 如果你记住和熟悉了上面的步骤，可以停止1-3步
- 注意： :q! <ENTER> 丢弃你所有的改变，在下面的课程中你将看到这么保存改变的文件。
- 
- 
+
   5. Move the cursor down to Lesson 1.3.
-    5. 移动光标调1.3 课
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 1.3: TEXT EDITING - DELETION
-            课1.3 文本编辑 - 删除
+
 
 	   ** Press  x  to delete the character under the cursor. **
 
-       ** 按下x删除光标下的字符
   1. Move the cursor to the line below marked --->.
-    移动光标到标记下
+
   2. To fix the errors, move the cursor until it is on top of the
      character to be deleted.
 
-    为了修复错误，移动光标到要删除的字符的最前面
-
   3. Press the	x  key to delete the unwanted character.
-  按下x键删除不想要的字符
+
   4. Repeat steps 2 through 4 until the sentence is correct.
-    重复步骤2和4直到错误被纠正
 
 ---> The ccow jumpedd ovverr thhe mooon.
-    
+
   5. Now that the line is correct, go on to Lesson 1.4.
-   现在纠正这这一行然后去课1.4
+
 NOTE: As you go through this tutor, do not try to memorize, learn by usage.
-注意：如果你想通过先导，不要试图记忆，要到练习
+
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 1.4: TEXT EDITING - INSERTION
-              课1.4：文本编辑-插入
+
 
 			** Press  i  to insert text. **
-               使用i插入文本
 
   1. Move the cursor to the first line below marked --->.
-    移动光标调第一行的标记处
+
   2. To make the first line the same as the second, move the cursor on top
      of the first character AFTER where the text is to be inserted.
-    移动光标到要插入的文字第一行的第二个字符后
+
   3. Press  i  and type in the necessary additions.
-  按下i和加入要增加的文字
+
   4. As each error is fixed press <ESC> to return to Normal mode.
      Repeat steps 2 through 4 to correct the sentence.
-    发现错误按下esc返回自然状态
-    重复2和4步骤
+
 ---> There is text misng this .
 ---> There is some text missing from this line.
 
   5. When you are comfortable inserting text move to lesson 1.5.
-    当你能轻松的插入文字是进入1.5 课
+
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 1.5: TEXT EDITING - APPENDING
-            课1.5:文本编辑 - 附加
+
 
 			** Press  A  to append text. **
-                使用A增加文字
+
   1. Move the cursor to the first line below marked --->.
      It does not matter on what character the cursor is in that line.
-   光标移动到第一行的标记处
-    
+
   2. Press  A  and type in the necessary additions.
-    安装A和打字在不要的地址
+
   3. As the text has been appended press <ESC> to return to Normal mode.
-    
+
   4. Move the cursor to the second line marked ---> and repeat 
      steps 2 and 3 to correct this sentence.
 
