@@ -136,7 +136,7 @@ NOTE: As you go through this tutor, do not try to memorize, learn by usage.
 
 			** Press  i  to insert text. **
                使用i插入文本
-
+               (i本地插入 I行头插入)
   1. Move the cursor to the first line below marked --->.
     移动光标调第一行的标记处
   2. To make the first line the same as the second, move the cursor on top
@@ -160,148 +160,159 @@ NOTE: As you go through this tutor, do not try to memorize, learn by usage.
             课1.5:文本编辑 - 附加
 
 			** Press  A  to append text. **
-                使用A增加文字
+                使用A增加文字 (a在字符之后A在行尾增加)
   1. Move the cursor to the first line below marked --->.
      It does not matter on what character the cursor is in that line.
    光标移动到第一行的标记处
     
   2. Press  A  and type in the necessary additions.
-    安装A和打字在不要的地址
+  
+    在需要输入的地址按下A
+
   3. As the text has been appended press <ESC> to return to Normal mode.
-    
+    在文字都别增加以后按下ESC返回自然状态
   4. Move the cursor to the second line marked ---> and repeat 
      steps 2 and 3 to correct this sentence.
-
----> There is some text missing from th
+    移动鼠标到第二行重复2和3步
+---> There is some text missing from this
      There is some text missing from this line.
 ---> There is also some text miss
      There is also some text missing here.
 
   5. When you are comfortable appending text move to lesson 1.6.
+  当你熟悉了附加操作以后异步到1.6
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 1.6: EDITING A FILE
+             课1.6 :编辑一个文件
 
 		    ** Use  :wq  to save a file and exit. **
-
+            使用:wq保存文件和退出
   !! NOTE: Before executing any of the steps below, read this entire lesson!!
-
+    提示：在执行下面步数之前，读完这个课程
   1. Exit this tutor as you did in lesson 1.2:  :q!
      Or, if you have access to another terminal, do the following there.
 
+    退出引导你会使用课1.2的 :q!
+    或者是到达其他窗口，做下面的操作
   2. At the shell prompt type this command:  vim tutor <ENTER>
      'vim' is the command to start the Vim editor, 'tutor' is the name of the
      file you wish to edit.  Use a file that may be changed.
-
+    在shell提示类型命令：vim tutor <ENTRE>
+    'vim'命令开始vim编辑器，‘tutor’是你要编辑的文件名，使用一个可以被改变的文件
   3. Insert and delete text as you learned in the previous lessons.
-
+    使用你之前课程学到的命令插入和删除文档。
   4. Save the file with changes and exit Vim with:  :wq  <ENTER>
-
+    保存文件，改变的退出vim使用 :wq <ENTRE>
   5. If you have quit vimtutor in step 1 restart the vimtutor and move down to
      the following summary.
-
+    如果你在第一步退出vimtutor ,恢复vimtutor和移动到下面的简介
   6. After reading the above steps and understanding them: do it.
-  
+    在读完上面的步骤后理解他们：去做
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 1 SUMMARY
-
+                    课 1 概要
 
   1. The cursor is moved using either the arrow keys or the hjkl keys.
 	 h (left)	j (down)       k (up)	    l (right)
-
+    方向键|hjkl键被用来移动光标和编辑
   2. To start Vim from the shell prompt type:  vim FILENAME <ENTER>
-
+    开始vim使用shell命令类型：vim 文件名 回车
   3. To exit Vim type:	   <ESC>   :q!	 <ENTER>  to trash all changes.
 	     OR type:	   <ESC>   :wq	 <ENTER>  to save the changes.
+    退出vim   <ESC> :q! <ENTER>   丢弃所有改变
+    或者输入：  <ESC>  :wq  <ENTER> 来保存改变
 
   4. To delete the character at the cursor type:  x
-
+    在光标上删除字符： x
   5. To insert or append text type:
 	 i   type inserted text   <ESC>		insert before the cursor
 	 A   type appended text   <ESC>         append after the line
-
+    用来插入和增加文字的操作
+    i   插入要文件  <ESC>       在光标前插入文字
+    A   增加文字    <ESC>       在后面增加一行
 NOTE: Pressing <ESC> will place you in Normal mode or will cancel
       an unwanted and partially completed command.
-
+注意：按下<ESC> 将进入自然模式或者将进入不想要的没有完成的命令
 Now continue with Lesson 2.
-
+现在继续第2课
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 2.1: DELETION COMMANDS
-
+            课2.1 ：删除命令
 
 		       ** Type  dw  to delete a word. **
-
+    打字dw用来删除一个词(其实就是删除到下一个空格处)
   1. Press  <ESC>  to make sure you are in Normal mode.
-
+    按下ESC来确认你再自然模式下
   2. Move the cursor to the line below marked --->.
-
+    请将光标调--->标记下
   3. Move the cursor to the beginning of a word that needs to be deleted.
-
+    移动光标到你要删除的那个词的开头
   4. Type   dw	 to make the word disappear.
-
+    然后输入dw删除那个词
   NOTE: The letter  d  will appear on the last line of the screen as you type
 	it.  Vim is waiting for you to type  w .  If you see another character
 	than  d  you typed something wrong; press  <ESC>  and start over.
-
+   注意：你输入的dw会在屏幕的最下一行出现，如果你输入错误的字符请按<ESC>重新开始
 ---> There are a some words fun that don't belong paper in this sentence.
 
   5. Repeat steps 3 and 4 until the sentence is correct and go to Lesson 2.2.
-
+    重复步骤3和4直导句子修正完整，接着到第2节
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 2.2: MORE DELETION COMMANDS
-
+               课2.2 : 其他的删除命令
 
 	   ** Type  d$	to delete to the end of the line. **
-
+           输入 d$ 用来删除到行末尾
   1. Press  <ESC>  to make sure you are in Normal mode.
-
+    按下<ESC>进入自然状态
   2. Move the cursor to the line below marked --->.
-
+    移动光标到---->指定的位置
   3. Move the cursor to the end of the correct line (AFTER the first . ).
-
+    移动光标到要改正的行之后(.之前)  
   4. Type    d$    to delete to the end of the line.
-
+    输入d$删除到文尾
 ---> Somebody typed the end of this line twice. end of this line twice.
 
 
   5. Move on to Lesson 2.3 to understand what is happening.
 
 
-
+    接客2.3理解发生了什么
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 2.3: ON OPERATORS AND MOTIONS
-
+             课2.3 操作和请求
 
   Many commands that change text are made from an operator and a motion.
   The format for a delete command with the  d  delete operator is as follows:
-
+    删除命令格式如下:
   	d   motion
 
   Where:
-    d      - is the delete operator.
-    motion - is what the operator will operate on (listed below).
+    d      - is the delete operator.表示删除
+    motion - is what the operator will operate on (listed below).代表要删除的操作
 
-  A short list of motions:
-    w - until the start of the next word, EXCLUDING its first character.
-    e - to the end of the current word, INCLUDING the last character.
-    $ - to the end of the line, INCLUDING the last character.
+  A short list of motions: 一些简短的对象列表
+    w - until the start of the next word, EXCLUDING its first character. 当前单词位置直到单词尾，包括空格
+    e - to the end of the current word, INCLUDING the last character. ..不包含空格
+    $ - to the end of the line, INCLUDING the last character. 到行尾
 
   Thus typing  de  will delete from the cursor to the end of the word.
-
+    因此这些类型将被删除从光标到末尾
 NOTE:  Pressing just the motion while in Normal mode without an operator will
        move the cursor as specified.
-
+注意：注意这些模式只是在自然状态下才是有效的
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 2.4: USING A COUNT FOR A MOTION
-
+    课2.4 在一次请求使用计算
 
    ** Typing a number before a motion repeats it that many times. **
-
+    在请求前输入一个数字会重复多次操作 
   1. Move the cursor to the start of the line marked ---> below.
-
+    移动
   2. Type  2w  to move the cursor two words forward.
 
   3. Type  3e  to move the cursor to the end of the third word forward.

@@ -53,8 +53,10 @@ git commit -m
 $ ssh-keygen -t rsa -C "youremail@example.com"
 $ ls .ssh id_rsa 私钥 is_rsa.pub 公钥
 2. 登入到GitHub - Account settings - add SSH key - key里粘贴id_rsa.pub匹配成功
-3. github建立库 链接到github
-git remote add mygit git@github.com:geelian/mygit.git
+3. github建立库 链接到github    
+git remote -v 列出远程仓库的URL     
+git remote add mygit git@github.com:geelian/mygit.git 关联  
+git remote set-url origint <url>  改url     
 4. 第一次推送到github上
 git push -u mygit master
 5. 推送到github上
@@ -70,6 +72,7 @@ git clone git@github.com:geelian/mygit.git
 # 分支&合并
 分支管理
 ## 建立分支
+git checkout <name> 切换分支    
 git checkout -b dev // 建立dev分支 切换到dev
 = git branch dev + git checkout dev 
  建立分支		切换分支
