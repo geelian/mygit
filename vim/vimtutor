@@ -307,44 +307,45 @@ NOTE:  Pressing just the motion while in Normal mode without an operator will
 注意：注意这些模式只是在自然状态下才是有效的
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 2.4: USING A COUNT FOR A MOTION
-    课2.4 在一次请求使用计算
-
+    课2.4 在一次炒作中使用计算
+    还是根据空格拆分的
    ** Typing a number before a motion repeats it that many times. **
     在请求前输入一个数字会重复多次操作 
   1. Move the cursor to the start of the line marked ---> below.
-    移动
+    移动移动光标到-->所指向的位置
   2. Type  2w  to move the cursor two words forward.
-
+    输入2w光标将移动2个字
   3. Type  3e  to move the cursor to the end of the third word forward.
-
+    输入3e光标移动3个词并在词尾    
   4. Type  0  (zero) to move to the start of the line.
-
+    输入0移动到行头想    
   5. Repeat steps 2 and 3 with different numbers.
-
+   使用不同的数字    重复步骤2 3 
 ---> This is just a line with words you can move around in.
 
   6. Move on to Lesson 2.5.
+    
 
-
-
+    继续课2.5
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		     Lesson 2.5: USING A COUNT TO DELETE MORE
-
+        课2.5 使用数字删除更多的词
 
    ** Typing a number with an operator repeats it that many times. **
-
+    重复操作是比输入一个数字花费更多的时间的
   In the combination of the delete operator and a motion mentioned above you
   insert a count before the motion to delete more:
 	 d   number   motion
-
+    删除操作符合请求自己插入一个数字型成的组合可以删除更多的词
   1. Move the cursor to the first UPPER CASE word in the line marked --->.
-
+    移动光标打--》值得地方
   2. Type  d2w  to delete the two UPPER CASE words
-
+    输入d2w 删除指定的2个词
+    dd 删除一行
   3. Repeat steps 1 and 2 with a different count to delete the consecutive
      UPPER CASE words with one command
-
+    使用不同的数字用不同的组合重复1和2步
 --->  this ABC DE line FGHI JK LMN OP of words is Q RS TUV cleaned up.
 
 
@@ -353,18 +354,20 @@ NOTE:  Pressing just the motion while in Normal mode without an operator will
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			 Lesson 2.6: OPERATING ON LINES
-
+        课2.6 操作行
 
 		   ** Type  dd   to delete a whole line. **
-
+       输入dd删除一行
   Due to the frequency of whole line deletion, the designers of Vi decided
   it would be easier to simply type two d's to delete a line.
-
+   为适应频繁的行删除操作，vi设计者将2一次d作为删除一行，他是如此的容易和简单
   1. Move the cursor to the second line in the phrase below.
   2. Type  dd  to delete the line.
   3. Now move to the fourth line.
   4. Type   2dd   to delete two lines.
-
+    移动光标到给出的第二行
+    输出dd删除一行
+    移动到第4行输入2dd删除2行(d2d页可以)
 --->  1)  Roses are red,
 --->  2)  Mud is fun,
 --->  3)  Violets are blue,
@@ -376,36 +379,45 @@ NOTE:  Pressing just the motion while in Normal mode without an operator will
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			 Lesson 2.7: THE UNDO COMMAND
-
+    课2.7 撤销命令
 
    ** Press  u	to undo the last commands,   U  to fix a whole line. **
-
+    输入u撤销上一个命令，u 固定一空白行
   1. Move the cursor to the line below marked ---> and place it on the
      first error.
+    移动光标到-->指定的哪行 到第一个error之上 
   2. Type  x  to delete the first unwanted character.
+    输入x删除一个不想要的词
   3. Now type  u  to undo the last command executed.
+    现在输入u撤销最后一个命令的执行
   4. This time fix all the errors on the line using the  x  command.
+  这个时候使用x删除整个error
   5. Now type a capital  U  to return the line to its original state.
+  现在输入一个大写的U这一行返回x之前的操作（批量撤销）
   6. Now type  u  a few times to undo the  U  and preceding commands.
+  现在我们输入u一段时间撤销u和之前的命令
   7. Now type CTRL-R (keeping CTRL key pressed while hitting R) a few times
      to redo the commands (undo the undo's).
-
+    现在输入ctrl-r 一段时间重复刚才的命令
 ---> Fiix the errors oon thhis line and reeplace them witth undo.
 
   8. These are very useful commands.  Now move on to the Lesson 2 Summary.
-
+    这些事非常有用的命令，现在移动到课2总结
 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 2 SUMMARY
 
-
+    课2 总结
   1. To delete from the cursor up to the next word type:    dw
   2. To delete from the cursor to the end of a line type:    d$
   3. To delete a whole line type:    dd
-
+    删除一个单词使用dw
+    删除到行尾使用d$
+    删除一行dd
   4. To repeat a motion prepend it with a number:   2w
+  重复跳过2个词2w
   5. The format for a change command is:
                operator   [number]   motion
      where:
@@ -413,42 +425,49 @@ NOTE:  Pressing just the motion while in Normal mode without an operator will
        [number] - is an optional count to repeat the motion
        motion   - moves over the text to operate on, such as  w (word),
 		  $ (to the end of line), etc.
-
+    这个一个改变更变命令的格式
+        操作 【数字】  动作
+     介绍：
+        操作    - 是干什么，如d为了删除
+        【数字】 - 重复操作动作的数量
+        动作    - 操作文件，如W(一个词) $ (文字末尾) 等等
   6. To move to the start of the line use a zero:  0
-
+    移动到一行开始的位置用0
   7. To undo previous actions, type: 	       u  (lowercase u)
      To undo all the changes on a line, type:  U  (capital U)
      To undo the undo's, type:		       CTRL-R
-
+    撤销前一个操作用：小写u
+    撤销这一行的炒作用：大写U
+    撤销上一个撤销：用Ctrl+r win7用ctrl+y
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			 Lesson 3.1: THE PUT COMMAND
-
+               课3.1 粘贴命令   
 
        ** Type	p  to put previously deleted text after the cursor. **
-
+        输入p粘贴之前删除的文字        
   1. Move the cursor to the first ---> line below.
-
+    移动光标到--->所值得行
   2. Type  dd  to delete the line and store it in a Vim register.
-
+    输入dd删除一行 会被保存在vim的寄存器中
   3. Move the cursor to the c) line, ABOVE where the deleted line should go.
-
+    移动光标到c)行 ，移动到删除的那行
   4. Type   p   to put the line below the cursor.
-
+    输入p张贴
   5. Repeat steps 2 through 4 to put all the lines in correct order.
-
+    重复2到4步 粘贴所有的行
 ---> d) Can you learn too?
+---> a) Roses are red,
 ---> b) Violets are blue,
 ---> c) Intelligence is learned,
----> a) Roses are red,
 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		       Lesson 3.2: THE REPLACE COMMAND
-
+                课3.2 
 
        ** Type  rx  to replace the character at the cursor with  x . **
-
+        
   1. Move the cursor to the first line below marked --->.
 
   2. Move the cursor so that it is on top of the first error.
