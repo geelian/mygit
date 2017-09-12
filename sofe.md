@@ -5,7 +5,10 @@ Findbugs
 espeak
 
 # 命令行浏览器
-w3m
+w3am
+
+# 查看温度
+sensors
 
 
 
