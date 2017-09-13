@@ -442,6 +442,7 @@ public class Ch522Application {
 
 ```
 
+<br>
 
 # 第6章 Spring Boot核心
 
@@ -584,6 +585,7 @@ public @interface ConditionalOnWebApplicaion{
 
 
 
+<br>
 
 
 # 第7章 Spring Boot的Web开发    
@@ -680,5 +682,40 @@ html
 通过设置前缀，后缀，以及控制器中的方法来返回视图名的字符串，从而得到视图    
 
 2. 自动配置的静态资源   
+1) 类路径文件   
+/statc /public /resources /META-INF/reources 下映射为/**    
 
+2) webjar   
+
+3. 自动配置的Formatter和Converter   
+
+定义了Converter GenericConverter和 Formatter接口的实现类的Bean会自动正常
+
+4. 自动配置的HttpMessgaeConverters  
+
+5. 静态首页的支持
+index.httml 放在/statc /public /resources /META-INF/reources下就会直接映射
+
+
+### 7.3.2 接管Spring Boot 的Web配置    
+
+1. 配置类（注解有@Configuration的类）加上@EnableWebMvc的注解来实现完全自己控制的MVC配置 
+2. 增加配置继承WebMvcConfigrurerAdapter
+
+
+### 7.3.3 注册Servlet Filter Listener 
+
+1. 直接注册Bean
+```
+@Bean
+public xxServlet xxServlet(){
+    return new xxServlet();
+}
+```
+
+2. 注册ServletRegistrationBean FilterRegistrationBean和ServletListenerRegistrationBean的Bean  
+
+<br>
+
+##  7.4 Tomcat 配置
 
