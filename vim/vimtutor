@@ -464,53 +464,53 @@ NOTE:  Pressing just the motion while in Normal mode without an operator will
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		       Lesson 3.2: THE REPLACE COMMAND
-                课3.2 
+                课3.2  替换命令
 
        ** Type  rx  to replace the character at the cursor with  x . **
-        
+      输入rx将光标下的字符替换为x      
   1. Move the cursor to the first line below marked --->.
-
+    移动光标掉---》指定的第一行
   2. Move the cursor so that it is on top of the first error.
-
+    移动光标到第一个错误的词钱
   3. Type   r	and then the character which should be there.
-
+    输入r和要更改的字符
   4. Repeat steps 2 and 3 until the first line is equal to the second one.
-
+   重复步骤2和3直到2个句子都相同
 --->  Whan this lime was tuoed in, someone presswd some wrojg keys!
 --->  When this line was typed in, someone pressed some wrong keys!
 
   5. Now move on to Lesson 3.3.
-
+    现在移步到课3.3
 NOTE: Remember that you should be learning by doing, not memorization.
-
+提升：记得你应该边学边做，不是特意的记忆
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 3.3: THE CHANGE OPERATOR
-
+        课3.3 改变操作 
 
 	   ** To change until the end of a word, type  ce . **
-
+       为了改变一个词到末尾，输入 ce 
   1. Move the cursor to the first line below marked --->.
-
+    移动光标到--》指向的第一行
   2. Place the cursor on the  u  in  lubw.
-
+    将光标定位“lubw"的到u之前
   3. Type  ce  and the correct word (in this case, type  ine ).
-
+    输入ce 和 纠正这个词 如输入ine
   4. Press <ESC> and move to the next character that needs to be changed.
-
+    输入esc移动光标到下一个需要修改的词的位置
   5. Repeat steps 3 and 4 until the first sentence is the same as the second.
-
----> This lubw has a few wptfd that mrrf changing usf the change operator.
+    重复3和4直到第一句和第二句一样
+---> This line has a few words that need changing using the change operator.
 ---> This line has a few words that need changing using the change operator.
 
 Notice that  ce  deletes the word and places you in Insert mode.
-
+提示：使用ce删除次的时候会进入插入模式
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		       Lesson 3.4: MORE CHANGES USING c
-
+            课3.4 
 
      ** The change operator is used with the same motions as delete. **
 
