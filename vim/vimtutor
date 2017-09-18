@@ -487,7 +487,7 @@ NOTE: Remember that you should be learning by doing, not memorization.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 3.3: THE CHANGE OPERATOR
-        课3.3 改变操作 
+        课3.3 更改操作 
 
 	   ** To change until the end of a word, type  ce . **
        为了改变一个词到末尾，输入 ce 
@@ -510,53 +510,55 @@ Notice that  ce  deletes the word and places you in Insert mode.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		       Lesson 3.4: MORE CHANGES USING c
-            课3.4 
+            课3.4  更多改变使用c
 
      ** The change operator is used with the same motions as delete. **
-
+    这个改变的操作是用来一些删除的模式
   1. The change operator works in the same way as delete.  The format is:
-
+    这个改变的操作符是另一种模式的删除
          c    [number]   motion
-
+        c    [数字]  缩写
   2. The motions are the same, such as   w (word) and  $ (end of line).
-
+    这些缩写是和上面相似的 如 w(一句话）  $(到行尾) 
   3. Move to the first line below marked --->.
-
+    移动到--》指向的那一行
   4. Move the cursor to the first error.
-
+    移动光标到第一个错误
   5. Type  c$  and type the rest of the line like the second and press <ESC>.
-
+    输入c$ 和恢复输入esc
 ---> The end of this line needs some help to make it like the second.
 ---> The end of this line needs to be corrected using the  c$  command.
 
 NOTE:  You can use the Backspace key to correct mistakes while typing.
-
+注意： 你可以使用Backspace 键 删除2行
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 3 SUMMARY
-
+    课3 总结
 
   1. To put back text that has just been deleted, type   p .  This puts the
      deleted text AFTER the cursor (if a line was deleted it will go on the
      line below the cursor).
-
+      
+     粘贴刚才删除的文档，输入p ,  这个粘贴回在光标之后（如果一行被删除了，将在
+     这一行的光标之下。
   2. To replace the character under the cursor, type   r   and then the
      character you want to have there.
-
+    为了更改在光标下的字符，输入r和你要更变的字符。    
   3. The change operator allows you to change from the cursor to where the
      motion takes you.  eg. Type  ce  to change from the cursor to the end of
      the word,  c$  to change to the end of a line.
-
+     成功改变操作允许你更改从光标到意向的地方，如：输入ce 改变光标到词尾 ，c$ 改变光标到行尾
   4. The format for change is:
 
 	 c   [number]   motion
-
+    修改的格式  c [数量] 缩写
 Now go on to the next lesson.
-
+现在继续下一课 
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		  Lesson 4.1: CURSOR LOCATION AND FILE STATUS
-
+    
   ** Type CTRL-G to show your location in the file and the file status.
      Type  G  to move to a line in the file. **
 
