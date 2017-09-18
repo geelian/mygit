@@ -558,30 +558,32 @@ Now go on to the next lesson.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		  Lesson 4.1: CURSOR LOCATION AND FILE STATUS
-    
+  课4.1 光标位置和文件状态  
   ** Type CTRL-G to show your location in the file and the file status.
      Type  G  to move to a line in the file. **
-
+     输入Ctrl+G 移动到文件的一行 
   NOTE: Read this entire lesson before executing any of the steps!!
-
+    提示：在读完这课之前不要执行任何步骤
   1. Hold down the Ctrl key and press  g .  We call this CTRL-G.
      A message will appear at the bottom of the page with the filename and the
      position in the file.  Remember the line number for Step 3.
-
+    按下ctrl和g,我们称作CTRL+G,
+    文档信息和在文件中位置信息会被显示在页面下，记住步骤3的行号
 NOTE:  You may see the cursor position in the lower right corner of the screen
        This happens when the 'ruler' option is set (see  :help 'ruler'  )
-
+提示：你可以查看光标下游的位置，输入‘ruler’ 
   2. Press  G  to move you to the bottom of the file.
      Type  gg  to move you to the start of the file.
-
+    输入G移动到文档末尾
+    输入gg移动到文档开始
   3. Type the number of the line you were on and then  G .  This will
      return you to the line you were on when you first pressed CTRL-G.
-
+    输入你使用ctrl+G的数字和G, 你将移动到你第一次输入CTRL-G的地方
   4. If you feel confident to do this, execute steps 1 through 3.
-
+    如果你确信ok了，重复执行步骤1-3
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 4.2: THE SEARCH COMMAND
-
+    课4.2 搜索命令
 
      ** Type  /  followed by a phrase to search for the phrase. **
 
