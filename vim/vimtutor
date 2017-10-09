@@ -969,63 +969,73 @@ NOTE:  If you want to ignore case for just one search command, use  \c
     课7.1 获取帮助
 
 		      ** Use the on-line help system **
-
+                使用一行帮助系统
   Vim has a comprehensive on-line help system.  To get started, try one of
   these three:
 	- press the <HELP> key (if you have one)
 	- press the <F1> key (if you have one)
 	- type   :help <ENTER>
-
+  vim有一个综合的一行帮助系统。为了使用，产生使用下面3条中的一个
+    - 输入help键 
+    - 输入F1将
+    - 输入:help 回车
   Read the text in the help window to find out how the help works.
   Type  CTRL-W CTRL-W   to jump from one window to another.
   Type    :q <ENTER>    to close the help window.
-
+   读帮助窗口中的文字，查找怎么帮助工作
+  使用ctrl-w ctrl-w 来切换到其他窗口
+  输入 :q 回车 来关闭窗口
   You can find help on just about any subject, by giving an argument to the
   ":help" command.  Try these (don't forget pressing <ENTER>):
-
+    你能在帮助中发现任何主题，使用一个参数 :help 命令，尝试下面的
 	:help w
 	:help c_CTRL-D
 	:help insert-index
 	:help user-manual
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 7.2: CREATE A STARTUP SCRIPT
-
+            课7.2 建立一个启动脚本
 
 			  ** Enable Vim features **
-
+    使用vim特征
   Vim has many more features than Vi, but most of them are disabled by
   default.  To start using more features you have to create a "vimrc" file.
-
+   vim有比vi更多的特性，但是大多是没有被打开的，为了开始使用这些特性你需要建立
+   vimrc 文件
   1. Start editing the "vimrc" file.  This depends on your system:
 	:e ~/.vimrc		for Unix
 	:e $VIM/_vimrc		for MS-Windows
-
+     开始编辑vimrc文件，在你的的系统中
+     
   2. Now read the example "vimrc" file contents:
 	:r $VIMRUNTIME/vimrc_example.vim
-
+    现在读取vim文件
   3. Write the file with:
 	:w
+    w把文件写入
 
   The next time you start Vim it will use syntax highlighting.
   You can add all your preferred settings to this "vimrc" file.
   For more information type  :help vimrc-intro
-
+  下一次你使用vim时将看到系统高亮
+  你能增加你自己的设置到vimrc文件中
+ 为了查看更多的输入信息：help vimrc-intro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			     Lesson 7.3: COMPLETION
-
+            课7.3 完结
 
 	      ** Command line completion with CTRL-D and <TAB> **
-
+        命令行下完结ctrl-d he tab
   1. Make sure Vim is not in compatible mode:  :set nocp
-
+    确认vim不在兼容模式下 :set nocp
   2. Look what files exist in the directory:  :!ls   or  :!dir
-
+    看见目录下文件 :ls 
   3. Type the start of a command:  :e
-
+  输入开始命令 :e 
   4. Press  CTRL-D  and Vim will show a list of commands that start with "e".
-
+    输入ctlr-d  vim将显示列表的最后一个命令e
   5. Press <TAB>  and Vim will complete the command name to ":edit".
-
+    输入tab vim 将显示完全的命令名"edit" 
   6. Now add a space and the start of an existing file name:  :edit FIL
 
   7. Press <TAB>.  Vim will complete the name (if it is unique).
