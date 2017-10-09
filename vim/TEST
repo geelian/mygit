@@ -1,0 +1,11 @@
+     that you see  :'<,'>w TEST  before you press <ENTER>.
+    输入w TEST ,这里TEST是不存在的文件名。
+    在回车之前检查一下是不是 :'<,'>w TEST
+  5. Vim will write the selected lines to the file TEST.  Use  :!dir  or  :!ls
+     to see it.  Do not remove it yet!  We will use it in the next lesson.
+    Vim 将把你选择的几行文件会写到TEST中，
+    使用 :!dir or :!ls 你将会看到他
+NOTE:  Pressing  v  starts Visual selection.  You can move the cursor around
+       to make the selection bigger or smaller.  Then you can use an operator
+       to do something with the text.  For example,  d  deletes the text.
+
