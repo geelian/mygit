@@ -1037,7 +1037,7 @@ NOTE:  If you want to ignore case for just one search command, use  \c
   5. Press <TAB>  and Vim will complete the command name to ":edit".
     输入tab vim 将显示完全的命令名"edit" 
   6. Now add a space and the start of an existing file name:  :edit FIL
-    现在在
+
   7. Press <TAB>.  Vim will complete the name (if it is unique).
 
 NOTE:  Completion works for many commands.  Just try pressing CTRL-D and
@@ -1045,18 +1045,18 @@ NOTE:  Completion works for many commands.  Just try pressing CTRL-D and
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 7 SUMMARY
-    课7 总结
+
 
   1. Type  :help  or press <F1> or <Help>  to open a help window.
-    输入:help 或者按f1打开帮助窗口
+
   2. Type  :help cmd  to find help on  cmd .
-    输入:help 命令 查找命令的帮助
+
   3. Type  CTRL-W CTRL-W  to jump to another window
-    输入ctrl-w 在不同窗口跳动
+
   4. Type  :q  to close the help window
-    输入:q 关闭帮助窗口
+
   5. Create a vimrc startup script to keep your preferred settings.
-    建立一个vimrc设置你的配置
+
   6. When typing a  :  command, press CTRL-D to see possible completions.
      Press <TAB> to use one completion.
 
