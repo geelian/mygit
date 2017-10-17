@@ -35,5 +35,3 @@ ctrl + o  ctrl+i
 ## 指定行号
 vim +n nrfile
 
-## 恢复到某页
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif 
