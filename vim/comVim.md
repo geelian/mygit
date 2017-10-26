@@ -15,7 +15,7 @@ p
 1. ：10,20s/^//
 2. esc -- v -- >/shitf+./ 移动
 
-## 撤销dd
+## 撤销dd u
 ctrl + r 
 
 ## 光标到第中心行
@@ -23,3 +23,15 @@ z
 
 ## 上一页 下一页
 ctrl+f ctrl+b
+
+## 允许shell 命令
+
+1. 格式json
+:%! jq .
+
+## 回到上一个光标的地方 和下一个
+ctrl + o  ctrl+i 
+
+## 指定行号
+vim +n nrfile
+

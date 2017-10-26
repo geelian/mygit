@@ -55,7 +55,6 @@ GNU Gettext Utilities
 gun 实用程序主页
 * autopoint: (gettext)autopoint Invocation.
                                 Copy gettext infrastructure.
-
 * envsubst: (gettext)envsubst Invocation.
                                 Expand environment variables.
 * gettextize: (gettext)gettextize Invocation.

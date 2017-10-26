@@ -71,6 +71,9 @@ new ConfigurationSource(new FileInputStream(new File(url.getPath())),ConfigTest.
 - 使用System.getProperty
 new ConfigurationSource(new FileInputStream(System.getProperty("use.dir")+"log4j2.xml"))
 
+4. idea 调试指定配置文件    
+加参数  
+ -Dlog4j.configurationFile=D:\opt\scf\config\scf_log4j.xml  
 
 # 日志的异步输出
 需要加disruptor-3.0.0+

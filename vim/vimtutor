@@ -586,61 +586,63 @@ NOTE:  You may see the cursor position in the lower right corner of the screen
     课4.2 搜索命令
 
      ** Type  /  followed by a phrase to search for the phrase. **
-
+    输入/后面跟着你要查找的词  
   1. In Normal mode type the  /  character.  Notice that it and the cursor
      appear at the bottom of the screen as with the  :	command.
-
+    在自然模式下输入 / ,注意，它和光标在屏幕的底部显示为：命令 
   2. Now type 'errroor' <ENTER>.  This is the word you want to search for.
-
+    现在输入 'errroor' <ENTER>.  这是你想要搜索的词
   3. To search for the same phrase again, simply type  n .
      To search for the same phrase in the opposite direction, type  N .
-
+    再一次搜索相同的短语，输入n
+    再一次反方向搜索相同的短语，输入N
+    
   4. To search for a phrase in the backward direction, use  ?  instead of  / .
-
+    反方向搜索短语 使用？代替 / 
   5. To go back to where you came from press  CTRL-O  (Keep Ctrl down while
      pressing the letter o).  Repeat to go back further.  CTRL-I goes forward.
-
+    Ctrl+o 返回上一个地方 ctrl+i 前进
 --->  "errroor" is not the way to spell error;  errroor is an error.
 NOTE: When the search reaches the end of the file it will continue at the
       start, unless the 'wrapscan' option has been reset.
-
+    但搜索打文件末尾将会重新开始，直到'wrapscan'炒作恢复
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		   Lesson 4.3: MATCHING PARENTHESES SEARCH
-
-
+           课4.3: 配括号搜索
+    
 	      ** Type  %  to find a matching ),], or } . **
-
+            输入% 为了查找匹配的 ) ] }
   1. Place the cursor on any (, [, or { in the line below marked --->.
-
+     将光标移动到任何一个( ] { 在--> 指的哪一行
   2. Now type the  %  character.
-
+    现在输入%
   3. The cursor will move to the matching parenthesis or bracket.
-
+    光标将移动到相匹配的)或者是 }
   4. Type  %  to move the cursor to the other matching bracket.
-
+   输入%移动到其他匹配的括号
   5. Move the cursor to another (,),[,],{ or } and see what  %  does.
-
+    移动到其他括号 使用%
 ---> This ( is a test line with ('s, ['s ] and {'s } in it. ))
 
 
 NOTE: This is very useful in debugging a program with unmatched parentheses!
 
-
-
+真非常有有效的在debuging一个程序中括号是否配额
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 4.4: THE SUBSTITUTE COMMAND
-
+              课4.4   替换命令
 
 	** Type  :s/old/new/g  to substitute 'new' for 'old'. **
-
+       输入 :s/old/new/g 使用new提到old字段
   1. Move the cursor to the line below marked --->.
-
+    移动光标到---> 指向的哪一行
   2. Type  :s/thee/the <ENTER> .  Note that this command only changes the
      first occurrence of "thee" in the line.
-
+    输入 :s/thee/the 回车 注意命令只能改变第一个thee 
   3. Now type  :s/thee/the/g .  Adding the  g  flag means to substitute
      globally in the line, change all occurrences of "thee" in the line.
-
+    现在输入 ：s/thee/the/g 增加这个代表你要更改的是一整行，改变这一行所以和
+    thee匹配的
 ---> thee best time to see thee flowers is in thee spring.
 
   4. To change every occurrence of a character string between two lines,
@@ -649,163 +651,186 @@ NOTE: This is very useful in debugging a program with unmatched parentheses!
      Type   :%s/old/new/g      to change every occurrence in the whole file.
      Type   :%s/old/new/gc     to find every occurrence in the whole file,
      			       with a prompt whether to substitute or not.
-
+    想要改变在2行间的所有字符
+    输入    :#,#s/old/new/g  在#,#之间的所有行都会被改变
+    输入    :%s/old/new/g     改变一页中所有的匹配的
+    输入    :%s/old/new/gc    发现匹配的每一个匹配的，并且提示是否可以替换
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 4 SUMMARY
-
+                   课4 总结
 
   1. CTRL-G  displays your location in the file and the file status.
              G  moves to the end of the file.
      number  G  moves to that line number.
             gg  moves to the first line.
-
+    ctrl-g 现在你在文件中的状态
+    G 移动到文件的末尾
+    数字 G 移动到相应的行数
+    gg 移动到第一行
   2. Typing  /	followed by a phrase searches FORWARD for the phrase.
      Typing  ?	followed by a phrase searches BACKWARD for the phrase.
      After a search type  n  to find the next occurrence in the same direction
      or  N  to search in the opposite direction.
      CTRL-O takes you back to older positions, CTRL-I to newer positions.
-
+    输入/向前搜索
+    输入？向后搜索
+    搜索一个以后输入n继续搜索下一个或者是搜索N搜索前一个
   3. Typing  %	while the cursor is on a (,),[,],{, or } goes to its match.
-
+    输入% 光标匹配() [] {} 对应匹配    
   4. To substitute new for the first old in a line type    :s/old/new
      To substitute new for all 'old's on a line type	   :s/old/new/g
      To substitute phrases between two line #'s type	   :#,#s/old/new/g
      To substitute all occurrences in the file type	   :%s/old/new/g
      To ask for confirmation each time add 'c'		   :%s/old/new/gc
+    使用new代替这一行中第一个old  :s/old/new
+    使用new代替这一行中所有的old  :s/old/new/g
+    使用new代替这两行之间所有的old  :#,#s/old/new/g
+    使用new代替这一页中所有的old  :%s/old/new/g
+    使用new代替这一页中所有的old带询问  :%s/old/new/gc
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		Lesson 5.1: HOW TO EXECUTE AN EXTERNAL COMMAND
-
+    课5.1 怎么执行一个外部命令  
 
    ** Type  :!	followed by an external command to execute that command. **
-
+    输入:! 后面跟着一个外部命令将被执行
   1. Type the familiar command	:  to set the cursor at the bottom of the
      screen.  This allows you to enter a command-line command.
-
+   输入:光标会到屏幕的最底部，这里允许你输入一个命令行 
   2. Now type the  !  (exclamation point) character.  This allows you to
      execute any external shell command.
-
+    现在输入!(感叹号）. 他讲允许你执行任何的外部命令
   3. As an example type   ls   following the ! and then hit <ENTER>.  This
      will show you a listing of your directory, just as if you were at the
      shell prompt.  Or use  :!dir  if ls doesn't work.
-
+    例如在！后面输入ls后回车，它将会显示你的命令，和你在shell命令行下一样。
+    如果ls不能使用可以输入:!dir 
 NOTE:  It is possible to execute any external command this way, also with
        arguments.
-
+注意这个命令会执行任何的外部命令，包括参数
 NOTE:  All  :  commands must be finished by hitting <ENTER>
        From here on we will not always mention it.
-
+注意： 输入：命令后必须输入回车
+       这以后会把在提到他
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 5.2: MORE ON WRITING FILES
 
-
+            课5.2  其他的写文件的方式
      ** To save the changes made to the text, type  :w FILENAME. **
-
+        为了保存改变的文件输入 :w fileName.
   1. Type  :!dir  or  :!ls  to get a listing of your directory.
      You already know you must hit <ENTER> after this.
-
+   输入:!dir 或者是 :!ls 可以查看你的目录
+   你已经知道了在末尾必须增加ENTER
   2. Choose a filename that does not exist yet, such as TEST.
-
+  选择一个选择没有的文件名，如TEST  
   3. Now type:	 :w TEST   (where TEST is the filename you chose.)
-
+    现在输入 :w TEST (这里TEST是你选择的文件名）
   4. This saves the whole file (the Vim Tutor) under the name TEST.
      To verify this, type    :!dir  or  :!ls   again to see your directory.
-
+     这将保存你的TEST文件
+     为了证明输入 :!dir or !ls 查看你的目录
 NOTE: If you were to exit Vim and start it again with  vim TEST , the file
       would be an exact copy of the tutor when you saved it.
-
+注意：如果你想要再次使用vim编辑，你保存过的文件会妨碍你
   5. Now remove the file by typing (MS-DOS):    :!del TEST
 				or (Unix):	:!rm TEST
-
+    现在可以删除文件 MS-DOS :!del TEST  or :!rm TEST
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		    Lesson 5.3: SELECTING TEXT TO WRITE
 
-
+            课5.3 选择文件写
 	** To save part of the file, type  v  motion  :w FILENAME **
-
+       保存部分文件 输入v 模式 :w 文件名
   1. Move the cursor to this line.
-
+    移动光标到这一行
   2. Press  v  and move the cursor to the fifth item below.  Notice that the
      text is highlighted.
-
+    输入v 和移动光标掉第五行，  
   3. Press the  :  character.  At the bottom of the screen  :'<,'> will appear.
-
+    输入:   这时在屏幕下方显示: '<,'> 
   4. Type  w TEST  , where TEST is a filename that does not exist yet.  Verify
      that you see  :'<,'>w TEST  before you press <ENTER>.
-
+    输入w TEST ,这里TEST是不存在的文件名。
+    在回车之前检查一下是不是 :'<,'>w TEST
   5. Vim will write the selected lines to the file TEST.  Use  :!dir  or  :!ls
      to see it.  Do not remove it yet!  We will use it in the next lesson.
-
+    Vim 将把你选择的几行文件会写到TEST中，
+    使用 :!dir or :!ls 你将会看到他,不要删除他，我们要在下一课使用他们。
 NOTE:  Pressing  v  starts Visual selection.  You can move the cursor around
        to make the selection bigger or smaller.  Then you can use an operator
        to do something with the text.  For example,  d  deletes the text.
+注意；输入v 开始视图选择模式，你能移动光标的周围选择一大块和小块。你能使用操作符对这些文字进行炒作，如 d delete 这些文字
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		   Lesson 5.4: RETRIEVING AND MERGING FILES
-
+           课5.4 恢复和合并文件
 
        ** To insert the contents of a file, type  :r FILENAME  **
-
+     为了插入一个文件的内容 输入 :r filename
   1. Place the cursor just above this line.
-
+    请把光标移动到这一行上
 NOTE:  After executing Step 2 you will see text from Lesson 5.3.  Then move
        DOWN to see this lesson again.
-
+   注意：在进行第2步之前你必须完成了上一课，否则移动到上一课
   2. Now retrieve your TEST file using the command   :r TEST   where TEST is
      the name of the file you used.
      The file you retrieve is placed below the cursor line.
-
+   现在使用:r TEST 命令恢复你的TEST文件，TEST是你已经使用过的文件名
+    这个文件会合并到你在的那一行
   3. To verify that a file was retrieved, cursor back and notice that there
      are now two copies of Lesson 5.3, the original and the file version.
-
+   为类验机合并的效果，复制2行到5.3 进行对比
 NOTE:  You can also read the output of an external command.  For example,
        :r !ls  reads the output of the ls command and puts it below the
        cursor.
-
+注意：你能读入外部命令输入的内容，例如，:r !ls 读输入命令打印到光标的地方 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 5 SUMMARY
-
+    课5 总结
 
   1.  :!command  executes an external command.
-
+    :!command 执行一个外部命令
       Some useful examples are:
 	 (MS-DOS)	  (Unix)
 	  :!dir		   :!ls		   -  shows a directory listing.
 	  :!del FILENAME   :!rm FILENAME   -  removes file FILENAME.
-
+    一些使用的例子
+    :!ls 项目目录
+    :!rm 文件 删除文件
   2.  :w FILENAME  writes the current Vim file to disk with name FILENAME.
-
+    :w 文件名  将更改的文件写到硬盘上
   3.  v  motion  :w FILENAME  saves the Visually selected lines in file
       FILENAME.
-
+    v 模式 :w 文件名   保存可视缓解下保存的文件
   4.  :r FILENAME  retrieves disk file FILENAME and puts it below the
       cursor position.
-
+    :r 文件名  从硬盘文件中读文件到光标的地方
   5.  :r !dir  reads the output of the dir command and puts it below the
       cursor position.
-
+    :r !dir 读命令行的输入到光标的地方
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			 Lesson 6.1: THE OPEN COMMAND
-
-
+             打开命令           
+        
  ** Type  o  to open a line below the cursor and place you in Insert mode. **
-
+    输入o将在光标这行下增加一行，还有模式变成插入模式
   1. Move the cursor to the line below marked --->.
-
+       移动光标到-->指定的那一行
   2. Type the lowercase letter  o  to open up a line BELOW the cursor and place
      you in Insert mode.
-
+    输入小写这字母o 打开一行在光标的位置下一行，加入插入模式
   3. Now type some text and press <ESC> to exit Insert mode.
-
+    现在输入一些文字，和输入ESC
 ---> After typing  o  the cursor is placed on the open line in Insert mode.
 
   4. To open up a line ABOVE the cursor, simply type a capital	O , rather
      than a lowercase  o.  Try this on the line below.
-
+    打开新的一行在光标只是，输入大写的O,和小写o对应，试着在下面这行 
 ---> Open up a line above this by typing O while the cursor is on this line.
 
 
@@ -814,182 +839,205 @@ NOTE:  You can also read the output of an external command.  For example,
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 6.2: THE APPEND COMMAND
 
-
+            课6.2  附加命令
 	     ** Type  a  to insert text AFTER the cursor. **
-
+        输入a附加到光标后           
   1. Move the cursor to the start of the line below marked --->.
-  
+    移动光标掉---》这一行  
   2. Press  e  until the cursor is on the end of  li .
-
+    输入e直到光标掉li后【e 跳过一个词
   3. Type an  a  (lowercase) to append text AFTER the cursor.
-
+    输入一个小写a 将文字附加到光标后
   4. Complete the word like the line below it.  Press <ESC> to exit Insert
      mode.
-
+    完成哪一行和下面哪行一样，输入esc退出插入模式    
   5. Use  e  to move to the next incomplete word and repeat steps 3 and 4.
-  
+    移动到下一个不完全的话，重复步骤3 4 
 ---> This li will allow you to pract appendi text to a line.
 ---> This line will allow you to practice appending text to a line.
 
 NOTE:  a, i and A all go to the same Insert mode, the only difference is where
        the characters are inserted.
-
+注意： a i A 都会进入插入模式，不同的是光标插入的位置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		    Lesson 6.3: ANOTHER WAY TO REPLACE
-
+            课6.3 另一个替代的方法
 
       ** Type a capital  R  to replace more than one character. **
-
+       输入大写R  替代更多的字符 
   1. Move the cursor to the first line below marked --->.  Move the cursor to
      the beginning of the first  xxx .
-
+    将光标移动掉---》指向的那一行，移动光标掉xxx的第一个位置
   2. Now press  R  and type the number below it in the second line, so that it
      replaces the xxx .
-
+    现在输入R 和下面哪行的数字，这样他就会把xxx替换
   3. Press <ESC> to leave Replace mode.  Notice that the rest of the line
      remains unmodified.
-
+    输入ESC离开重复状态，更改未改变的哪一行
   4. Repeat the steps to replace the remaining xxx.
-
+    重复步骤替代xxx
 ---> Adding 123 to xxx gives you xxx.
 ---> Adding 123 to 456 gives you 579.
 
 NOTE:  Replace mode is like Insert mode, but every typed character deletes an
        existing character.
-
+注意： 替换模式像插入模式，但是每输入一个字符就会删除一个字符
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			Lesson 6.4: COPY AND PASTE TEXT
-
+            课 6.4  拷贝和粘贴文案
 
 	  ** Use the  y  operator to copy text and  p  to paste it **
-
+        使用y操作符拷贝文档 和使用p 粘贴它
   1. Go to the line marked with ---> below and place the cursor after "a)".
-  
+    去-->指向的那一行，移动光标到 "a)" 之后
   2. Start Visual mode with  v  and move the cursor to just before "first".
-  
+    使用v进入视图模式，移动光到"first"之前 
   3. Type  y  to yank (copy) the highlighted text.
-
+     输入y拷贝高亮的那一行文字
   4. Move the cursor to the end of the next line:  j$
-
+    移动光标掉下一行的行尾
   5. Type  p  to put (paste) the text.  Then type:  a second <ESC> .
-
+    输入p,粘贴这些文字,输入a second<ESC>
   6. Use Visual mode to select " item.", yank it with  y , move to the end of
      the next line with  j$  and put the text there with  p .
-
+    使用视图模式选择"item." ,输入y,j$移动到下一行的末尾，p粘贴
 --->  a) this is the first item.
-      b)
+      b)) this is the first 
 
   NOTE: you can also use  y  as an operator;  yw  yanks one word.
+  注意：使用y复制一个操作符，yw 复制一个词
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			    Lesson 6.5: SET OPTION
-
+      课6.5 设置参数
 
 	  ** Set an option so a search or substitute ignores case **
-
+        设置一个参数为了搜索或者是忽略一些情况 
   1. Search for 'ignore' by entering:   /ignore  <ENTER>
      Repeat several times by pressing  n .
-
+    搜索'ignore'通过：/ignore 回家
+    重复几次输入n
   2. Set the 'ic' (Ignore case) option by entering:   :set ic
-
+    设置ic 忽略大小写：set ic
   3. Now search for 'ignore' again by pressing  n
      Notice that Ignore and IGNORE are now also found.
-
+    现在搜索‘ignore' 再输入n重复搜索
+    注意 Ignore 和 IGNORE也会被搜索到
   4. Set the 'hlsearch' and 'incsearch' options:  :set hls is
-
+    hlsearch 设置搜索高亮 incsearch 一边输入一边显示效果： set hls is
   5. Now type the search command again and see what happens:  /ignore <ENTER>
-
+   现在再一次搜索/ignore<ENTER> 
   6. To disable ignoring case enter:  :set noic
-
+    关闭搜索效果使用 :set noic 
 NOTE:  To remove the highlighting of matches enter:   :nohlsearch 
+注意： 为去除搜索高亮 ： nohlsearch
 NOTE:  If you want to ignore case for just one search command, use  \c
        in the phrase:  /ignore\c  <ENTER>
+
+注意： 如果只是想要忽略一种搜索命令，使用\c 在命令行下：/ignore\c <ENTER>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 6 SUMMARY
-
+    课6 总结
   1. Type  o  to open a line BELOW the cursor and start Insert mode.
      Type  O  to open a line ABOVE the cursor.
-
+    输入o 在光标下面打开一行使用插入模式
+    输入O 在光标上打开一行
   2. Type  a  to insert text AFTER the cursor.
      Type  A  to insert text after the end of the line.
-
+     输入a在光标后插入文字
+     输入A在这行的末尾插入文字
+     
   3. The  e  command moves to the end of a word.
-
+  e这个命令在单词之间移动
   4. The  y  operator yanks (copies) text,  p  puts (pastes) it.
-
+    输入y拷贝文档，p粘贴文档
   5. Typing a capital  R  enters Replace mode until  <ESC>  is pressed.
-
+   输入R回车进入替换模式 
   6. Typing ":set xxx" sets the option "xxx".  Some options are:
   	'ic' 'ignorecase'	ignore upper/lower case when searching
 	'is' 'incsearch'	show partial matches for a search phrase
 	'hls' 'hlsearch'	highlight all matching phrases
      You can either use the long or the short option name.
-
+    输入：set xxx 设置操作"xxx" 实现参数
+    ‘ic’  ‘ignorecase’ 搜索时忽略大小写
+    'is' 'incsearch' 显示局部搜索
+    'hls' 'hlsearch'  高亮所以搜索到的
+    长选项和短选项都是可选的
   7. Prepend "no" to switch an option off:   :set noic
-
+    关闭选项输入 :set noic
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		       Lesson 7.1: GETTING HELP
-
+    课7.1 获取帮助
 
 		      ** Use the on-line help system **
-
+                使用一行帮助系统
   Vim has a comprehensive on-line help system.  To get started, try one of
   these three:
 	- press the <HELP> key (if you have one)
 	- press the <F1> key (if you have one)
 	- type   :help <ENTER>
-
+  vim有一个综合的一行帮助系统。为了使用，产生使用下面3条中的一个
+    - 输入help键 
+    - 输入F1将
+    - 输入:help 回车
   Read the text in the help window to find out how the help works.
   Type  CTRL-W CTRL-W   to jump from one window to another.
   Type    :q <ENTER>    to close the help window.
-
+   读帮助窗口中的文字，查找怎么帮助工作
+  使用ctrl-w ctrl-w 来切换到其他窗口
+  输入 :q 回车 来关闭窗口
   You can find help on just about any subject, by giving an argument to the
   ":help" command.  Try these (don't forget pressing <ENTER>):
-
+    你能在帮助中发现任何主题，使用一个参数 :help 命令，尝试下面的
 	:help w
 	:help c_CTRL-D
 	:help insert-index
 	:help user-manual
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		      Lesson 7.2: CREATE A STARTUP SCRIPT
-
+            课7.2 建立一个启动脚本
 
 			  ** Enable Vim features **
-
+    使用vim特征
   Vim has many more features than Vi, but most of them are disabled by
   default.  To start using more features you have to create a "vimrc" file.
-
+   vim有比vi更多的特性，但是大多是没有被打开的，为了开始使用这些特性你需要建立
+   vimrc 文件
   1. Start editing the "vimrc" file.  This depends on your system:
 	:e ~/.vimrc		for Unix
 	:e $VIM/_vimrc		for MS-Windows
-
+     开始编辑vimrc文件，在你的的系统中
+     
   2. Now read the example "vimrc" file contents:
 	:r $VIMRUNTIME/vimrc_example.vim
-
+    现在读取vim文件
   3. Write the file with:
 	:w
+    w把文件写入
 
   The next time you start Vim it will use syntax highlighting.
   You can add all your preferred settings to this "vimrc" file.
   For more information type  :help vimrc-intro
-
+  下一次你使用vim时将看到系统高亮
+  你能增加你自己的设置到vimrc文件中
+ 为了查看更多的输入信息：help vimrc-intro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			     Lesson 7.3: COMPLETION
-
+            课7.3 完结
 
 	      ** Command line completion with CTRL-D and <TAB> **
-
+        命令行下完结ctrl-d he tab
   1. Make sure Vim is not in compatible mode:  :set nocp
-
+    确认vim不在兼容模式下 :set nocp
   2. Look what files exist in the directory:  :!ls   or  :!dir
-
+    看见目录下文件 :ls 
   3. Type the start of a command:  :e
-
+  输入开始命令 :e 
   4. Press  CTRL-D  and Vim will show a list of commands that start with "e".
-
+    输入ctlr-d  vim将显示列表的最后一个命令e
   5. Press <TAB>  and Vim will complete the command name to ":edit".
-
+    输入tab vim 将显示完全的命令名"edit" 
   6. Now add a space and the start of an existing file name:  :edit FIL
-
+    现在在
   7. Press <TAB>.  Vim will complete the name (if it is unique).
 
 NOTE:  Completion works for many commands.  Just try pressing CTRL-D and
@@ -997,18 +1045,18 @@ NOTE:  Completion works for many commands.  Just try pressing CTRL-D and
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			       Lesson 7 SUMMARY
-
+    课7 总结
 
   1. Type  :help  or press <F1> or <Help>  to open a help window.
-
+    输入:help 或者按f1打开帮助窗口
   2. Type  :help cmd  to find help on  cmd .
-
+    输入:help 命令 查找命令的帮助
   3. Type  CTRL-W CTRL-W  to jump to another window
-
+    输入ctrl-w 在不同窗口跳动
   4. Type  :q  to close the help window
-
+    输入:q 关闭帮助窗口
   5. Create a vimrc startup script to keep your preferred settings.
-
+    建立一个vimrc设置你的配置
   6. When typing a  :  command, press CTRL-D to see possible completions.
      Press <TAB> to use one completion.
 
