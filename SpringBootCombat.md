@@ -719,3 +719,479 @@ public xxServlet xxServlet(){
 
 ##  7.4 Tomcat 配置
 
+application.properities     
+Servlet配置     
+server.port=    
+server.session-timeout=秒为单位     
+server.context-path=配置访问路径    
+Tomcat配置  
+server.tomcat.uri-encoding=   
+server.tomcat.compression=是否开启压缩      
+
+### 7.4.2 代码配置Tomcat
+配置servlet:实现EmbeddedServletContainerCustomizer  
+配置Tomcat TomcatEmbeddedServletContainerFactory    
+配置Jetty JettyEmbeddedServletContainerFactory    
+配置Undertow UndertowEmbeddedServletContainerFactory    
+
+
+### 7.4.3 替换Tomcat  
+将spring-boot-starter-web的tomcat依赖替换   
+
+
+### 7.4.4 SSL配置
+1. 生成证书
+keytool -genkey -alias tomcat   
+
+2. Spring Boot 配置SSL
+server.ssl.key-store = .keystore    
+server.ssl.key-store-password=  
+server.ssl.keyStoreType=JKS     
+server.ssl.keyAlias:tomcat      
+
+3. http 转向https
+
+## 7.5 Favicon配置
+服务的图标
+### 7.5.2 关闭Favicon
+spring.mvc.favicon.enabled=false    
+
+### 7.5.3 设置自己的Favicon 
+favicon.ico 放在根、META-INF/resources、resources、static、public下     
+
+## 7.6 WebSocket
+浏览器和服务器提供了双工异步通信的功能  
+spring-boot 提供默认支持    
+
+
+
+## 7.7 基于BootStrap和AngularJS的限定Web应用
+1. 单页面应用
+2. 响应式设计
+3. 数据导向
+
+
+<br/>
+
+
+# 第8章 Spring Boot 的数据访问
+SpringData包含的子项目      
+JPA MongoDB Neo4j Redis Solr Hadoop GemFire REST JDBC_Extensions CouchBase Elasticsearch Cassandra DynamoDB     
+crud 查询 排序 分页     
+Spring Data Commons：Spring Data Repository抽象     
+可以根据属性名进行计数、删除、查询  
+
+## 8.1 引入Docker
+轻量级容器技术，实现了虚拟机技术的资源隔离  
+
+## 8.2 Spring Data JPA
+1.a 是什么
+Hibermate O/R 映射 领域模型类和数据库的表进行映射，操控对象来操控表     
+JPA java Persistence API 基于O/R映射的标准规范  
+产品Hibermate EclipseLink OpenJPA       
+2. 定义数据访问
+public interface PersonRepository extends JpaReppository\<Person,Long\>{}   
+带有功能        
+findAll save flush  saveAndFlush deleteInBatch deleteAllBatch getOne    
+
+3. 配置使用Spring Data JPA
+使用@EnableJpaRepositories("com.xxx")开启对JPA支持
+
+4. 自定义查询
+1) 通过关键字findBy Like And   
+常规 限制数量   
+public interface PersonRepository extends JpaReppository\<Person,Long\>{
+    List<Person> findByName(String name);
+}   
+
+2) 自定义sql
+a. 对象上
+@Entity
+@NameQuery(name="Person.findByName",query="select * from ")
+public class Person{}
+b. 语句上
+public interface PersonRepository extends JpaReppository\<Person,Long\>{
+    @Query("select p  from P where p.address=?1 ")
+    List<Person> findByName(String name);
+}   
+
+参数化  
+```
+@Query("select p from Person p where p.address=:address")
+List<Person> findByAddress(@Param("address") String address);
+```
+
+3) 更新     
+```
+@Modifying
+@Transactional
+@Query("update Person p set p.name=?1")
+int setName(String name);
+```
+
+4) Specification    
+构造查询条件    
+
+5）自定义Repository     
+把常用的数据库操作放在起来  
+
+### 8.2.2 Spring Boot 的支持
+
+1. JDBC 的自动配置
+
+2. JPA 自动配置
+
+3. Sping Data JPA的自动配置
+
+docker启动  
+docker run -d -p 9090:8080 -p 1521:1521 wnameless/oracle-xe-11g     
+
+访问界面    
+```
+127.0.0.1:9090/apex
+workspace:internal
+username:admin
+password:!1aaaTroot
+```
+
+自增主键设置    
+```
+@Id
+@GeneratedValue
+private Long id;
+
+
+```
+
+
+## 8.3 Spring Data REST
+
+可以将repository 自动输出为REST资源     
+使用url 进行增删改查    
+
+2. 配置使用
+继承RepositoryRestMvcConfiguration  
+导入Import  
+
+
+### REST
+URL定位资源，用HTTP动词（GET POST DELETE DETC)描述操作  
+GET 获取资源    
+POST 建立   
+PUT 更新    
+DELETE 删除     
+UPDATE 更新     
+
+> 调试  
+> 使用postman 逐步分层调试  
+
+1. 定制根路径  
+spring.data.rest.base-path=/api    
+2. 定制节点路径     
+```
+@RepositoryRestResource(path="people")
+public interface PersonRepository extends JpaRepository<Person,Long> {
+dsfas
+    @RestResource(path="nameStartsWith",rel="nameStartsWith")
+        Person findByNameStartsWith(@Param("name")String name);
+i
+        }
+```
+
+## 8.4 声名式事务
+spring 的事务机制是用统一的机制来处理不同数据访问技术的事务处理     
+JDBC:DataSourceTransactionManager   
+JPA:JapTransactionManager   
+分布式事务:jtaTransactionManager    
+
+### 8.4.2 声名式事务
+@Transactional 方法需要事务支持     
+@EnableTransactionManagement 注解配置类开启声名式事务支持,后会扫@Transactional      
+
+### 8.4.3 注释事务行为  
+@Transactional 属性     
+|-属性-|-含义-|
+|propagationtion|生命周期|
+|isolation|隔离级别|
+|timeout||
+|readOnly||
+|rollbackFor|可以滚回异常|
+|noRollbackFor|不可以滚回异常|
+
+### 8.4.4 l类级别使用@Transactional
+所有的public方法都是开启事务的  
+
+### 8.4.5 spring DATA jpa 的事务支持    
+默认开启
+
+### 8.4.6 spring boot 支持的事务
+1. 自动配置管理器
+PlatformTransactionManager  
+2. 自动开启注解事务支持 
+
+## 8.5 数据缓存Cache
+
+CacheManager 各种缓存技术抽象接口   
+Cache 接口包含缓存的各种操作    
+
+1. spring支持的实现
+RedisCacheManager
+
+2. 声名式缓存注解
+@Cacheable  
+@CachePut   
+@CacheEvict     
+@Caching    
+
+3. 开启声名式缓存支持
+配置类上使用@EnableCaching
+
+
+### 8.5.2 Spring boot 的支持
+支持使用spring.cache为前缀的属性来配置缓存
+
+### 8.5.4 切换缓存技术
+1. Guava
+加入响应的jar
+2. Redis
+加入响应的spring-boot-starter-redis
+
+## 8.6 非关系型数据库NoSQL
+
+
+### MongoDB
+文档存储    
+Spring Data MongoDB     
+
+Spring Boot 配置    
+
+### redis
+1.  spring 支持
+JedisConnectionFactory :Jedis       
+JredisConnectionFactory :Jredis   
+1-1. 使用   
+RedisTemplate 和StringReidsTemplate 操作数据    
+1-3. 定义Serializer   
+ReidisTemplate 默认JdkSerializationRedisSerializer  
+StringReidisTemplate 默认StringRedisSerializer  
+
+2. Springboot的支持
+org.springframework.boot.autoconfigure.redis
+
+
+
+
+# 第９章　Spring Boot 企业级开发
+
+
+
+## 9.1 安全控制Spring Security
+
+1. 是什么
+针对spring项目的安全框架，用依赖注入和aop实现安全功能   
+认证和授权  
+
+2. 配置
+
+1）DelegationFilterProxy注册到WebApplicationInitializer     
+2) @EnableWebSecuity 并继承WebSecurityConfigureAdapter  
+3) 认证和请求授权 重写 configure()  
+
+
+### springBoot 的支持
+通过SecurityAutoConfiguration 和SecurityProperties来完成配置    
+
+
+## 9.2 批处理Spring Batch
+1. 读取大量数据
+2. 组成
+JobRepository  注册     
+JobLaunchaer   启动     
+Job     任务    
+Step    步骤    
+ItemReader  
+ItemProcessor   
+ItemWriter  
+使用注册Bean 和开启@EnableBatchProcessing   
+
+3. 监听
+实现JobExecutionListener        
+
+5. 数据校验
+ 实现ItemProcessor接口  
+
+
+### 9.2.2 Spring boot 的支持
+spring.batch.
+
+
+## 9.3 异步消息
+RabbitMQ    
+@RabbitListener代发布消息   
+@EnableRabbit开启支持   
+
+spring boot     
+spring.rabbitmq.    
+
+## 9.4 系统集成 Spring Integration
+EIP 企业集成模式实现，不同系统之间的交互    
+
+### 9.4.2 Message
+消息头+体
+
+### 9.4.3 Channel
+通道    
+接口    
+MessageChannel  PollableChannel     SubscribableChannel 
+
+常用通道    
+PublishSubscribeChannel QueueChannel PriorityChannel RendezvousChannel DirectChannel ExecutorChannel 
+
+通道拦截器 Channellnterceptor   
+
+### 9.4.4 Message EndPoint
+消息端点    
+
+### 9.4.5 Spring Integration Java DSL
+系统继承流程
+
+
+
+# 第10章 Spring 开发部署月测试
+
+## 10.1 开发的热部署
+
+### 10.1.1 模板热部署
+默认开启
+
+### 10.1.2 Spring loaded
+类文件热部署
+
+### JRebel 
+工具
+
+### spring-boot-debtools
+代码热部署
+
+
+## 常规部署
+
+### jar
+
+1. 打包
+mvn pakage
+
+2. 运行
+java -jar xx.jar
+
+
+3. 注册为Linux服务
+```
+<plugin>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+        <executable>true</executable>
+    </configuration>
+</plugin>
+```
+
+使用init.d 部署
+
+### war
+pom.xml 改为war
+
+
+## 10.3 云部署-基于Docker 的部署
+
+Docker使用Dockerfile文件编译
+
+### 10.3.1 Dockerfile
+
+
+## 10.4 SpringBoot 测试
+提供@SpringApplicationConfiguration来替代@Configuration     
+自带    
+
+
+# 第11 章 应用监控
+
+支持 http JMX SSH   
+可监控端点      
+actuator:所有EndPoint的列表     
+autoconfig:自动配置     
+beans:Bean消息  
+configprops:配置信息    
+dump:线程状态   
+env:环境    
+health:健康     
+info:应用   
+metrics:各项指标    
+mappings:@RequestMapping映射路径    
+shutdown:关闭当前应用   
+trace:显示跟踪消息  
+
+## 11.1 http
+pom.xml加入
+```
+org.springframework.boot    
+spring-boot-starter-actuator
+```
+
+### 11.1.3 定制端点
+使用endpoints+端点名+属性来设置
+
+### 11.1.4 自定义端点
+继承AbstractEndpoint    
+
+## 11.2 JMX
+jconsole可视客户端
+## ssh
+要加入spring-boot-starter-remote-shell  
+1.5.0 下版本    
+ssh user@127.0.0.1 -p 2000  
+
+### 11.3.4 定制用户登入
+shell.auth.simple.user.name     
+shell.auth.simple.user.password     
+
+可定制命令      
+
+
+# 第12章 分布式系统开发
+
+## 12.1 微服务 原声云应用
+
+使用定义好边界的小的独立组件来做好一件事情  
+
+## 12.2 Sping Cloud 快速入门
+
+### 12.2.1 配置服务
+使用Config Server
+
+### 12.2.2 服务发现
+使用Netflix oss 的Eureka 为注册中心
+
+### 路由网关
+zuul来实现
+
+### 放在均衡
+Ribbon和Feign 作为客户端
+
+
+### 断路器
+为了解决某个方法调用失败的时候  
+
+
+
+
+
+
+
+
+　
+
+
+
+
+

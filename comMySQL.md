@@ -38,7 +38,7 @@ start slave;
 
 　　采用create schema和create database创建数据库的效果一样。
 
- 2、create user '[用户名称]'@'%' identified by '[用户密码]';--创建用户
+ 2、create mysql.user '[用户名称]'@'%' identified by '[用户密码]';--创建用户
 
 
 
@@ -49,3 +49,9 @@ start slave;
 
 # 随机选择数据
 SELECT * FROM tablename ORDER BY RAND()  LIMIT 10
+
+
+# 建立数据库/表
+create database test    
+use test    
+create table Person()   

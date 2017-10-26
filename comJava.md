@@ -9,4 +9,6 @@ javadoc -d /home/lg file.java
 
 # JVM输出 反编译
 javap -c Concatenation
-javap -v C...
+javap -v C...// 信息更全
+## 本地变量表输出
+javap 'S -l opetion
