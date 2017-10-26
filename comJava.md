@@ -11,4 +11,8 @@ javadoc -d /home/lg file.java
 javap -c Concatenation
 javap -v C...// 信息更全
 ## 本地变量表输出
-javap 'S -l opetion
+javac -g ** 必须在debug下   
+javap -l opetion    
+javap -c -v -l -s   
+
+
