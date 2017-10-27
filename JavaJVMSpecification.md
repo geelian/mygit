@@ -132,7 +132,21 @@ VirtualMachineError
 
 
 ## 6.4 指令描述格式
-aaload  aastroe  aconst\_null 
+aaload  aastroe  aconst\_null aload   
+
+aload 可以和wide指令联合一起使用2个字节长度的无符号byte整数值为索引来服务局部变量表 
+
+areturn     
+
+arraylength     
+
+astore 和 returnAddress 实现finally
+
+athrow 出栈找到异常处理器，操作栈清空压栈 后压栈
+
+
+
+
 
 
 
