@@ -200,6 +200,48 @@ I: asList 返回是Arrays的内部类，体现的适配器模式，只是转换�
 
 6. 泛型通配符\< ? extends T > 来接收返回的数据，此写法的泛型集合不能使用add方法
 
+7. 不要在foreach中使用remove/add    
+> 本质使用的是迭代器 没有next是都会判断长度有变化会抛出checkForComodification
+
+
+8. 在JDK7+ Comparator要满足自反性，传递新，对称性 否则sort抛IllegalArgumentException 异常   
+    1) 自反性，x,y 比较结果和y,x 的比较结果相反
+    2) 传递性，x>y,y>z 则 x>z
+    3) 对称性 x=y 则 x,z 比较和y,z 比较结果相同
+
+
+9. 集合初始化是，建立指定集合初始值大小
+
+10. 使用entrySet遍历Map集合KV,而部署使用keySet方法。JDK8 Map.foreach()
+
+11. Map k/v 能不能存储null
+|集合类|key|value|Super| 说明|
+|-|-|-|-|-|
+|Hashtable|N|N|Dicitionary|线程安全|
+|ConcurrentHashMap|N|N|AbstractMap|分段锁技术|
+|TreeMap|N|Y|AbstractMap|不安全|
+|HashMap|Y|Y|AbstractMap|不安全|
+
+12. 合理利用好集合的有序性（sort) 和稳定性(order) 避免集合的无序性（unsort) 和不稳定性（unorder)带来的负面影响。
+
+13. 利用Set元素唯一的特效，可以快速的对一个集合进行去重操作，避免使用List的contains方法进行遍历、对比、去重操作。
+
+## (六) 并发处理
+
+1. 或取单例对象需要保证线程安全，其中的方法也要包装线程安全
+
+2. 创建线程或线程池时请指定有意义的线程名称，方便回溯
+I: super.setName("")
+
+3. 线程资源必须通过线程池提供，不允许在应用中自行显示创建线程   
+
+4. 线程池不允许使用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式让写的同学更加明确线程池的运行规则，
+    1) FixedThreadPool 和 SingleThreadPool;
+    允许的请求队列长度为Integer.MAX_VALUE,可能会堆积大量的请求，而导致OOM
+    2) CachedThreadPool 和ScheduledThreadPool
+    允许的创建线程数量为Integer.MAX_VALUE,可能会创建大量的线程，而导致OOM
+
+
 
 
 
