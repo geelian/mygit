@@ -241,10 +241,20 @@ I: super.setName("")
     2) CachedThreadPool 和ScheduledThreadPool
     允许的创建线程数量为Integer.MAX_VALUE,可能会创建大量的线程，而导致OOM
 
+5. SimpleDateFormat 是线程不安全的类，一般不要定义为static变量，如果定义为static,必须加锁，或者使用DateUtils工具类  
+线程安全使用
+```
+private static final ThreadLocal<DateFormat> df = new ThreadLoacl<DateFormal>(){
+    @Override
+    portected DateFormat initialValue(){
+        return new SimpleDateFormat("yyyy-MM-dd");
+    }
+}
+```
+N: JKD8的应用，可以使用Instant代替Date,LocalDateTime代替Calender,DateTimeFormatter替代SimpleDateFormart
 
+6.  高并发是，同步调用应该去考量锁的性能损耗。能用无锁数据结构，就不要用锁；能锁区块，就不要锁整个方法体，能用对象锁，就不要用类锁。
+N: 尽可能使加锁的代码块工具量尽可能的小，避免在锁代码中调用RPC方法
 
-
-
-
-
+7. 
 
