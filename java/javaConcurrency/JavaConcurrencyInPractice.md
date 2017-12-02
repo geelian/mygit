@@ -123,8 +123,62 @@ synchronized 原子性&临界区&内存可见性
 加锁的含义不仅仅局限于互斥行为，还包括内存可见性。为了确保所有线程都能看到共享变量的最新值，所有执行读操作或者写操作的线程多必须在同一个锁上同步。
 
 ### 3.1.4 Volatile变量
+实现原理：
+1. 当把变量声明为volatile类型后，编译器与运行时都会注意到这个变量是共享的， 因此不会将该变量上的操作与其他内存操作一起重排序
+2. volatile变量不会被缓存在寄存器或者对其他处理器不可见的地方
+3. 写入volatitle变量相当与退出同步代码块，读取进入
+volatile变量是一种比sychronized 关键字更轻量及的同步机制
+
+> 使用方式：确保它们自身状态的可见性，确保它们所引用对象的状态的可见性，以及标识一些重要的程序生命周期事件的发生
 
 
+## 3.2 发布与逸出
+定义：  
+发布publish 使对象能够在当前作用域之外的代码中使用  
+逸出Escape 当某个不应该发布的对象被发布时       
+
+> 封装能够使得对程序的正确性进行分析变得可能，并使得无意中破坏设计约束条件变得更难
+
+### 安全的对象构造过程
+
+> 不要在构造过程中使用this引用逸出
+如在构造方法中传入对象，通过匿名构造函数将this传出  
+因为：在对象向未完全构造之前，新的线程就可以看到它      
+```
+public class SafeListener{
+    private final EventListener listener;
+    private SafeListener(){
+        listener = new EventListener(){
+            public void onEvent(Event e){
+                doSomething(e);
+            }
+        }
+    }
+
+    public static SafeListener newInstance(EventSource eventSource){
+        SafeListener safe = new SafeListener();
+        eventSource.registerListener(safe.listener);
+        return safe;
+    }
+}
+```
+
+
+## 3.3 线程封闭
+定义： 如果仅在单线程内访问数据，就不需要同步   
+eg:Swing JDBC   
+
+### 3.3.1 Ad-hoc 线程封闭
+定义：维护线程封闭性的职责完全由程序实现来承担。    
+
+### 3.3.2 栈封闭
+定义：在栈封闭中，只能通过局部变量才能访问对象。
+
+### 3.3.3 ThreadLocal 类
+ThreadLocal提供get与set访问接口或方法，这些方法为每一个使用该变量的线程都有一份独立的副本，因此get总是返回当前执行线程在调用set时设置的最新值   
+原理：ThreadLocal\<T\> 可视为Map\<Thread,T\> 对象   
+
+ThreadLocal 变量类似于全局变量，它能降低代码的可重用性，并在类之间引入隐含的耦合性，因此在使用时要格外小心。
 
 
 
