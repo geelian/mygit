@@ -128,6 +128,13 @@ synchronized 原子性&临界区&内存可见性
 I: 仅当volatile变量能简化代码的实现以及同步策略的验证是，才一个使用他们。
 
 I: 加锁机制既可以确保可见性又可以确保原子性，而volatile变量只能确保可见性。
+实现原理：
+1. 当把变量声明为volatile类型后，编译器与运行时都会注意到这个变量是共享的， 因此不会将该变量上的操作与其他内存操作一起重排序
+2. volatile变量不会被缓存在寄存器或者对其他处理器不可见的地方
+3. 写入volatitle变量相当与退出同步代码块，读取进入
+volatile变量是一种比sychronized 关键字更轻量及的同步机制
+
+> 使用方式：确保它们自身状态的可见性，确保它们所引用对象的状态的可见性，以及标识一些重要的程序生命周期事件的发生
 
 使用规则：
 - 对变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值
@@ -135,11 +142,105 @@ I: 加锁机制既可以确保可见性又可以确保原子性，而volatile变
 - 在访问变量时不需要加锁
 
 ## 3.2 发布与逸出
+<<<<<<< HEAD
+=======
+定义：  
+发布publish 使对象能够在当前作用域之外的代码中使用  
+逸出Escape 当某个不应该发布的对象被发布时       
 
-发布publish使对象能够在当前作用域之外代码中使用。   
+> 封装能够使得对程序的正确性进行分析变得可能，并使得无意中破坏设计约束条件变得更难
 
-逸出escape 当每个不应该发布的对象被发布是   
+### 安全的对象构造过程
 
-封装能够使得对程序的正确性进行分析变得可能，并使得无意中破坏设计约束条件变得更难    
+> 不要在构造过程中使用this引用逸出
+如在构造方法中传入对象，通过匿名构造函数将this传出  
+因为：在对象向未完全构造之前，新的线程就可以看到它      
+```
+public class SafeListener{
+    private final EventListener listener;
+    private SafeListener(){
+        listener = new EventListener(){
+            public void onEvent(Event e){
+                doSomething(e);
+            }
+        }
+    }
+
+    public static SafeListener newInstance(EventSource eventSource){
+        SafeListener safe = new SafeListener();
+        eventSource.registerListener(safe.listener);
+        return safe;
+    }
+}
+```
+
+
+## 3.3 线程封闭
+定义： 如果仅在单线程内访问数据，就不需要同步   
+eg:Swing JDBC   
+
+### 3.3.1 Ad-hoc 线程封闭
+定义：维护线程封闭性的职责完全由程序实现来承担。    
+
+### 3.3.2 栈封闭
+定义：在栈封闭中，只能通过局部变量才能访问对象。
+
+### 3.3.3 ThreadLocal 类
+ThreadLocal提供get与set访问接口或方法，这些方法为每一个使用该变量的线程都有一份独立的副本，因此get总是返回当前执行线程在调用set时设置的最新值   
+原理：ThreadLocal\<T\> 可视为Map\<Thread,T\> 对象   
+
+ThreadLocal 变量类似于全局变量，它能降低代码的可重用性，并在类之间引入隐含的耦合性，因此在使用时要格外小心。
+
+
+## 3.4 不可变
+定义：如果某个对象在被创建后其状态就不能被修改，那么这个对象就称为不可变对象    
+不可表条件是由构造函数创建的 。
+
+> 不可变对象一定是线程安全的。
+
+### 3.4.1 final 域
+除非需要某个域是可变的，否则应将其声明为final域。
+
+> 3---4 是不被发布
+
+
+## 3.5 安全发布
+
+### 3.5.1 不正确的发布：正确的对象被破坏
+在未被正确发布的对象中存在2个问题
+1. 除了发布对象的线程外，其他线程可以看到Holder域是一个无效值，因此将看到一个空引用之前的旧值
+2. 线程看到holder引用的值是最新的，但是状态的值却是旧的
+
+### 3.5.2 不可变对象与初始化安全性
+
+> 任何线程都可以在不需要额外同步的情况下安全访问不可变对象，即使在发布这些对象时没有使用同步。
+
+如果final 类型的域所指向的是可变对象，那么在访问这些域所指向的对象的状态是仍然需要同步
+
+### 3.5.3 安全发布的常用模式
+
+> 在静态初始化函数中初始化一个对象引用
+> 将对象的引用保存到volatile类型的域或者AtomicReferance对象中
+> 将对象的引用保存到某个正确构造对象的final类型域中
+> 将对象的引用保存到一个由锁保护的域中
+
+1. Hashtable synchronizedMap ConcurrentMap
+2. Vector CopyOnWriteArrayList CopyOnWriteArraySet synchronizedList synchronizedSet 
+3. BlockingQueue ConcurrentLinkedQueue
+4. public static Object o  = new Object();
+
+### 3.5.4 事实不可变对象
+### 3.5.5 可变对象
+1. 不可变对象任意
+2. 事实不可变，安全方式发布
+3. 可变对象安全发布，加锁保护
+
+### 3.5.6 安全的共享对象
+
+策略
+1. 线程封闭
+2. 只读共享
+3. 线程安全共享
+4. 保护对象
 
 
