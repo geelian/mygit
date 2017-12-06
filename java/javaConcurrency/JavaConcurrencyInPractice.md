@@ -222,6 +222,7 @@ ThreadLocal 变量类似于全局变量，它能降低代码的可重用性，�
 > 将对象的引用保存到某个正确构造对象的final类型域中
 > 将对象的引用保存到一个由锁保护的域中
 
+_线程安全类_
 1. Hashtable synchronizedMap ConcurrentMap
 2. Vector CopyOnWriteArrayList CopyOnWriteArraySet synchronizedList synchronizedSet 
 3. BlockingQueue ConcurrentLinkedQueue
