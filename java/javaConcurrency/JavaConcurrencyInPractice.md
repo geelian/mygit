@@ -271,9 +271,57 @@ I: 对象封装它拥有的状态, 对象对它封装的状态拥有所有权
 
 ## 4.2 实例封闭
 定义：当一个对象封装都另一个对象中时，能够访问被封装对象的所有代码路径都是已知的。
+> 将数据封装在对象内部，可以将数据的访问限制在对象的方法中，从而更容易确保线程在访问数据时总能持有正确的锁
+
+M:synchronized(this) 方法 体现的是内置锁 	 synchronized(Object) 锁对象
+
+使用包装工厂Collections.synchronizedList将   ArrayList转为线程安全的类 ---修饰器模式 将容器封装在一个同步的包装容器对象中，而包装器能将接口中的每一个方法都实现为同步方法，并将调用请求转发到底层的容器对象上。	
+ia
 
 
+实现片段  
 
+```
+static class SynchronizedCollection<E> implements Collection<E>, Serializable {
+        private static final long serialVersionUID = 3053995032091335093L;
 
+        final Collection<E> c;  // Backing Collection
+        final Object mutex;     // Object on which to synchronize
+
+        SynchronizedCollection(Collection<E> c) {
+            this.c = Objects.requireNonNull(c);
+            mutex = this;
+        }
+
+        SynchronizedCollection(Collection<E> c, Object mutex) {
+            this.c = Objects.requireNonNull(c);
+            this.mutex = Objects.requireNonNull(mutex);
+        }
+
+        public int size() {
+	    // 每次同步锁点一个对象来操作
+            synchronized (mutex) {return c.size();}
+        }
+}
+```
+
+### 4.2.1 java监视器模式
+实现类Vector 和HashTable M：jdk1.8 没有看到实现？？？			
+通过一个私有锁来保护状态	
+```
+public class PrivateLock{
+	private final Object myLock = new Object();
+	@GuardedBy("myLock") Widget widget;
+	void someMethod(){
+		synchronized(myLock) { // 私有锁
+			// 访问或者修改Widget的状态
+		}
+		
+	}
+}
+```
+
+优点	
+1. 私有的锁对象可以封装
 
 
