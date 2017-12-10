@@ -215,12 +215,14 @@ I: asList 返回是Arrays的内部类，体现的适配器模式，只是转换�
 10. 使用entrySet遍历Map集合KV,而部署使用keySet方法。JDK8 Map.foreach()
 
 11. Map k/v 能不能存储null
+
 |集合类|key|value|Super| 说明|
-|-|-|-|-|-|
+|---|---|--|---|---|
 |Hashtable|N|N|Dicitionary|线程安全|
 |ConcurrentHashMap|N|N|AbstractMap|分段锁技术|
 |TreeMap|N|Y|AbstractMap|不安全|
 |HashMap|Y|Y|AbstractMap|不安全|
+
 
 12. 合理利用好集合的有序性（sort) 和稳定性(order) 避免集合的无序性（unsort) 和不稳定性（unorder)带来的负面影响。
 
