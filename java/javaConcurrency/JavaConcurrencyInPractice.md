@@ -281,7 +281,6 @@ M:synchronized(this) 方法 体现的是内置锁 	 synchronized(Object) 锁对�
 使用包装工厂Collections.synchronizedList将   ArrayList转为线程安全的类 ---修饰器模式 将容器封装在一个同步的包装容器对象中，而包装器能将接口中的每一个方法都实现为同步方法，并将调用请求转发到底层的容器对象上。	
 ia
 
->>d>>>>> c3224020b3d7e76cc06e2a5bef38aeca062c73b2
 
 实现片段  
 
@@ -329,3 +328,80 @@ public class PrivateLock{
 1. 私有的锁对象可以封装
 
 
+## 4.3 线程安全性的委托
+
+
+### 4.3.4 发布底层的状态变量
+
+> 如果一个状态变量是线程安全的，并且没有任何不变性条件来约束它的值，在变量的操作上也不存在任何不允许的状态转换，那么就可以安全的发布这个变量    
+
+
+
+## 4.4 在现有的线程安全类中添加功能
+
+> 重用能降低开发工作量，开发风险以及维护成本
+
+1. 扩展线程安全类
+
+```
+public class BetterVerctor<E> extends Vector<E>{
+    public synchronized boolean putIfAbsent(E x){
+        boolean absent = !contains(x);
+        if(absent)
+            add(x);
+        return absent;
+    }
+}
+```
+
+2. 客户端加锁
+
+```
+public class ListHelper<E>{
+    public List<E> list = Collections.synchronizedList(new ArrayList<E>());
+
+    public synchronized boolean putIfAbsent(E x){ // 为什么不是ListHelper上的锁有线程安全问题
+        boolean absent = !list.contains(x);
+        if(absent)
+            add(x);
+        return absent;
+    }
+
+}
+```
+
+
+使用对象锁
+```
+public class ListHelper<E>{
+    public List<E> list = Collections.synchronizedList(new ArrayList<E>());
+    
+    public  boolean putIfAbsent(E x){ // 为什么不是ListHelper上的锁有线程安全问题
+        synchronized(list){
+            boolean absent = !list.contains(x);
+            if(absent)
+                add(x);
+            return absent;
+        }
+    }
+```
+
+3. 组合模式
+
+同java监视器模式    
+
+```
+public class ListHelper<T> implements List<T>{
+    public final List<T> list ;
+        
+    public ListHelper(List<T> list){this.list = list;}
+
+    public synchronized boolean putIfAbsent(E x){ // 为什么不是ListHelper上的锁有线程安全问题
+        boolean absent = !list.contains(x);
+        if(absent)
+            add(x);
+        return absent;
+    }
+```
+
+# 4.5 将同步策略文档化
