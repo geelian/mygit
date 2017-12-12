@@ -412,7 +412,21 @@ public class ListHelper<T> implements List<T>{
 
 介绍j5 j6 引入的新并发构建模块。常用的模式  
 
-
 ## 5.1 同步容器类
 
+Vector 和Hashtable JDK1.2 加的由Collections.synchronizedXxx等工厂方法创建的。   
+实现方式：将它们的状态封装起来，并对每个公有方法都进行同步，使得每次只有一个线程能访问容器的状态
+
+### 5.1.1 同步容器的问题
+
+1. 容器复合操作（迭代 跳转 条件运算)  需要客户端加锁同步        
+对Vector加锁    
+```
+public static Object getLast(Vector list){
+    synchronized(list){
+        int lastIndex = list.size() - 1;
+        return list.get(listIndex);
+    }
+}
+```
 
