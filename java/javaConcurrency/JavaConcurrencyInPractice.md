@@ -430,3 +430,59 @@ public static Object getLast(Vector list){
 }
 ```
 
+### 5.1.2 迭代器与ConcurrentModificationException
+
+ConcurrentModificationException容器再迭代过程中被修改时。   
+实现将计数器的变化与容器关联起来：如果在迭代期间计数器被修改，那么hasNext或next将抛出ConcurrentMondificationException
+```
+for(Long l: longList){
+            longList.remove(1);
+            System.out.println(i++);
+        }
+
+// 反编译效果
+  Iterator var3 = longList.iterator();
+
+        while(var3.hasNext()) {
+            Long l = (Long)var3.next();
+            longList.remove(1);
+            System.out.println(i++);
+        }
+```
+
+### 5.1.3 隐藏迭代器
+
+集合的toString使用迭代
+
+AbstractCollection 
+
+```
+    /**
+     * Returns a string representation of this collection.  The string
+     * representation consists of a list of the collection's elements in the
+     * order they are returned by its iterator, enclosed in square brackets
+     * (<tt>"[]"</tt>).  Adjacent elements are separated by the characters
+     * <tt>", "</tt> (comma and space).  Elements are converted to strings as
+     * by {@link String#valueOf(Object)}.
+     *
+     * @return a string representation of this collection
+     */
+    public String toString() {
+        Iterator<E> it = iterator();
+        if (! it.hasNext())
+            return "[]";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (;;) {
+            E e = it.next();
+            sb.append(e == this ? "(this Collection)" : e);
+            if (! it.hasNext())
+                return sb.append(']').toString();
+            sb.append(',').append(' ');
+        }
+    }
+```
+
+
+
