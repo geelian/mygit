@@ -465,7 +465,7 @@ AbstractCollection
      * <tt>", "</tt> (comma and space).  Elements are converted to strings as
      * by {@link String#valueOf(Object)}.
      *
-     * @return a string representation of this collection
+     * @return a string representation of this collection '
      */
     public String toString() {
         Iterator<E> it = iterator();
@@ -484,5 +484,46 @@ AbstractCollection
     }
 ```
 
+内部的tostring引起的迭代循环    
+
+## 5.2 并发容器
+
+1. 同步容器 
+1） vector Hashtable 使用内置锁     
+2)  synchronizedXXX 对类型进行封装  
+对容器状态的访问串行化了    
+
+2. 并发容器
+ConcurrentHashMap ConcurrentSkipListMap     
+分段锁 ：大锁拆小锁 
+
+锁住每一个节点  
+
+CopyOnWriteArrayList 
+
+
+> 通过并发容器来代替同步容器，可以极大地提高伸缩性并降低风险
+
+J5 Quere BlockingQueue 实现ConcurrentLinkedQueue PriorityQueue  
+
+ConcurrentSkipListMap 和ConcurrentSkipListSet 替代SortedMap 和SortedSet     
+
+### 5.2.1 ConcurrentHashMap
+在并发访问环境下将实现更高的吞吐量，而在单线程环境中只损失非常小的性能。    
+
+
+### 5.2.2 额外的原子Map操作
+
+部分复合操作 在ConcurrentMap接口中存现  
+
+putIfAbsent remove replace 
+
+
+### 5.2.3 CopyOnWriteArrayList 
+写入时复制Copy-On-Write 在每次修改时，都会创建并重新发布一个新的容器副本，从而实现可变性。
+
+
+
+## 5.3 阻塞队列和生产者-消费者模式  
 
 
