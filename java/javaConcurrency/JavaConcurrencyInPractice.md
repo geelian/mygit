@@ -525,5 +525,17 @@ putIfAbsent remove replace
 
 
 ## 5.3 阻塞队列和生产者-消费者模式  
+阻塞队列提供可阻塞的put和take 定时的offer poll  ,可选择有界和无界。     
+生产者-消费者模式简化开发过程，消除生产者和消费者之间的代码依赖性，生产和处理数解耦     
+BlockingQueue 实现，
+
+> 在构建高可靠的应用程序时，有界队列是一种强大的资源管理工具：它们能抑制并防止生产过多的工作项，使应用程序在负荷过载的情况下变得更加健壮。  
+
+BlockingQueue实现 LinkedBlockingQueue和ArrayBlockingQueue PriorityBlockingQueued堆   SynchronousQueue维护一组线程，每一个存储功能
 
 
+Executor也是生产者消费者的模式  
+
+
+### 5.2.2 串行线程封闭
+可变对象从A--B 对象的所有权转移     
