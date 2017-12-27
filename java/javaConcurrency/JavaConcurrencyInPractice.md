@@ -537,5 +537,37 @@ BlockingQueue实现 LinkedBlockingQueue和ArrayBlockingQueue PriorityBlockingQue
 Executor也是生产者消费者的模式  
 
 
-### 5.2.2 串行线程封闭
+### 5.3.2 串行线程封闭
 可变对象从A--B 对象的所有权转移     
+
+
+### 5.3.3 双端队列与工作密取
+J6 增加 Deque和BlockingDeque  对Queue和BlockingQueue扩展    
+Deque实现ArrayDeque LinkedBlockingDeque     
+
+
+## 5.4 阻塞方法与中断方法
+    
+线程被阻塞或暂停：等待IO 锁 Thread.sleep 另一线程计算结果 。        
+当方法抛出InterruptedException该方法是阻塞方法。        
+
+Thread.interrupt()中断或者.interrupted()查询被中断 // 命名注意 动词为操作 完成时为是否 线程中标志位表示是否被中断   
+A Thread.interrupt() --> B .interrupted()  变为 true    如果在运行Thread.sleep Thread.join Obejct.wait .. 阻塞方法 会抛出 InterruptedException      
+InterruptedException处理方法：  
+1. 传递InterruptedException 向上抛
+2. 恢复中断  在Runnable中调用Thread.interrupt() 中断本身    
+
+
+
+## 5.5 同步工具类
+阻塞队列：保存对象容器，协调生产者和消费者线程之间的控制流。    
+同步工具类：封装一些状态，状态决定执行同步工具类的线程是继续执行还是等待，提供对状态操作的方法，用于高效等待同步工具类进入到预期状态。  
+信号量Semaphore 栅栏Barrier 闭锁 Latch 
+
+### 5.5.1 闭锁  
+功能：延迟线程的进度直到其到达终止状态。    
+
+
+
+
+
