@@ -567,6 +567,44 @@ InterruptedException处理方法：
 ### 5.5.1 闭锁  
 功能：延迟线程的进度直到其到达终止状态。    
 
+实现：CountDownLatch 状态包含一个计数器，是个正数 到0发生   
+
+```
+public long timeTasks(int nThreads,final Runnable task)
+    throws InterruptedException {
+    //起始门
+    final CountDownLatch startGate = new CountDownLatch(1);
+    //结束门
+    final CountDownLatch endGate = new CountDownLatch(nThreads);
+
+    for(int i = 0; i < nThreads ; i++){
+        Thread t = new Thread(){
+            public void run(){
+                try{
+                    startGate.await();
+                    try{
+                        tast.run();
+                    }finally{
+                        endGate.countDown();
+                    }
+                }catch (InterruptedException ignored){}
+            }
+        };
+        t.start();
+    }
+
+    long start = System.nanoTime();
+    startGate.countDown();
+    endGate.await();
+    long end = System.nanoTime();
+    return end - start;
+
+}
+```
+
+### 5.5.2 FutureTask
+
+可以用做闭锁，实现Future抽象的可以生成结果的Runnable    
 
 
 
