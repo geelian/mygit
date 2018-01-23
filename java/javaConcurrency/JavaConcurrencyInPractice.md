@@ -568,7 +568,7 @@ InterruptedException处理方法：
 功能：延迟线程的进度直到其到达终止状态。    
 
 实现：CountDownLatch 状态包含一个计数器，是个正数 到0发生   
-
+countDown - await 等待为0 
 ```
 public long timeTasks(int nThreads,final Runnable task)
     throws InterruptedException {
@@ -604,8 +604,182 @@ public long timeTasks(int nThreads,final Runnable task)
 
 ### 5.5.2 FutureTask
 
-可以用做闭锁，实现Future抽象的可以生成结果的Runnable    
+可以用做闭锁，实现Future抽象的可以生成结果的计算    异步计算的结果
+Future.get() 阻塞等待或者是抛异常 结果   
 
+
+### 5.5.3 信号量
+用来控制同时访问某个特定资源的操作数量，同时执行某个指定操作的数量。 资源池 容器施加边界。      
+Semaphore sem(n);   sem.acquire()获取许可 sem.release()  释放许可
+
+
+### 5.5.4 栅栏
+阻塞一组线程直到某个事件发生，
+vs 闭锁 所以线程必须同时到达栅栏位置，才能继续执行。闭锁用于等待事件，而栅栏用于等待其他线程。  
+用途定义协议    
+CyclicBarrier 反复在栅栏位置汇集。
+
+|--|-用处-|-eg-|--|
+|闭锁|等待事件||CountDownLatch|
+|FutureTask|生成结果|||
+|信号量|资源控制|资源池|Semaphore|
+|栅栏|等待其他线程|分布式计算|CyclicBarrier|
+
+
+
+## 5.6 构建高效且可伸缩的结果缓存
+
+```
+public class Memoizer<A,V> implements Computable<A,V>{
+    private final ConcurrentMap<A,Future<V>> cache
+        = new ConcurrentMap<A,Future<V> >();
+    private final Computable<A,V> c;
+
+    public Memoizer(Computable<A,V> c) {this.c=c;}
+
+    public V compute(final A arg) throws InterruptedException{
+        while(true){
+            Future<V> f =  cache.get(arg);
+            if (f == null){
+                Callable<V> eval = new Callable<V>() {
+                    public V call() thows InterruptedException{
+                        return c.compute(arg);
+                    }
+                };
+                FutureTask<V> ft = new FutureTask<V> (eval);
+                f = 
+            }
+        }
+    }
+}
+```
+
+
+
+
+
+# 第二部分 结构化并发应用程序
+
+#  第6章 执行任务
+
+任务通常是一些抽象的且离散的工作单元    
+
+
+## 6.1 在线程中执行任务     
+
+### 1. 串行执行 
+每次只处理有关用户请求
+
+### 2. 显示创建线程
+- 处理与接收分开 
+- 任务并行处理
+- 任务处理代码线程安全
+
+### 3. 无限制创建线程的不足
+2 的问题    
+- 线程生命周期的开销非常高 
+- 资源消耗
+- 稳定性 
+
+
+## 6.2 Executor 框架
+串行执行的问题在于其糟糕的响应性和吞吐量，而“为每个任务分配一个线程”的问题
+
+java.util.concurrent 提供线程池实现框架 Executor 
+```
+public interface Executor{
+    void execute(Runnable command);
+}
+```
+功能： 
+1. 将任务提交和执行分离  用Runnable执行任务
+2. 支持生命周期
+3. 统计信息收集，应用程序管理机制和性能监控机制。
+
+基于生产者者消费者： 提交任务-生产者 执行任务-消费者  
+
+> 每一个请求建立一个新线程的 Executor实现 
+```
+public class ThreadPerTaskExecutor implements Executor{
+    public void execute(Runnable r){
+        new Thread(r).start();
+    }
+}
+```
+
+### 6.2.2 执行策略
+
+what where when how   
+每当看到new Thread(runnable).start(); 并且你希望获得一种更灵活的执行策略时，可以考虑用Executor替代Thread
+
+
+### 6.2.3 线程池
+与工作队列密切相关  
+任务：从工作队列中获取一个任务，执行任务，然后返回线程池并等待下一个任务。  
+
+优点
+1. 减少创建和销毁过程中产生的开销   
+2. 不等待创建线程时间   
+实例
+- newFixedThreadPool 固定线程池
+- newCachedThreadPool 可缓存的线程池 
+- newSingleThreadExecutor 单线程的线程池，死重新建立一个 顺序执行
+- newScheduledThreadPool 固定，推迟|定时执行任务
+- newFixedThreadPool 和 newCachedThreadPool 工厂通用ThreadPoolExecutor实例。
+- TaskExecutionWebServer web服务器使用一个带有有界线程池的Executor.
+
+### 6.2.4 Executor的生命周期
+平稳关闭：所有都完成，且不在接受任务    
+接口ExecutorService 扩展Executor 接口：解决执行服务的生命周期问题。
+```
+public interface ExecutorService extends Executor{
+    void shotdown(); // 平稳关闭
+    List<Runnable> showdownNow(); // 粗暴关闭
+    boolean isShutdown();
+    boolean isTerminated();
+    boolean awaitTermination(long timeout,TimeUnit unit) throw InterruptedException; 
+}
+```
+
+状态：运行、关闭、已终止。
+
+
+### 6.2.5 延迟任务与周期任务 
+Timer 管理延迟任务以及周期任务。可以考虑使用ScheduledThreadPoolExecutor来代替它。   
+Timer 问题
+1. 一个线程 长时间执行破坏TimerTask精准性 
+2. TimerTask 抛出未检查的异常是将终止定时线程。这个都被取消。
+
+
+## 6.3找出可利用的并行性。
+
+
+### 6.3.2 携带结果的任务Callable与Future
+Runnable 局限性不能返回一个值或抛出一个受检查的异常
+Callable: 主入口点Call将返回一个值，并可能抛出一个异常。  
+Future：表示一个任务的生命周期，提供相应的方法来判断是否已经完成或取消，以及获取任务的结果和取消任务。只能进不能退。
+
+```
+public interface Callable<V>{
+    V call() throws Exception;
+}
+
+public interface Future<V>{
+    boolean cancel(boolean mayInterruptIfRunning);
+    boolean isCancelled();
+    boolean idDone();
+    V get() throws InterruptedException,ExecutionExcepiton,CancellationException;
+    V get(long timeout,TimeUnit unit) throws InterruptedException,ExecutionException,CancellationException,TimeoutExcepiton;
+}
+```
+ExecutorService 中的submit方法将返回Futura，将Runnable或Callable提交给Executor,得到
+
+ThreadPoolExecutor 中newTaskFor的默认实现 
+```
+protected <T> RunnableRuture<T> newTaskFor(Callable<T>  task){
+    return new FutureTask<T>(task);
+}
+```
 
 
 

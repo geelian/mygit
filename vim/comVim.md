@@ -35,3 +35,5 @@ ctrl + o  ctrl+i
 ## 指定行号
 vim +n nrfile
 
+## 格式化
+100 = = 
