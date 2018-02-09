@@ -722,7 +722,7 @@ what where when how
 2. 不等待创建线程时间   
 实例
 - newFixedThreadPool 固定线程池
-- newCachedThreadPool 可缓存的线程池 
+- newCachedThreadPool 可缓存的线程池  60s 
 - newSingleThreadExecutor 单线程的线程池，死重新建立一个 顺序执行
 - newScheduledThreadPool 固定，推迟|定时执行任务
 - newFixedThreadPool 和 newCachedThreadPool 工厂通用ThreadPoolExecutor实例。
@@ -780,6 +780,314 @@ protected <T> RunnableRuture<T> newTaskFor(Callable<T>  task){
     return new FutureTask<T>(task);
 }
 ```
+
+eg
+```
+public class PutureRenderer{
+    private final ExecutorService executor = ....;
+
+    void readerPage(CharSequence source){
+        final List<ImageInfo>  imageInfos = scanForImageInfo(source);
+        Callable<List<ImageData>> task = 
+            new Callable<List<ImageData>>(){
+                public List<ImageData> call(){
+                    List<ImageData> result 
+                        = new ArrayList<ImageData>();
+                    for(ImageInfo imageInfo:imageInfos){
+                        result.add(imageInfo.downloadImage());
+                        
+                    }
+                    return result;
+                }
+            };
+        Future<List<ImageData>> future = executor.submit(task);
+        renderText(source);
+        try{
+            List<ImageData> imageData = future.get();
+            for(ImageData data:imageData){
+                rederImage(data);
+            }
+        } catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+            future.cancel(true);
+        } catch (ExecutionException e){
+            throw launderThrowable(e.getCause());
+        }
+    }
+}
+```
+
+
+### 6.3.5 CompletionService:Executor  与 BlockingQueue
+完成服务（CompletionService) 将 Executor 和 BlockingQueue 功能融合在一起。  
+ExecutorCompletionService实现了CompletionService,并将计算部分委托一个Executor。     
+实现： 构造函数创建BlockingQueue来保存计算结果。  完成时Future-Task中的done方法，提交任务包装为QueueingFuture ，然后再改写子类done方法。并将结果放入BlockingQueue中。take poll 委托给BlockingQueue  
+
+
+### 6.3.7 为任务设置时限
+Future.get(timeLeft,NANOSECONDS)
+invokeAll 定时，返回保持状态和结果的Future列表。
+
+
+# 第7章 取消与关闭
+
+中断Interruption 协作机制，使一个线程终止另一个线程 
+
+1. 实现取消和中断的机制
+2. 编写任务和服务，对取消请求做出响应
+
+## 7.1 任务取消
+外部操作在正常完成之前置为“完成状态”，操作称为可取消的Cancellable   
+- 用户请求取消
+- 有时间限制的操作
+- 应用程序事件  
+- 错误
+- 关闭 
+
+java没有安全的抢占式方法来停止线程。使请求取消的任务和代码都遵循一种协商好的协议 。--- 通知标志位取消       
+
+### 7.1.1 中断
+
+通知标志位取消问题：阻塞不会到标志位，不能结束。    
+
+每个线程都有一个boolean类型的中断状态。(在结构里面) 当中断线程是，这个线程的中断状态将被设置为true.
+interrupt() 中断目标线程 isInterrupted目标线程中断状态  interrupted查询&去除中断 
+```
+public class Thread{
+    public void interrupt(){}
+    public boolean isInterrupted(){}
+    public static boolean interrupted(){}
+}
+```
+阻塞库方法，Thread.sleep Object.wait 检查线程何时中断，发现中断提前返回-> 清除中断状态，抛出InterruptedException,表示阻塞操作由于中断而提前结束。   
+- 有阻塞方法interrupt才有意义 -
+> 调用interrupted并不意味着立即停止目标线程正在进行的工作，而只是传递了请求中断的消息。
+
+### 7.1.2 中断策略
+
+线程如何解释某个中断请求---发现中断请求是，应该做哪些工作，哪些工作单元对应中断来说是原子操作，以及以多快的速度来响应中断。
+
+线程级取消服务级取消：尽快推出，在必要时进行清理，通知某个所在者该线程已经退出。    
+
+由于每个线程拥有各自的中断策略，因此除非你知道中断对该线程的含义，否则就不应该中断这个线程。
+
+
+### 7.1.3 响应中断
+
+调用可中断函数Thread.sleep BlockingQueue.put 中断抛InterruptedException  
+处理方法：
+1. 传递异常 eg f() throws InterruptedException{}
+2. 恢复中断状态  eg try{} catch(InterruptedException e){}
+
+只是实现了线程中断策略的代码才可以屏蔽中断请求。在常规的任务和库代码中都不应该屏蔽中断请求。    
+
+### 7.1.5 通过Future来实现取消(计划运行)
+管理任务的生命周期，处理异常，以及实现取消。    
+
+取消那些不再需要结果的任务。
+
+```
+public static void timedRun(Runnable r,
+        long timeout,TimeUtilt unit) throws InterruptedException{
+    Future<?> task = taskExec.submit(r);
+    try{
+        task.get(timeout,unit);
+
+    }catch(TimeoutException e){
+        // 任务将被取消
+    }catch(ExecutionException e){
+        throw launderThrowable(e.getCause());
+    }finally{
+        task.cancel(true);
+    }
+
+}
+```
+
+
+### 7.1.6 处理不可中断的阻塞
+
+使用类似于中断的手段来停止这些线程，
+1. Java.io包中的同步Socket I/O 通过关闭底层套接字，read | write被阻塞线程抛出一个SocketException
+2. Java.io包中的同步I/O  中断一个正在InterruptibleChannel上等待的线程是，将抛出ClosedByInterruptException并关闭链路
+3. Selector的异步I/O 【数据是否立即返回】如果一个线程在调用Selector.select方法时阻塞了，那么调用close或wakeup方法会使线程抛出ClosedSelectorException并提前返回。    
+4. 获取某个锁。等待某个内置锁而阻塞，无法响应中断，特例Lock类提供了lockInterruptibly方法允许在等待一个锁的同事仍然响应中断。    
+```
+public class ReaderThread extends Thread{
+    private final Socket socket;
+    private final InputStream in;
+
+    public ReaderThread(Socket socket) throws IOException{
+        this.socket = socket;
+        this.in = socket.getInputStream();
+    }
+
+    public void interrupt(){
+        try{
+            socket.close();
+        }catch(IOException ignored){
+
+        }finally{
+            super.interrupt();
+        }
+    }
+
+    public void run(){
+        try{
+            byte[] buf = new byte[BUFSE];
+            while(true){
+                int count = in.read(buf);
+                if(count < 0){
+                    break;
+                }else if(count > 0){
+                    processBuffer(buf,count);
+                }
+            }
+        }catch(IOException e){}
+    }
+}
+```
+
+### 7.1.7 采用newTaskFor 来封装非标准的取消
+把一个Callable提交给ExecutorService时，submit方法会返回一个Future,我们可以通过这个Future来取消任务。
+
+
+## 7.2 停止基于线程的服务 
+封装原则：除非拥有某个线程，否则不能对该线程进行操控    
+对于持有线程的服务，只要服务的存在时间大于创建线程的方法的存在时间，那么就应该提供生命周期方法。
+
+
+### 日志服务
+```
+public class LogService{
+    private final BlockingQueue<String> queue;
+    private final LoggerThread loggerThread;
+    private final PrintWriter writer;
+    @GuarderBy("this") private boolean isShutdown;
+    @GuarderBy("this") private int reservations;
+
+    public void start() {loggerThread.start();}
+
+    public void stop(){
+        synchronized(this){ isShutdown = ture;}
+        loggerThread.interrupt();
+    }
+
+    public void log(String msg) throws InterruptedException{
+        synchronized(this){
+            if(isShutdown){
+                throw new IllegalStateException(....);
+            }
+            ++reservations;
+        }
+        queue.put(msg);
+    }
+
+    private class LoggerThread extends Thread{
+        public void run(){
+            try{
+                whlie(true){
+                    try{
+                        synchronized(LogService.class){
+                            if(isShutdown && reservations == 0){
+                                break;
+                            }
+                            String msg = queue.take();
+                            synchronized (LogService.this){--reservations;}
+                            writer.println(msg);
+                        } catch(InterruptedException e){}
+                    }
+                } finally {
+                    writer.close();
+                }
+            }
+        }
+    }
+}
+```
+
+
+### 7.2.3 “毒丸” 对象
+Poison Pill ：当得到这个对象时，立即停止。队列中
+
+### 7.2.5 shutdownNow局限性
+
+我们无法通过常规方法找出那些认为是开始但是没有结束的：中间状态   
+使用 try{}finally{ if(isShutDown() && Thread.currentThread().isInterrupted()){ 加入到list中}} 来记录中断状态的线程。
+
+
+## 7.3 处理非正常的线程终止
+
+默认线程的异常不会上传到父线程 默认输出到System.err 中
+方法1. try{}catch(){}
+```
+public void run(){
+    Throwable thrown = null; // 所有异常的父类
+    try{
+        while(!isInterrupted()){
+            runTask(getTaskFromWorkQueue());
+        }
+    } catch(Throwable e){
+        thrown = e;
+    }finally{
+        threadExited(this,thrown);
+    }
+}
+```
+
+方法2 设置未捕获异常处理函数 Thread.UncaughtExceptionHandler 接口   
+默认为system.err
+1. 一般线程使用 
+thread.setUncaughtExceptionHandler(new ***);    
+2. 线程池   
+
+- Executer.execute(thread) 要在run中使用
+Thread.currentThread().setUncaughtExceptionHandler(new ***);
+
+- future = ExecuterService.submit(thread) 所有异常都被认为是任务返回状态的一部分，Future.get() 抛出 。
+
+
+## 7.4 JVM关闭
+
+###  关闭钩子 
+使用实例
+```
+ class HookTest {
+    public void start(){
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                System.out.println("Execute Hook ...");
+            }
+        }));
+    }
+
+    public static void main(String [] args){
+        new HookTest().start();
+        System.out.println("lggg  ");
+        try {
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+```
+场景 
+1. 程序正常退出
+2. 使用System.exit()
+3. 终端使用Ctrl+C触发中断
+4. 系统关闭
+5. OutOfMemory宕机
+6. 使用Kill pid 命令干掉进程 kill -9 pid 不会
+
+### 守护进程
+JVM 停止还存在的守护进程将被抛弃
+
+### 终结器
+finalize 避免使用
+垃圾回收器对那些定义了finalize方法的对象进行特殊处理：在回收器释放它们后，调用它们的finalize方法，释放资源 不建议使用 建议使用 finally关闭 。
 
 
 

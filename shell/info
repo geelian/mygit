@@ -52,113 +52,192 @@ Editors 编辑器
 * nano: (nano).                 Small and friendly text editor.
 小而且友好的文本编辑器
 GNU Gettext Utilities
-gun 实用程序主页
+gun Getext 工具
+> Gettext 用于系统的国际化和本地化，可以在编译程序的时候使用本国语言支持(NLS)，可以使程序的输出使用用户设置的语言而不是英文。
+ Portable Object (可移植对象)的缩写形式；MO是 Machine Object (机器对象) 的缩写形式。
+ PO 文件是面向翻译人员的、提取于源代码的一种资源文件。当软件升级的时候，通过使用 gettext 软件包处理 PO 文件，可以在一定程度上使翻译成果得以继承，减轻翻译人员的负担。MO 文件是面向计算机的、由 PO 文件通过 gettext 软件包编译而成的二进制文件。程序通过读取 MO 文件使自身的界面转换成用户使用的语言。
 * autopoint: (gettext)autopoint Invocation.
                                 Copy gettext infrastructure.
-
+  自动指向：gettext)自动指向 调用 
+            拷贝文案基础设施
 * envsubst: (gettext)envsubst Invocation.
                                 Expand environment variables.
+  envsubst: (gettext)环境路径替换 调用
+        描述环境变量
 * gettextize: (gettext)gettextize Invocation.
                                 Prepare a package for gettext.
+  gettextize: (gettext) 给文本化调用
+        提供一个给文本的包
 * gettext: (gettext).           GNU gettext utilities.
+                                GUN gettext 工具
 * ISO3166: (gettext)Country Codes.
                                 ISO 3166 country codes.
+        标志国家代码
+                    
 * ISO639: (gettext)Language Codes.
                                 ISO 639 language codes.
+        标志语音代码
 * msgattrib: (gettext)msgattrib Invocation.
                                 Select part of a PO file.
+                                选择PO文件的一部分
 * msgcat: (gettext)msgcat Invocation.
                                 Combine several PO files.
+                                联合几个PO文件
 * msgcmp: (gettext)msgcmp Invocation.
                                 Compare a PO file and template.
+                                将一个PO文件和模板匹配
 * msgcomm: (gettext)msgcomm Invocation.
                                 Match two PO files.
+                                对比2个PO文件
 * msgconv: (gettext)msgconv Invocation.
                                 Convert PO file to encoding.
+                                将PO文件改变编码
 * msgen: (gettext)msgen Invocation.
                                 Create an English PO file.
+                                建立一个英语的PO文件
 * msgexec: (gettext)msgexec Invocation.
                                 Process a PO file.
+                                处理一个PO文件
 * msgfilter: (gettext)msgfilter Invocation.
                                 Pipe a PO file through a filter.
+                                通过一个文件管道到PO文件
 * msgfmt: (gettext)msgfmt Invocation.
                                 Make MO files out of PO files.
+                                用PO文件制作MO文件
 * msggrep: (gettext)msggrep Invocation.
                                 Select part of a PO file.
+                                选择一个PO文件的一部分
 * msginit: (gettext)msginit Invocation.
                                 Create a fresh PO file.
+                                建立一个PO 文件
 * msgmerge: (gettext)msgmerge Invocation.
                                 Update a PO file from template.
+                                从模板更新一个PO文件
 * msgunfmt: (gettext)msgunfmt Invocation.
                                 Uncompile MO file into PO file.
+                                不编译MO文件进入PO文件
 * msguniq: (gettext)msguniq Invocation.
                                 Unify duplicates for PO file.
+                              通用PO文件副本
 * ngettext: (gettext)ngettext Invocation.
                                 Translate a message with plural.
+                                翻译一个复数形式消息
 * xgettext: (gettext)xgettext Invocation.
                                 Extract strings into a PO file.
-
+                                提前字符串从PO文件
 GNU organization
+GUN 组织
 * Maintaining Findutils: (find-maint).
                                 Maintaining GNU findutils
-
+                                维护GUN findutils
 GNU Utilities
-* dirmngr-client: (gnupg).      X.509 CRL and OCSP client.
-* dirmngr: (gnupg).             X.509 CRL and OCSP server.
-* gpg: (gnupg1).                OpenPGP encryption and signing tool (v1).
-* gpg-agent: (gnupg).           The secret key daemon.
-* gpg2: (gnupg).                OpenPGP encryption and signing tool.
-* gpgsm: (gnupg).               S/MIME encryption and signing tool.
+GUN 工具
+* dirmngr-client: (gnupg).      X.509 CRL and OCSP client.    X.509是由国际电信联盟（ITU-T）制定的数字证书标准。 OCSP(Online Certificate Status Protocol，在线证书状态协议)是维护服务器和其它网络资源安全性的两种普遍模式之一 客户端
+* dirmngr: (gnupg).             X.509 CRL and OCSP server.   服务器
+* gpg: (gnupg1).                OpenPGP encryption and signing tool (v1).   OpenPGP加密和签名工具
+        OpenPGP协议名词解释:PGP Pretty Good Privacy(PGP)是一个提供加密和认证的计算机程序
+* gpg-agent: (gnupg).           The secret key daemon.   密匙的守护线程
+* gpg2: (gnupg).                OpenPGP encryption and signing tool. OpenPGP 加密和签名工具
+* gpgsm: (gnupg).               S/MIME encryption and signing tool. S/MIME 加密和签名工具
 
-Individual utilities
+Individual utilities 
+个别工具
 * arch: (coreutils)arch invocation.             Print machine hardware name.
+arch  基本工具  arch            打印机器硬件名
 * base32: (coreutils)base32 invocation.         Base32 encode/decode data.
+    Base32编码/解码数据
 * base64: (coreutils)base64 invocation.         Base64 encode/decode data.
+    Base64编码/解码数据
 * basename: (coreutils)basename invocation.     Strip directory and suffix.
+    去重目录和后缀  留下最后的名字 basename /home/lg/test -> test
 * cat: (coreutils)cat invocation.               Concatenate and write files.
+    连接和写文件
 * chcon: (coreutils)chcon invocation.           Change SELinux CTX of files.
+    修改SELinux CTX 文件 
 * chgrp: (coreutils)chgrp invocation.           Change file groups.
+    更改文件组
 * chmod: (coreutils)chmod invocation.           Change access permissions.
+    更改使用权限
 * chown: (coreutils)chown invocation.           Change file owners and groups.
-* chroot: (coreutils)chroot invocation.         Specify the root directory.
+    改变文件组合所有者
+* chroot: (coreutils)chroot invocation.         Specify the root directory. 
+    指定root目录
 * cksum: (coreutils)cksum invocation.           Print POSIX CRC checksum.
+    检查文件的CRC是否正确 循环冗余校验码
 * cmp: (diffutils)Invoking cmp.                 Compare 2 files byte by byte.
+    通过byte对比2个文件
 * comm: (coreutils)comm invocation.             Compare sorted files by line.
+    通过行比较排序后的文件
 * cp: (coreutils)cp invocation.                 Copy files.
+    拷贝文件
 * csplit: (coreutils)csplit invocation.         Split by context.
+    分割文件
 * cut: (coreutils)cut invocation.               Print selected parts of lines.
+    输出行中被选中的部分
 * date: (coreutils)date invocation.             Print/set system date and time.
+    输出设置系统日期和时间
 * dd: (coreutils)dd invocation.                 Copy and convert a file.
+    拷贝和转换文件
 * df: (coreutils)df invocation.                 Report file system disk usage.
+    报告系统硬盘使用量
 * diff: (diffutils)Invoking diff.               Compare 2 files line by line.
+    按行对比2个文件
 * diff3: (diffutils)Invoking diff3.             Compare 3 files line by line.
+    按行对比3个文件
 * dir: (coreutils)dir invocation.               List directories briefly.
+    列出简短的目录
 * dircolors: (coreutils)dircolors invocation.   Color setup for ls.
+    设置ls 输出颜色
 * dirname: (coreutils)dirname invocation.       Strip last file name component.
+    去重最后一个文件的名 /home/lg/test  --> /home/lg
 * du: (coreutils)du invocation.                 Report on disk usage.
+    报告该目录下的磁盘使用空间
 * echo: (coreutils)echo invocation.             Print a line of text.
+    输出一行文字
 * env: (coreutils)env invocation.               Modify the environment.
+    修改环境变量
 * expand: (coreutils)expand invocation.         Convert tabs to spaces.
+    将tabs 转为空格
 * expr: (coreutils)expr invocation.             Evaluate expressions.
+    表达式求值
 * factor: (coreutils)factor invocation.         Print prime factors
+    输出主要的因子
 * false: (coreutils)false invocation.           Do nothing, unsuccessfully.
+    什么都不做 不成功的 
 * find: (find)Invoking find.                    Finding and acting on files.
+    查找和代理文件
 * fmt: (coreutils)fmt invocation.               Reformat paragraph text.
+    格式段落文件
 * fold: (coreutils)fold invocation.             Wrap long input lines.
+    控制输出宽带
 * groups: (coreutils)groups invocation.         Print group names a user is in.
+    输出用户所在组名
 * gunzip: (gzip)Overview.                       Decompression.
+    解压
 * gzexe: (gzip)Overview.                        Compress executables.
+    压缩可执行文件
 * head: (coreutils)head invocation.             Output the first part of files.
+    输出文件的第一部分
 * hostid: (coreutils)hostid invocation.         Print numeric host identifier.
+    打印主机的16进制标记符
 * hostname: (coreutils)hostname invocation.     Print or set system name.
+    输出和所在系统名
 * id: (coreutils)id invocation.                 Print user identity.
+    输出用户身份
 * install: (coreutils)install invocation.       Copy files and set attributes.
+    拷贝文件和设置文件属性
 * join: (coreutils)join invocation.             Join lines on a common field.
+    连接行在普通文件中    
 * kill: (coreutils)kill invocation.             Send a signal to processes.
+    给进程发送一个信号
 * link: (coreutils)link invocation.             Make hard links between files.
+    在2个文件将建立一个硬连接
 * ln: (coreutils)ln invocation.                 Make links between files.
+    在2个文件之间建立软连接
 * locate: (find)Invoking locate.                Finding files in a database.
+    在数据库查找文件
 * logname: (coreutils)logname invocation.       Print current login name.
+    
 * ls: (coreutils)ls invocation.                 List directory contents.
 * md5sum: (coreutils)md5sum invocation.         Print or check MD5 digests.
 * mkdir: (coreutils)mkdir invocation.           Create directories.

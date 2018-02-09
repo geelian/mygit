@@ -1,14 +1,19 @@
+wokepace --add ---> 暂存区 --commit --> 本地仓库 -- push --> 远程仓库  -- pull --> wokepace     
+远程仓库 -- fach --> 本地仓库   
+
+# 图形化工具 seroce tree 
+
 # 将本地文件变成Git仓库
 git init 
 
 # 添加文件到仓库 
-加到本地
+加到本地  缓冲区
 ## git add
 git add readme.txt 
 -A // 添加所以跟改 
 \* . //添加新建&更改 不包括删除
 -u //修改&删除 非新建
-## git commit 告诉Git
+## git commit 告诉Git 加到本地仓库
 git commit -m "wrote a readme file"
 
 
@@ -62,7 +67,7 @@ git push -u mygit master
 5. 推送到github上
 git push mygit master
 
-6. 同步远程文件到本地
+6. 同步远程文件到本地 工作区
 git pull--rebase orgin master 
 git pull --all
 
