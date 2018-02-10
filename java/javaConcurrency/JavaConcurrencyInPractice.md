@@ -1090,4 +1090,72 @@ finalize 避免使用
 垃圾回收器对那些定义了finalize方法的对象进行特殊处理：在回收器释放它们后，调用它们的finalize方法，释放资源 不建议使用 建议使用 finally关闭 。
 
 
+# 第8章 线程池的使用
+主要是配置和调优 
+
+## 在任务与执行策略之间的隐性耦合 -- 需要定制化 ThreadPoolExecutor  
+1. 依赖性任务
+2. 使用线程封闭机制的任务
+3. 对响应时间的灵敏任务
+4. 使用ThreadLocal的任务 
+
+线程饥饿死锁: 如果所有正在执行任务的线程都由于等待其他仍处于工作队列中的任务而阻塞，那么会发生同样的问题 。     
+
+## 8.2 设置线程池的大小
+
+1. 线程数 = cpu 数 * 目标CPU利用率 * ( 1 + 任务的等待是/ 计算时间)  
+2. 用该资源的可用总量除以每个任务的需求量
+
+## 8.3 配置定制化的 ThreadPoolExecutor 
+
+```
+public ThreadPoolExecutor(
+            int corePoolSize,
+            int maximumPoolSize, // 超量被销毁
+            long keepAliveTime,  
+            TimeUnit unit, // 创建销毁  超时被销毁 newFixedThreadPool 线程池的基本大小和最大大小守则为参数中的值 
+                            //  new CachedThreadPool 线程池最大为Integer.MAX_VALUE 基本大小设置为0 
+            BlockingQueue<Runnable> workQueue, // 管理队列 1无界 2. 有界 3. 同步移交 SynchronousQueue
+            ThreadFactory threadFactory, // 线程工厂
+            RejectedExecutionHandler handler // 饱和策略 AbortPolicy终止 CallerRunsPolicy 回退调用者 DiscardPolicy拒接 DiscardOldestPolicy
+        ){}
+```
+
+构造后还能在设置这些属性 
+
+
+## 8.4 扩展 ThreadPoolExecutor
+1. beforeExecute 线程前置处理
+2. afterExecute
+3. terminated 线程池完成时处理 
+
+
+# 第三部分 活跃性、性能与测试 
+# 第10章 避免活跃性危险性
+
+## 10.1 死锁
+
+定义：每个人都拥有其他人需要的资源，同时又等待其他人已经拥有的资源，而且每个人在获取所有需要的资源之前都不会放弃已经拥有的资源。
+
+产生原因 
+1. 竞争资源 (资源池和线程饥饿死锁)
+2. 进程的推进顺序不当-- 使用开放调用（在调用某个方法时不需要持有锁 ，缩小synchronized范围）
+
+必要条件： 互斥条件 + 请求和保存 + 不可剥夺 + 环路等待 --> 死锁 
+
+解决方法    
+预防    
+避免：支持定时的锁      
+检测: 通过线程转储信息分析 kill -3  | jstack pid     
+解除    
+
+## 10.3其他活跃性危险
+
+1. 饥饿
+2. 响应速度 
+3. 活锁： 发生在处理事务消息的运用程序中：如果不能成功处理某个消息，那么消息处理机制将回滚整个事务，并将它重新放到队列的开头。  
+
+
+# 第11章 性能与可伸缩性
+
 
