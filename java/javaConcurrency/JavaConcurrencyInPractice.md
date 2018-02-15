@@ -1243,3 +1243,207 @@ vmstat mpstat
 1. 代码审核 人工
 2. 静态分析工具 findbugs   
 3. 监控工具JMX
+
+# 第四部分 高级主题 
+# 第13章 显式锁 
+ReentrantLock --> Lock 
+
+ReentrantReadWriteLock --> ReadWriteLock 
+
+ReentrantReadWriteLock.ReadLock --> Lock
+ReadtrantReadWriteLock.WriteLock --> Lock
+
+
+## 13.1 Lock 和 ReentrantLock  可重入互斥锁
+互斥锁： 每次最多只有一个线程能持有ReentrantLock
+Lock 提供无条件、可轮询的、定时的以及可中断的锁获取操作     
+
+```
+public interface Lock{
+    void lock(); // *内置锁 无法无限等待
+    void lockInterruptibly() throws InterruptedException; // 可中断的锁操作 * 内置锁无法中断
+    boolean tryLock(); // 轮询锁 * 内置锁无法实现非阻塞加锁   
+    boolean tryLock(long timeout,TimeUnit unit) throws InterruptedException;  // 定时锁 可防止死锁 
+    void unlock();
+    Condition newCondition();   // 
+}
+```
+
+> 缺点： 危险，程序执行控制离开被保护代码块是，不会自动清除锁
+
+使用
+```
+Lock lock = new ReentrantLock();
+lock.lock();
+try{}finally{lock.unlock();}
+```
+
+性能 ReentrantLock 和 synchronized 在java6后趋同    
+ReentrantLock vs synchronized   
+当需要一些高级功能时才应该使用ReentrantLock:可定时的，可轮询的与可中断的锁获取操作，公平队列，以及非块结构的问题，否使用synchronized    
+
+
+## 13.3公平性
+公平锁：线程按请求上锁 
+非公平锁：允许插队 ：当一个线程请求非公平的锁时，如果在发出请求的同时该锁的状态为可用，那么这个线程将跳过队列中所有的等待线程并获得这个锁。（默认）
+
+* 内置加锁并不会提供确定的公平性保证
+
+## 读写锁 (共享锁)
+一个资源可被多个读，或者被一个写
+
+```
+public interface ReedWriteLock{
+    Lock readLock();
+    Lock WriteLock();
+}
+```
+
+
+
+# 第14章 构建自定义的同步工具
+
+## 状态依赖性管理 
+1. 直接判断 失败throw
+2. 轮询 + 休眠 while sleep
+3. 条件队列 wait notify notifyAll
+
+条件队列： 他使得一组线程能够通过某种方式来等待特定的条件变成真，队列里是一个个等待的线程   
+每个对象可以作为一个锁，每个对象也可以作为一个条件队列 ，Object wait notify notigyAll 方法 注册api      
+在 cpu效率 上下文切换开销 和响应性 
+
+## 14.2 使用条件队列
+
+- 条件谓词 关键找出对象在哪个条件谓词上等待     
+
+
+问题
+1. 过早唤醒 
+2. 信号丢失 :notify 超前 
+3. 子类的安全问题 
+
+
+使用标准 
+```
+void sateDependentMethod() throws InterruptedException{
+    synchronized(lock){  // 必须获取 锁 lock 的monitor 
+        while(!conditionPredicate()){
+            lock.wait();  // 释放 lock的monitor
+        }
+    }
+}
+```
+要求
+- 通常都有一个条件谓词--包括一些对象状态的测试，线程在执行前必须首先通过这些测试
+- 在调用wait之前测试条件谓词，并且从wait中返回时再次进行测试
+- 在一个循环中调用wait
+- 确保使用与条件队列相关的锁来保护构成条件谓词的各个状态变量 
+- 当调用wait notify notifyAll时 要持有与条件队列相关的锁
+- 在检查条件谓词之后以及开始执行相应的操作之前，不要释放锁 
+
+
+## 14.3 显示Condition对象 
+Condition 和Lock 《---》 条件队列和一个内置锁  
+
+
+## 14.5 AbstractQueuedSynchronizer 
+用于构建锁和同步器的框架      
+ReentrantLock Semaphore CountDownLatch FutureTask ReetrantReadWriteLock 
+
+
+
+# 第15章 原子变量与非阻塞同步机制 
+
+
+非阻塞算法：用底层的原子机器指令替代锁来确保数据在并发访问中的一致性 。 
+设计和实现复杂，但是可伸缩性和活跃性比较强  
+
+
+## 锁的劣势
+1. 在挂起和恢复线程等过程中存在着很大的开销，并且通常存在着较长时间的中断 
+2. 当一个线程正在等待锁时，它不能做任何其他事情
+
+## 15.2 硬件对并发的支持 
+独占锁时一项悲观计算 // 悲观锁  
+乐观锁 需要借助冲突检查机制来判断更新过程中是否在来自其他线程的干扰，如果存在，这个操作将失败，并且重试 。。
+
+### CAS 比较交换  
+我认为V的值应该为A,如果是将V的值设置为B，否则不修改并告诉V实际值是多少      原子操作 
+
+
+## 15.3 原子变量类
+
+标量类: AtomicInteger AtomicLong AtomicBoolean AtomicReference 
+更新器类
+数组类：只支持Integer Long Reference 
+复合变量类
+
+
+## 15.4 非阻塞算法
+
+非阻塞算法： 一个线程的失败或挂起不会导致其他线程页失败或挂起 
+无锁算法：如果在算法的每个步骤中都存在某个线程能够执行下去  
+如果算法仅将CAS用于协调线程之前的操作，并且能正确的实现，那么它既是一种无阻塞算法，也是一种无锁算法。
+
+
+
+
+
+
+# 第16章 Java 内存模式 
+
+只要程序的最终结果与在严格串行环境中执行的结果相同，那么上述所有操作都是允许的  重排序
+
+JMM 规定JVM必须遵循一组最小包装，在这组保证规定了对变量的写入操作在任何时候将对于其他线程可见 。    
+
+JMM 为程序所有操作定义了一个偏序关系 Happens-Before
+- 程序顺序规则 如果程序中操作A在操作B之前，那么在线程A操作将在B操作之前执行     
+- 监视锁规则    在监视器锁上的解锁操作必须在同一个监视器锁上的加锁操作之前执行 
+- volatile变量  对volatile变量的写入操作必须在该变量的读操作之前执行    
+- 线程启动  在线程上对Thread.Start 的调用必须在改线程中执行任何操作之前执行 
+- 线程结束  线程中的任何操作都必须在其他线程检测到该线程已经结束之前执行，或者从Thread.join中成功返回，或者在调用Thread.isAlive时返回false  
+- 中断  当一个线程在另一个线程上调用interrupt时必须在被中断线程检测到interrupt调用之前执行 
+- 终结器 对象的构造函数必须在启动该对象的终结器之前执行完成 
+- 传递性 如果操作A在操作B之前执行，并且操作B在操作C之前执行，那么操作A必须在操作C之前执行   
+
+
+## 发布 单例模式
+懒汉模式
+
+```
+public class C{
+    private static Object object ;
+    public synchronized static Object getInstance(){
+        if(object == null){
+            object = new Object();
+        }
+        return object;
+    }
+}
+```
+饿汉模式 
+```
+public class C{
+    private static Object object  = new Object();
+    public static Object getInstance(){
+        return object;
+        }
+}
+```
+双重检查加锁 DCL    
+问题：当在没有同步的情况下读取一个共享对象时，可能发生的最糟糕事情只是看到一个生效的值。
+```
+public class C{
+    private static Object object ;
+    public  static Object getInstance(){
+        if(object == null){
+            synchronized (C.this){
+                if(obejct == null){
+                    object = new Object();
+                }
+            }
+        }
+        return object;
+    }
+}
+```
