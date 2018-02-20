@@ -45,9 +45,4 @@ Unmodified-- Edit the file --> Modified(修改 ---stage the file ---> Staged
 git status 
 ```
 On branch master 在主分支
-Your branch is ahead of 'mygit/master' by 1 commit.  
-  (use "git push" to publish your local commits)
-
-nothing to commit, working directory clean
-
 ```
