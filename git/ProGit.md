@@ -45,4 +45,6 @@ Unmodified-- Edit the file --> Modified(修改 ---stage the file ---> Staged
 git status 
 ```
 On branch master 在主分支
-```
+Your branch is up-to-date with 'mygit/master'. 你的分支是最新的和mygit/master
+
+nothing to commit, working directory clean 没有什么要提交的，工作区是干净的 
