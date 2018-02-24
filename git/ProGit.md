@@ -37,7 +37,7 @@ irc.freenode.net   :好像被墙了
 
 ## 更新到仓库
 文件状态    
-Untracked(无足迹的  -- Add the file --》 staged (已暂存 -- Commit --》 Unmodified (未更变 --Remove the file --》Untracked 
+Untracked(无足迹的  -- Add the file --》 staged (已暂存 -- Commit --》 Unmodified (未更变 --Remove the file --》Untracked `
 
 Unmodified-- Edit the file --> Modified(修改 ---stage the file ---> Staged      
 
@@ -95,7 +95,7 @@ M lib/simplegit.rb //修改过的文件在暂存区
 ?? LICENSE.txt // 没有跟踪的文件
 ```
 
-## 忽略文件
+### 忽略文件
 在文件目录下建立 .gitinore  *.swp// vim的临时文件将被忽略   
 \\# 注解 
 glob匹配模式
@@ -104,16 +104,61 @@ target/ 忽略目录下的所有
 参考https://github.com/github/gitignore 
 
 
-## 文件diff 
+### 文件diff 
 git diff 工作区 vs 暂存区   
 git diff --staged 暂存区 vs 本地仓库
 git difftool 命令行工具 
 
 
-## 提交更新 
-git commit 
-
-[master 88b5faa] add
+### 提交更新 
+git commit  -m ""// 暂存区 --》本地仓库 
+git commit -a -m "" // 工作区 --》本地仓库
+```
+[master 88b5faa] add  // 当前是在master分支提交的 ，SHA-1 
  3 files changed, 165 insertions(+)
  create mode 100644 .gitignore
  create mode 100644 "git/\\"
+```
+
+### 移除文件 
+rm 从工作区删除 
+git rm 从暂存区移除 
+git rm --cached 从本地仓库移除  
+git rm log/\*.log  支持glob模式 
+
+### 移动文件 
+git mv file_from file_to    
+==  
+mv file_from file_to    
+git rm file_from    
+git add file_to 
+
+
+
+## 查看提交历史 git  log
+git log 选项
+```
+-p  每一次更新的差异
+--stat 文件修改统计 
+--shortstat 只显示添加移除的统计    
+--name-only 仅在提交信息后显示已修改的文件清单  
+--name-status 显示增加删除的清单    
+--abbrev-commit 只显示sha-1前几个字符  
+--relative-date 显示短时间格式 
+--graph 显示分支合并历史 
+--pretty 使用其他格式显示提交历史
+```
+
+长度控制
+```
+-2 最近2个 
+--since="2008-10-01"
+--until=
+--author=作者 
+--committer显示提交者相关的提交
+--grep=搜索提交关键字
+-S 显示添加或移除了某个关键字的提交 
+```
+## 撤销操作
+
+1
