@@ -104,4 +104,16 @@ target/ 忽略目录下的所有
 参考https://github.com/github/gitignore 
 
 
+## 文件diff 
+git diff 工作区 vs 暂存区   
+git diff --staged 暂存区 vs 本地仓库
+git difftool 命令行工具 
 
+
+## 提交更新 
+git commit 
+
+[master 88b5faa] add
+ 3 files changed, 165 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 "git/\\"
