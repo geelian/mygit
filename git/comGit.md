@@ -1,7 +1,7 @@
 wokepace --add ---> 暂存区 --commit --> 本地仓库 -- push --> 远程仓库  -- pull --> wokepace     
 远程仓库 -- fach --> 本地仓库   
 
-# 图形化工具 seroce tree 
+# 图形化工具 source tree 
 
 # 将本地文件变成Git仓库
 git init 

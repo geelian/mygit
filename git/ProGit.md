@@ -163,3 +163,30 @@ git log 选项
 1. 更改提交信息
 git commit --amend 覆盖上一次的提交信息 
 2. 取消暂存的文件 
+git reset HEAD ***   
+HEAD 危险命令 
+3. 工作区；回滚
+git checkout -- test  只会回滚改的部分 
+> 新建文件 没有add 不会被工作区检查到   
+- 改的内容会消失 -  
+
+# 远程仓库的使用
+git remote 列出远程仓库     
+git remote -v 使用git和对应URL  
+git remote show [remote-name] 仓库远程仓库 // 查看  
+## 添加远程仓库 
+git remote add <shortname> <url>   
+
+
+## 从远程仓库中抓取与拉取 
+git fetch [remote-name]  // 有那个远程仓库中所有分支的引用，可以随时合并或查看   只是来取，不会合并代码    
+clone一个仓库，命令自动添加位远程仓库默认以origin为简写，   
+git pull 自动的抓取后合并远程分支到当前分支 
+
+## 推送到远程仓库 
+git push origin master  // origin- remote-name master- branch-name 将master分支推送到origin     
+> 有写权限 &没人推送 有人推送要拉取合并 
+
+
+
+
