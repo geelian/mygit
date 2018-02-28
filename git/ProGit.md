@@ -170,22 +170,54 @@ git checkout -- test  只会回滚改的部分
 > 新建文件 没有add 不会被工作区检查到   
 - 改的内容会消失 -  
 
-# 远程仓库的使用
+## 远程仓库的使用
 git remote 列出远程仓库     
 git remote -v 使用git和对应URL  
 git remote show [remote-name] 仓库远程仓库 // 查看  
+git remote rename pb paul  // 重命名    
+git remote rm paul // 删除  
 ## 添加远程仓库 
 git remote add <shortname> <url>   
 
-
-## 从远程仓库中抓取与拉取 
-git fetch [remote-name]  // 有那个远程仓库中所有分支的引用，可以随时合并或查看   只是来取，不会合并代码    
+### 从远程仓库中抓取与拉取 
+git fetch [remote-name]  // 有那个远程仓库中所有分支的引用，可以随时合并或查看   只是来取，不会合并代码     
+// 可以拉取最新的信息 和服务器同步 最后先拉取 再commit 
 clone一个仓库，命令自动添加位远程仓库默认以origin为简写，   
 git pull 自动的抓取后合并远程分支到当前分支 
 
-## 推送到远程仓库 
+### 推送到远程仓库 
 git push origin master  // origin- remote-name master- branch-name 将master分支推送到origin     
 > 有写权限 &没人推送 有人推送要拉取合并 
+
+
+
+## 打标签
+git tag // 显示标签     
+git tag -l 'v1.8*' // grep 标签
+git show v1.8.2 // 显示特定的标签   
+
+### 创建标签 
+轻量级标签lightweight--像不会改变的分支，一个特定提交的引用 
+git tag v1.4-lw     
+附注标签 annotated -- 存储在git数据库中的一个完整的对象，可被校验 有附加信息    
+git tag -a v1.4 -m 'my version 1.4' 
+
+追加标签 
+1. 获取某次提交  的校验和   
+git log --pretty=oneline    
+2. 追加标签
+git tag -a v1.2 9e57a23ff1c62a802b4eb4749b396fdfb9c96dad
+
+### 共享标签 
+git push 默认是不会把标签推送到服务器上  必须显示推送 git push origin tagname   
+git push origin  --tags 可以一次推送 
+
+### 检出标签 
+没有标签没有分支概念 新拉出一个分支     
+git checkout -b [branchename] [tagname]     
+
+## Git别名 
+
 
 
 
