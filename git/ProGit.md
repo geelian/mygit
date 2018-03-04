@@ -321,6 +321,61 @@ master ---- develop ----topic
 git ls-remote (remote)  
 git remote show (remote)    
 
+以(remote)/(branch)命名 如 origin/master 或 origin/iss53    
+origin 远程分支在本地的命名 也可以是git clone -o mygit 的mygit  master 是默认的分支
+
+git clone 。。。克隆远程分支后 
+
+`````
+远程服务器
+        master
+1 <  2 < 3
+
+本地
+            origin/master 远程分支 
+            //git fetch origin 抓去同步远程分支
+1   <   2  <   3    <   4   <   5
+                              master 本地分支  
+
+`````
+
+多远程操控 fetch 
+1. 如果 在同一线上 远程分支指向线上不同节点     
+
+```
+1<--- 2(远程1/master) <----3 (远程2/master)
+```
+
+### 推送 
+git push (remote) (branch)
+git push origin refs/heads/master:refs/heads/master1 推送本地的master更新到远程操控上的master1 
+git config --global credential.helper cache 设置用户名密码 
+
+git fetch origin 抓取是不可更改的origin/master1 指针 
+使用 
+1. git merge origin/master1 线合并再更改  
+2. git checkout -b master1 origin/master1 设置远程分支+checkout 
+### 跟踪分支 
+从远程跟踪分支检出的一个本地分支会自动创建一个加做跟踪分支。git pull 会自动去识别是哪个服务器上抓取、被合并哪个分支 
+clone时自动建立origin/master的master分支    
+其他分支跟踪到远程分支  
+1. git checkout --track origin/master1      
+2. git checkout -b sf origin/master1    
+更改正在跟踪的远程分支--set-upstream-to   
+git  branch -u origin/master2
+
+#### 查看跟踪分支和远程分支不同  
+git fetch --all // 来源于最后拉取的数据 最好先fetch  
+git branch -vv
+```
+ iss53 7e424c3 [origin/iss53: ahead 2] forgot the brackets
+// 跟踪了 origin/iss53 有2个版本没有推送 ahead 2
+  master 1ae2a45 [origin/master] deploying index fix
+* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should do it
+// 落后1个版本 behind 1
+  testing 5ea463a trying something new
+```
+
 
 
 
