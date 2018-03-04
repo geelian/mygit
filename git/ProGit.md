@@ -315,6 +315,13 @@ git branch -d testing // 没有合并过来帮你不能删除  -D 可以
 ## 分支开发工作流 
 master ---- develop ----topic       
 
+## 远程分支 
+对远程仓库的引用,包括分支、标签等等。   
+查看    
+git ls-remote (remote)  
+git remote show (remote)    
+
+
 
 
 
