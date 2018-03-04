@@ -96,7 +96,8 @@ git log --graph
 # stash
 保存现场
 
-
+# 跟换远程仓库url
+git remote set-url origin https://
 
 
 

@@ -218,6 +218,102 @@ git checkout -b [branchename] [tagname]
 
 ## Git别名 
 
+```
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit //git commit  -> git ci
+git config --global alias.st status
+```
+替代外部命令
+git config --global alias.ll '!ll' // git ll --> ll
+
+# Git 分支
+git保持的是一系列不同时刻的文件快照     
+
+在进行提交操作是，git 会保存一个提交对象 commit object ,该提交对象包含一个指向暂存内容快照的指针。还有作者信息，提交输入信息以及指向它的父对象的指针。 第一个没有指向父对象的 。普通提交有，多分钟合并产生的提交对象有多个付对象 
+
+git 对象指向的是对象校验和的文件 
+// 删除分支分支下对于的一部分 快照还在吗？      
+git add a b c
+> 1.计算每个文件sha-1，2.保存当前文件快照保存到git仓库中 
+```
+建立 blob a blob b  blob c
+```
+
+git commit -m "add initial"
+1. 计算每个子目录的校验和，在git仓库中校验和保持为tree对象
+2. 再建立一个提交commit对象，作者信息。。指向上面的树对象
+```
+commit 对象 ----> tree 对象 ---> blob a 
+^                        |------> blob c
+|
+commit 对象 2 --->....
+```
+tree + blob 为快照 snapshot
+
+### 创建分支
+git branch tasting  
+> 创建一个可以移动的指针
+```
+           commit1
+             ^
+           commit2
+             ^
+           commit3
+             ^
+master --> commit4 <---testing <---HEAD
+```
+在什么分支上 ？ HEAD 特殊指针 指向  
+git status 
+git log --oneline --decorate 仓库  
+> --oneline 一次提交在一显示 
+> --decorate 输出当前指向的对象  
+
+### 分支切换 
+git checkout testing //1.HEAD 指向 testing 2. 将目录恢复到master指向的快照内容 
+
+```
+           commit1
+             ^
+           commit2
+             ^
+           commit3
+             ^
+master --> commit4 
+             ^
+           commit5 <---testing <---HEAD
+```
+git log --oneline --decorate --graph --all 各分支提交情况   
+    
+
+## 分支的创建与合并
+
+1工作区:1暂存区:n分支：n远程仓库
+切换分支会检出该分支和工作区暂存区合并 ，可能会有冲突   
+### 新建跟换到新分支 
+git checkout -b iss53   
+=   
+git branch iss53    
+git checkout iss53  
+
+git merge iss53 // 合并代码     
+1. 上游分支合并到下游 fast-forward 只是指针向前移动     
+2. 分叉 分支1 2 和共同祖先三方合并 产生新的 提交 
+2.1 解决冲突 
+产生unmerged文件 <<<< HEAD ==== 要合并的版本>>>>    
+git add .
+或者使用 git mergetool 
+
+git branch -d hotfix //删除该分支   
+
+## 分支管理 
+git branch //分支类别 
+git branch -v //最后一次提交 
+git branch --merged --no-merged 当前分支合的分支 未合并的分支       
+git branch -d testing // 没有合并过来帮你不能删除  -D 可以 
+
+## 分支开发工作流 
+master ---- develop ----topic       
 
 
 
