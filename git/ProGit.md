@@ -1,4 +1,4 @@
-# 起步 
+#起步 
 ## 运行Git前的配置 
 1. /etc/gitconfig 每一个用户以及他们仓库的通用配置变量，  git config --system 会读 
 2. ~/.gitconfig ~/.connfig/git/config 当前用户   git --global  读
@@ -376,7 +376,132 @@ git branch -vv
   testing 5ea463a trying something new
 ```
 
+### 拉取 
+git pull = git fetch + git merge    
+建议后者    
+
+### 删除远程分支 
+git push origin --delete  marster2  
+删除的是服务上的指针，数据会在垃圾回收运行前存在    
+
+## 变基 少用
+整合分支 merge rebase
+
+### 变基的基本操作 
+变基：提取c4中的引入的补丁和修改，然后在c3的基础上再运用一次   
+
+git checkout c3 // 切换到c3     
+git rebase c4   // c3 多出来的加到 c4 并且c3指向末尾    
+git checkout c4 // 切换到c4     
+git merge c3 // 合并c3 c4的指针后移
+优点： 提交历史整洁  
+git rebase --onto master server client  
+// 取出clinet分支，找出client和server共同祖先之后的修改，然后把它们在master分支上重演一遍。     
+clinet - (server & client) + master 上      
+git rebase master server // server -> master    
+
+#### 变基的风险
+1. 不要对在你的仓库外有副本的分支执行变基   
+因为变基会删除提交，副本会再合并你变基后的结果
+#### 变基解决变基
+1. 手动拉取 再变基和服务器同步 
+git fetch   
+git rebase teamone/master 
+2. git pull --rebase    
+
+### 变基 vs 合并 
+变基：会删除记录    
+合并：记录过多 
+原则：只对尚未推送或分享给别人的本地修改执行变基操作清理历史，不对已推送至别处的提交执行变基炒作
 
 
+# 服务器上的Git
+
+## 协议
+本地协议Local HTTP协议 SSH(Secure Shell) Git   
+
+### 本地协议
+其中的远程版本库就是硬盘内的另一个目录,共享文件系统实现clone,push,pull  
+```
+git clone file:///opt/git/project.git
+git remote add local_proj /opt/git/project.git
+```
+
+优点：  
+1.  简单
+缺点：  
+1. 共享文件系统难配置 
+2. 共享文件系统不到一定快 
+3. 容灾
+
+### HTTP
+- 智能smart HTTP
+使用用户名/密码的基础授权   
+git clone https://exx.com/git.git   
+- 哑dumb HTTP
+只读
+
+优点:   
+1. 快捷高效     
+缺点：
+1. 服务器端配置麻烦 
+
+### ssh 协议
+git clone ssh://user@server/project.git     
+优点：  
+服务器配置简单 安全 
+缺点：  
+不能匿名访问    
+
+### git 协议 
+端口9418 
+优点： 快   
+缺点： 没有授权机制 
+
+## 在服务器上搭建Git    
+将裸库拷到服务器上  
+cp -Rf my/.git my.git   
+scp ... 
+git clone user@uri:/opt/git/my.git      
+
+## 生成SSH公钥  
+ssh-keygen  id_rsa.pub 公钥
+
+# 分布式 Git    
+
+### 集成管理者工作流
+1. 项目维护者推送到主仓库 
+2. 贡献者克隆此窗口，做出修改 
+3. 贡献者将数据推送到自己的公开仓库
+4. 贡献者给维护者发送邮件，请求拉取自己的更新
+5. 维护者在自己本地的仓库中，将贡献者的仓库加为远程仓库合并修改6. 维护者将合并后的修改推送到主仓库  
+github gitlab 集线器式  
+
+### 司令官与副司令官工作流 
+100人开发 linux 
+副司令官管理者负责项目中的特定部分  
+1. 普通开发者在自己的特性分支上工作，并根据master分支进行变基。master是司令官的 
+2. 副官将普通开发者的特性分支合并到自己的master分支中   
+3. 司令官将所有副官master分支合并到自己的master分支中   
+4. 司令官将集成后的master分支推送到参考参考中，以便所有其他开发者以此为基础进行变基 
+
+## 向一个项目贡献 
+
+### 提交准则
+git diff --check 找出空白错误   
+
+
+### 私有小团队
+1. origin向本地master合并
+git fetch origin    
+git merge origin/master     
+git push origin master  
+2. 分支合并本地master origin合并本地master
+git log --no-merges issue54..origin/master  
+日志过滤只显示后面的分支 
+git checkout master 
+git merge issue54   
+git merge origin/master 
+git push origin master  
 
 
