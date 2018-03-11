@@ -44,6 +44,7 @@ Unmodified-- Edit the file --> Modified(修改 ---stage the file ---> Staged
 ### 检查当前文件状态
 
 git 只是暂存运行git add命令时的版本     
+>  暂存区有文件不能 git checkout branchB // 不能切换分支 
 git status 
 ```
 On branch master 在主分支
@@ -787,5 +788,35 @@ git filter-branch --commit-filter '
 
 ## 重置揭密
 
+### 三棵树 
+树：文件集合 
+|--树--|--用途--|
+|HEAD |上一次提交的快照，下一次提交的父结点|
+|index|预期的下一次提交的快照|
+|Working Directory| 沙盘|
 
+- HEAD 
+head是当前分支引用的指针，总是指向该分支上的最后一次提交 。
+
+显示HEAD快照实际的目录列表，以及其中每个文件的SHA-1校验和 
+git cat-file -p HEAD    
+git ls-tree -r HEAD         
+
+- 索引 暂存区 
+索引当前的样子 
+git ls-files -s         
+有更改不能随意切换分支      
+- 工作目录 
+有更改不能随意切换分支  
+
+### 工作流程 
+
+git init        
+git add .       
+git commit      
+git status      
+
+### 重置的作用  
+reset       
+git reset id  // HEAD-> master -> id的快照 
 
