@@ -740,4 +740,52 @@ git grep -n gmtime_r
         -n -e '#define' --and \( -e LINK -e BUF_MAX \) v1.8.0
     ```
 ### git 日志搜索 
+什么时候保存的 
+git log -SZIB_BUF_MAX --oneline 
+    -S ZIB_BUF_MAX 什么时新增和删除的   
+    -G 正则搜索 
+git diff  ip 查看不同   
+
+#### 行日志搜索 
+git log -L :git_deflate_bound:zlib.c    
+    zlib.c 文件中 git_deflate_bound的每一次更变     
+
+
+## 重写历史 
+
+### 修改最后一次提交
+git commit --amend  // 覆盖上一次提交的信息
+
+### 修改多次提交信息
+在任何想要修改的提交后停止，然后修改信息、添加文件或者然后想要的事情   
+git rebase -i HEAD~3 // 交互式变基      
+在 HEAD~3..HEAD 范围内的每一个提交都会被重写 
+git commit --amend // 覆盖上一次提交的信息
+git rebase --continue 
+
+### 大量修改 filter-branch  
+- 从每一个提交移除一个文件
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD    
+    tree-filter 检出项目的每一个提交后运行指定的命令然后重新提交结果。   
+
+- 使一个子目录做为新的根目录 
+git filter-branch --subditectory-filter trunk  HEAD
+trunk变为根目录 
+
+- 全局修改邮箱地址
+```
+git filter-branch --commit-filter '
+    if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
+    then    
+            GIT_AUTHOR_NAME="XX";
+            GIT_AUTHOR_EMAIL="XX@.COM";
+            git commit-tree "$@";
+    else    
+            git commit-tree "$@";
+    fi ' HEAD
+```
+
+## 重置揭密
+
+
 
