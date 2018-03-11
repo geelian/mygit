@@ -55,3 +55,8 @@ SELECT * FROM tablename ORDER BY RAND()  LIMIT 10
 create database test    
 use test    
 create table Person()   
+
+
+# show 
+## 查看单表大小  
+show table status like 't_order_0'\G;

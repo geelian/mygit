@@ -169,7 +169,11 @@ HEAD 危险命令
 git checkout -- test  只会回滚改的部分 
 > 新建文件 没有add 不会被工作区检查到   
 - 改的内容会消失 -  
-
+4. 本地仓库回滚 
+git reset --hard origin/master 
+5. 远程仓库回滚 
+git reset --hard HEAD^  
+git push -f 
 ## 远程仓库的使用
 git remote 列出远程仓库     
 git remote -v 使用git和对应URL  
@@ -504,4 +508,236 @@ git merge issue54
 git merge origin/master 
 git push origin master  
 
+### 私有管理团队 
+整合管理工作流程 -- 特定的工程师整合    
+
+### 派生公共项目 
+git clone (url)     
+cd  
+git checkout -b featureA    
+work    
+git commit  
+// 去原项目 fork建立派生库  
+git remote add myfork (url)     
+git push -u myfork  featureA    
+
+### 通过邮件的公开项目 
+生成邮件 
+git format-path -M origin/master    format-path打印补丁文件名-M 开光告诉Git查找重命名   
+配置 imap 在 ~/.gitconfig
+发送
+ cat *.patch | git imap-send    
+
+也可以配置 SMTP 
+git send-email *.patch 
+
+
+## 维护项目 
+
+
+1. 在特性分支工作 
+git checkout -b sc/ruby_clinet master   
+2. 运用来着邮件的补丁 
+- apply命令补丁
+git apply /tmp/iiiii.patch  
+将会修改工作目录中的文件    
+git apply --check 检查 
+- am命令补丁    
+推荐 
+git am -3 /tmp/iiiii.patch  
+- 检出远程分支 
+git remote add jessiac git://   
+git fetch jessiac   
+git checkout -b rubyclient jessiac/ruby-client  
+git pull https://           
+
+
+3. 确定引入了哪些东西 
+git log contrib --not master -p     
+contrib 这个分支 不包含master  -p 每次提交的差异    
+git diff origin/master  和远程分支对吧  
+git diff master...contrib 从master和contrib共同的祖先起到末尾分支的对比 
+
+4. 将贡献的工作整合进来 
+- 合并工作流    
+master < develop < qt   
+- 大项目合并工作流  
+长期分支 master 安全特性分支next 用于新工作的pu(proposed updates) 维护性向后移植工作的maint分支 
+- 变基与拣选工作流 
+拣选：选取分支中的一段      
+git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf        
+- Rerere    
+重用已记录的冲突解决方案 reuse recorded resolution 
+启动rerere时，git会维护一些成功合并之前和之后的镜像，当git发现之前已经修复过类似的冲突时，便会使用之前的修复方案，不用人工干预  
+git config --global rerere.enabled 
+
+- 为发布打标签 
+git tag -s v1.5 -m "my signed 1.5 tag"
+gpg --list-keys 分发用来签名的PGP公钥生成   
+gpg -a --export tagID | git hash-object -w --stdin //将key导入Git的数据库中     
+git tag -a maintainer-pgp-pub key //  上面生成的key    通过hash-object命令给出的新sha-1值来创建一个直接指向它的标签     
+git show maintainer-pgp-pub | gpg --import 从数据库拉取blob对象并导入到GPG中来导入PGP key
+
+- 生成一个构建号
+git describe  master // 只适应于有注解的标签-a -s  
+
+- 准备一次发布 
+git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
+
+- 制作提交简报  
+git shortlog    
+git shortlog --no-merges master --not v1.0.1    
+
+
+
+# Git 工具
+
+## 选择修订版本     
+
+### 单个修订版本    
+
+### 简短的SHA-1
+git log   显示sha-1         
+git show 1c002d  显示提交       
+git log --abbrev-commit --pretty=oneline     
+--abbrev-commit 输出简短的唯一值    
+--pretty=oneline 一行输出   
+出现相同的sha1会去前一个 但是概率小于亿亿亿     
+
+### 分支引用 
+git show sha-1(该分支最后的sha)    
+git show 该分支名 
+git rev-parse 该分支 // 查看该分支的sha1
+
+### 引用日志 
+git reflog  
+记录了最近几个月你的HEAD和分支引用所指向的历史      
+引用日志只存在于本地仓库    
+git show HEAD@{5} //  第5次前提交记录   
+git show HEAD@{2.months.age} 
+git show master@{yesterday} // 昨天master提交 
+git log -g // 格式输出引用日志  
+
+### 祖先引用 
+在引用末尾加一个^(同~) git会将其解析为该引用的上一个提交。       
+git show HEAD^      
+git show d921970~3  
+git show HEAD^^^    
+
+
+### 提交区间 
+解决这个分支还有哪些提交尚未合并到主分支    
+
+#### 双点  
+git log master..experiment //在experiment分支中而不在master分支中的提交     
+git log experiment..master //master分支不在experiment中的   
+git log origin/master..HEAD 
+
+
+
+#### 多点
+
+不在refB 中 
+```
+git log  refA..refB 
+git log ^refA refB
+git log refB --not refA
+```
+```
+git log refA refB ^refC
+git log refA refB --not refC
+```
+
+#### 三点 
+差集
+git log  master...experiment 
+
+
+## 交互式暂存 
+git add -i // --interactive     
+
+```
+		staged     unstaged path
+  1:    unchanged      +116/-0 git/ProGit.md
+
+*** Commands ***
+  1: status       2: update       3: revert       4: add untracked
+  5: patch        6: diff         7: quit         8: help
+```
+
+### 暂存于消暂存文件 
+暂存 2：update	
+取消暂存	3:revert	
+已经暂存内容的区别 6:diff	// git diff --cached	
+
+### 暂存补丁 
+补丁 5:patch  	
+
+
+## 储藏与清理
+
+> 不想切换分支就提交一次 
+git stash 储藏会处理工作目录的脏的状态-即，修改的跟踪文件与暂存改动-然后将未完成的修改保存到一个栈上，而你可以在任何时候重新应用这些改动。 
+
+git stash /git stash save  // 注意没有跟踪的文件不会被储藏  
+git stash list // 显示 
+git stash apply  | git stash apply stash@{2}//默认最近的储藏区  
+git stash apply --index //重新暂存修改  
+git stash drop stash@{0} 移除储藏的 
+git stash pop 出栈和使用    
+
+
+### 创造性的储藏 
+git stash --keep-index // 不要存储任何你通过git add 命令已暂存的东西   
+git stash --include-untracked //-u  存储任何未跟踪文件  
+git stash --patch // 命令行选择     
+
+### 从储藏创建一个分支
+储藏文件修改 需要从储藏中拉取分支合并 
+git stash branch testchanges    
+
+### 清理工作目录    
+git stash --all 移除每一样东西存在栈中  
+git clean  
+    -f 强制清除 
+    -d 目录 
+    -n 预清除   
+    -i 交互模式     
+    -x 不忽略.gitiignore中的文件    
+    
+## 签署工作 
+从其他人那里拿取工作，想验证提交是不是真正的来自可信来源，
+GPG来签署和验证工作方式 
+### GPG
+gpg --gen-key 生成密匙  
+gpg --list-keys     
+git config --global uer.signingkey gpg_pub 来签署  
+
+### 签署标签
+git tag -s v1.5 -m 'my 1.5' 
+git show v1.5 显示gpg签名附属在后面 
+
+### 验证标签    
+git tag -v [tag-name]   
+
+### 签署提交
+git 1.7.9 签署个人提交  
+git commit -a -S -m "signed commit" // -S 直接签署到提交    
+git log --show-signature 查看验证这些签名   
+git log --pretty="format:%h %G? %aN %s" // 配置在%G?中  
+git merge 与 pull 使用--verify-signatures选项来检查并拒绝没有携带可信GPG签名的提交  
+git merge --verify-signatures non-verify    
+## 搜索 
+快速从它的数据库中浏览代码和提交    
+### Git Grep    
+git grep -n gmtime_r    
+    -n 行号     
+    --count 输出概述    
+    -p 哪个方法函数 
+    --and 复杂查询  
+    ```
+    git grep --break --head \
+        -n -e '#define' --and \( -e LINK -e BUF_MAX \) v1.8.0
+    ```
+### git 日志搜索 
 
