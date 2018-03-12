@@ -818,5 +818,33 @@ git status
 
 ### 重置的作用  
 reset       
+1. 移动HEAD --soft
 git reset id  // HEAD-> master -> id的快照 
+> 本质是撤销了上一次git commit 命令  暂存区和工作区没有是提交时的样子 
+git commit 提交 
+
+2. 更新索引 --mixed
+git reset --minxed HEAD~    
+撤销上一次的提交，还会取消暂存区所有的东西  
+回滚到git add 和git commit 之前     
+
+3. 更新工作目录  --hard
+git reset --hard HEAD~  // git add 和 git commit 已经工作目录中的所有工作都撤销了 
+不能恢复
+
+#### 通过路径来重置 
+git reset file.txt // 同 git reset --mixed HEAD file.txt  
+1. 移动HEAD分支到指向 
+2. 让索引看起来像HEAD 
+本质上只是将file.txt 从HEAD复制到索引（暂存区）中   
+和 git add 对应     
+
+
+### 压缩 
+1. 退回到某个版本 git reset --soft  HEAD~2  // 暂存区还在 
+2. git commit // 从新提交 这样中间2个版本就被不在链路上了   
+
+### 检出 
+checkout vs reset  
+
 
