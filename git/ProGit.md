@@ -1,4 +1,4 @@
-#起步 
+起步 
 ## 运行Git前的配置 
 1. /etc/gitconfig 每一个用户以及他们仓库的通用配置变量，  git config --system 会读 
 2. ~/.gitconfig ~/.connfig/git/config 当前用户   git --global  读
@@ -175,6 +175,12 @@ git reset --hard origin/master
 5. 远程仓库回滚 
 git reset --hard HEAD^  
 git push -f 
+```
+git log
+git reset --soft ${commit-id}
+git stash 
+git push -f
+```
 ## 远程仓库的使用
 git remote 列出远程仓库     
 git remote -v 使用git和对应URL  
@@ -846,5 +852,111 @@ git reset file.txt // 同 git reset --mixed HEAD file.txt
 
 ### 检出 
 checkout vs reset  
+
+#### 不带路径 
+1.  reset --hard vs checkout    
+checkout确保不会将已经更改的文件吹走    
+reset --hard 不会检查直接替换 
+
+2. 更新HEAD  
+reset 会移动HEAD分支的指向      
+checkout 只会移动HEAD自身来指向另一个分支   
+
+
+
+#### 带路径 
+运行checkout不移动HEAD，提交中的那个文件来更新索引，但是也会覆盖工作目录中对应的文件。 
+
+
+#### 总结
+REF移动HEAD指向的分支引用   
+HEAD只移动HEAD本身  
+
+|-Commit Level-|-HEAD-|-Index-|-workdir- | WD Safe |
+|reset --soft [commit]| BEF|NO|NO| YES|
+|reset [commit]| BEF|YES|NO| YES|
+|reset --hard [commit]| BEF|YES|YES| NO|
+|checkout [commit]| HEAD|YES|YES| YES|
+|file level| ||| |
+|reset (commit)[file]| NO|YES|NO| YES|
+|checkout (commit)[file]| NO|YES|YES| NO|
+
+## 高级合并 
+哲学：聪明地决定无歧义的合并方案，有冲突不会尝试智能的自动解决它 。
+
+### 合并冲突 
+git merge xxxxx
+
+1. 中断一次合并
+git status -sb
+```
+## master
+UU hello.rb
+```
+git merge --abort  // 退回合并
+
+git status -sb  
+```
+## master
+```
+2. 忽略空白 
+git merge --Xignore-space-change xxx // 忽略所有空白修改    
+--Xignore-all-space 忽略任意数量的已有空白的修改    
+
+3. 手动合并代码 
+stage1 共同祖先     
+stage2 你的版本     
+stage3 MERGE_HEAD 要合并的版本  
+git show 释放拷贝   
+```
+git show :1:wj > wj.common  
+git show :2:wj > wj.outs        
+git show :3:wj > wj.theirs      
+```
+查看上文件的SHA1    
+git ls-files -u     
+恢复合并   
+git merge-file -p wj.outs wj.common wj.theirs > wj 
+实际修改 
+git diff --ours // 实际修改     
+git diff --theirs -b // 合并后于他们的不同点 -b 去除空白        
+git diff --base -b 查看2边是如何修改的      
+清理产生的中间文件 
+git clean -f 
+
+4. 检出冲突 
+git log --graph --oneline --decorate --all  // 查看分支状态     
+git merge branch2 // 合并分支2 并产生冲突文件B  
+git checkout --conflict=diff3 B // diff3 模式线上冲突 =merge默认模式    
+git config --global merge.conflictstyle diff3 更改默认配置  
+git checkout --ours // --theirs 选择那边的模式      
+
+
+5. 合并日志 
+每一个提交在不同开发路径  
+git log --oneline --left-right HEAD...MERGE_HEAD    
+
+
+
+### 撤销合并
+合并到了master 
+1. 想要修复引用 
+git merge       
+git reset --hard HEAD~      
+
+
+2. 还原提交 $$$
+
+生成一个新的提交选项，来撤销已存在提交的所有修改 
+git revert -m 1 HEAD  // m 1 要被保留下来的父接点 本分支合并之前的一个  
+缺点 分支会视为已经合并了   
+只能在撤销还原的还原 
+git revert 还原的id     
+
+### 其他类型的合并 
+git merge -Xours master // 以自己的为主 能合并上的合并 -Xtheirs  
+
+
+
 
 
