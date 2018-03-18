@@ -874,6 +874,7 @@ REF移动HEAD指向的分支引用
 HEAD只移动HEAD本身  
 
 |-Commit Level-|-HEAD-|-Index-|-workdir- | WD Safe |
+|:-|-|-|- |- |
 |reset --soft [commit]| BEF|NO|NO| YES|
 |reset [commit]| BEF|YES|NO| YES|
 |reset --hard [commit]| BEF|YES|YES| NO|
