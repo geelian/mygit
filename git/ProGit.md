@@ -1,3 +1,4 @@
+
 起步 
 ## 运行Git前的配置 
 1. /etc/gitconfig 每一个用户以及他们仓库的通用配置变量，  git config --system 会读 
@@ -58,7 +59,7 @@ Your branch is up-to-date with 'mygit/master'.  你的分支和mygit/master一�
 
 Untracked files: 没有跟踪的文件
   (use "git add <file>..." to include in what will be committed) 使用git add <file>...  使用git add <file>... 下面包含的将被提交
-
+```
 	README  README文件
 
 nothing added to commit but untracked files present (use "git add" to track) 没有添加到提交，但是在跟踪的文件 
