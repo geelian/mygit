@@ -975,9 +975,92 @@ git diff-tree -p rack_branch
 git diff-tree -p reck_remote/master     
 
 
-## Rerere 
+## Rerere 不建议使用
 reuse recorded resolution  重用记录决议     
 允许你让git记住解决一个块冲突的方法，这样在下一次看到相同冲突时，git可以以你自动的解决它。
+
+开启 
+1. git config --global rerere.enabled true
+2. mkdir .git/rr-cache  
+
+git merge world  // 合并    
+git rerere status // 查看使用状态   
+git ls-files -u 查看前左右版本  
+解决冲突    
+git rerere diff // 查看解决方式 
+git add *   
+git commit    
+
+git reset --hard HEAD^ 回滚 
+git checkout work   
+git rebase master  //根据rerere 自动变基      
+
+## 使用Git调试 
+
+### 文件注解 有用
+每一行最后一次修改的提交    
+git blame -L 12,22 test // test 12,22 之后修改  
+git blame -C -L 141,153 test // -C 是从什么地方复制过来的   
+
+### 二分查找 
+同部署不同的版本找到，错误的提交次数    
+```
+git bisect start 启动
+git bisect bad 提交有问题 
+git bisect good v1.0 // v1.0 是正确的   git 检查中间的提交 
+git bisect good 这个是对的 向上找   
+git bisect bad 错的下找 
+git bisect good // 最后找到 
+git bisect reset 归位HEAD指针 
+```
+脚本判断
+```
+git bisect start HEAD v1.0
+git bisect run test-error.sh 通过这个脚本判断   
+```
+
+## 子模块 
+子模块允许你将一个git仓库作为另一个Git仓库的子目录，能让你将另一个仓库克隆到自己的项目中，同时还保持提交的独立  
+
+### 开始使用子模块 
+在git 目录下拉取模块    
+git submodule add https://github.com/chaconinc/DbConnector  
+会有模块文件和.gitmodules文件   
+
+```
+cat .gitmodules
+[submodule "DbConnector"]
+path = DbConnector
+url = https://github.com/chaconinc/DbConnector``
+
+```
+更改子模块URL
+git config submodule.DbConnector.url xxx    
+git diff --cached DbConnector  // 比较
+git diff --cached --submodule   
+
+
+### 克隆含有子模块的项目 
+git clone https://  含有子模块  
+cd DbConnector  到子模块    
+git submodule init  //在子模块下初始化  
+
+=
+
+git clone --recursive https:// 会同步所有的子模块       
+
+### 在子模块上工作 
+1. 更新子模块目录下 
+git fetch       
+git merge origin/master 
+git diff --submodule // git config --global diff.submodule log默认打开 --submodule  
+2. 更新 
+git submodule update --remote DbConnector   
+默认设置 DbConnector 更新   
+git config -f .gitmodules submodule.DbConnector.branch stable 
+
+3. 查看只模块日志
+git log -p --submodule  
 
 
 
