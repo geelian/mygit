@@ -956,6 +956,26 @@ git revert 还原的id
 ### 其他类型的合并 
 git merge -Xours master // 以自己的为主 能合并上的合并 -Xtheirs  
 
+#### 子树合并 
+2个项目 其中一个映射到另一个项目的一个子目录 （（）分支2）分支1         
+git init // 建立git仓库1     
+git remote add rack_remote  **   // 加其他的远程仓库     
+git fetch rack_remote  // 拉取其他分支的信息       
+git checkout -b reck_brach rack_remote/master // 拉取远程分支到本地  
+git checkout master  // 切换到 分支1    
+git read-tree --prefix=rack/ -u rack_branch // 合并分支2   2合并到1中 
+git checkout rack_branch // 2次合并    
+git pull 
+git checkout master 
+git merge --squash -s recursive -Xsubtree=rack rack_branch // 才有递归合并策略  
+对比    
+git diff-tree -p rack_branch    
+git diff-tree -p reck_remote/master     
+
+
+## Rerere 
+reuse recorded resolution  重用记录决议     
+允许你让git记住解决一个块冲突的方法，这样在下一次看到相同冲突时，git可以以你自动的解决它。
 
 
 
