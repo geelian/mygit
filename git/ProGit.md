@@ -1139,6 +1139,31 @@ man git-config
 git config --global core.editor emacs   
 
 - commit.template 
+默认提交信息    
+git config --global commit.template ~/.gitmessage // .gitmessage 设置文件内容   
+git commit  
 
+- core.pager    
+log diff 分页模式 默认more 
+git config --global core.pager '' // 关闭   
+
+- user.signingkey   
+标签下设置密匙  
+git config --global user.signingkey <gpg-key-id>    
+git tag -s <tag-name>   
+
+- core.excludesfile 
+全局忽略配置    
+```
+/file .gitignore_global 
+*~
+.DS_Store
+```
+
+git config --global core.excludesfile ~/.gitignore_global
+
+- help.autocorrect  
+设置成1 模糊匹配后自动运行 
+git checkou  master 
 
 
