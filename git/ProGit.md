@@ -4,7 +4,7 @@
 1. /etc/gitconfig 每一个用户以及他们仓库的通用配置变量，  git config --system 会读 
 2. ~/.gitconfig ~/.connfig/git/config 当前用户   git --global  读
 3. .git/config 当前仓库中的config文件
-没有一级覆盖上级
+下一级覆盖上级
 
 git config --list 列出      
 git config user.name 某一项     
@@ -1062,6 +1062,83 @@ git config -f .gitmodules submodule.DbConnector.branch stable
 3. 查看只模块日志
 git log -p --submodule  
 
+
+
+git submodule update --remote --merge // 更新合并   
+
+git push --recurse-submodules=check 没有提交子模块 提交不上     
+git push --recurse-submodules=on-demand //尝试性的合并  
+
+
+```
+git pull  // 拉取最新的 可能子模块冲突  
+git diff 查看   
+cd DbConnector // 到子模块  
+git rev-parse HEAD // 显示HEAD指向的模块 有用   
+git branch try-merge c771610    
+解决冲突提交    
+```
+
+### 子模块技巧 
+
+1. 子模块遍历- foreach 
+git submodule foreach 'git stash'       
+git submodule foreach 'git checkout -b featureA' // 拉取子模块 
+git submodule foreach 'git diff'    
+
+2. 有用的别名 
+git config alias.sdiff '!'"git diff && git submodule foreach 'git diff'"    
+git config alias.spush 'push --recurse-submodules=on-demand'    
+git config alias.supdate 'submodule update --remote --merge'        
+
+3. 问题 
+- 切换分支会有麻烦 
+- 子模块内切换会有麻烦  
+
+## 打包 
+git bundle  create repo.bundle HEAD master // 包含所有重建该仓库master分支所需的数据    
+git clone repo.bundle // 解压   
+
+git log --oneline master ^origin/master // 除了远程master的信息
+git bundle create commits.bundle master ^9a466c5 // 除远程  部分打包    
+git bundle verify commits.bundle //在该目录下检查是否合法 
+git bundle list-heads commits.bundle // 查看导入哪些分支    
+gti fetch ../commits.bundle master:other-master //导出拉取  
+
+
+
+
+## 替换 
+用其他对象假装替换数据库中的Git对象 
+
+git for-each-ref 显示数据引用   
+
+## 凭证储藏 
+http 密码 
+1. cahche 模式 15分钟 内存 
+git config --global credential.helper cache  
+2. store 磁盘 /home 下 明文 
+git config --global credential.helper store --flie ~/.my-credentials  ??
+3. 其他工具 
+
+### 底层实现 
+git credential  fill    
+
+可用语言扩展    
+
+
+# 自定义 Git    
+
+## 配置Git 
+git config 
+
+### 客户端配置 
+man git-config  
+
+- core.editor   
+git config --global core.editor emacs   
+
+- commit.template 
 
 
 

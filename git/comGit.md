@@ -34,7 +34,11 @@ git checkout -- REAME.md
 
 ## 查看提交日志 log
 git log 
-再一行--pretty=oneline
+再一行--pretty=oneline  
+
+### 查看分支上的指针
+--decorate  
+
 ## 记录命令 reflog
 git reflog
 
@@ -100,4 +104,16 @@ git log --graph
 git remote set-url origin https://
 
 
+# 强制push远程分支 push 
 
+git clone  repo
+
+git checkout -b localname origin/xxxxxx-develop
+
+vim README.md
+
+git add
+
+git commit
+
+git push origin localname:master  -f
