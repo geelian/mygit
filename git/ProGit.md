@@ -1164,6 +1164,68 @@ git config --global core.excludesfile ~/.gitignore_global
 
 - help.autocorrect  
 设置成1 模糊匹配后自动运行 
-git checkou  master 
+git committ  master  // 会指向git commit    
+
+### Git 中的着色    
+git config --global color.ui false // 关闭  默认auto
+
+```
+具体配色 true flase always  
+color.branch 
+color.diff
+color.interactive   
+color.status    
+color.diff.meta     
+```
+### 格式化与多余的空白字符  
+-  core.autocrlf   
+提交时回车和换行 到换行 windows取出的是 换行转为换行回车    
+git config  --global core.autocrlf true      
+提交转为换行 检出不转换     
+git config --global core.autocrlf input     
+windows 保存回车    
+git conifg --global core.autocrlf false
+
+- core.whitespace  
+探测和修正多余空白字符问题  
+默认：
+1. blank-at-eol 检查行尾空格    
+2. blank-at-eof 盯住文件底部的空格  
+3. space-before-tab 警惕行头的tab前面的空格 
+关闭：
+1. indent-with-non-tab 抛出以空格非tab开头的行  
+2. tab-in-indent 监视在行头表示缩进的tab    
+3. cr-at-eol 告诉Git忽略行尾的回车  
+
+打开    
+git config --global core.whitespace \   
+    trailing-space,space-before-tab,indent-with-non-tab     
+
+### 服务器端配置    
+
+- receive.fsckObjects   
+要求每一次提交一致性检查，默认false 
+git config --system receive.fsckObjects true   //打开   
+
+- receive.denyNonFastForwards   
+禁用强制推送 push -f    
+git config --system receive.denyNonFastForwards true    
+
+- receive.denyDeletes
+禁止通过推送删除分支和标签  
+
+
+## Git属性 
+基于路径的设置项 --对特定文件目录设置   
+1. 目录下.gitattributes 文件    
+2. .git/info/attributes 设置 
+
+### 二进制文件 
+```coding-shell
+# file .gitattributes
+
+*.pbxproj binary 
+
+````
 
 
