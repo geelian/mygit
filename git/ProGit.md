@@ -1224,8 +1224,57 @@ git config --system receive.denyNonFastForwards true
 ```coding-shell
 # file .gitattributes
 
+# 设置为二进制识别 
 *.pbxproj binary 
 
-````
+# 二进制文件对比    
+
+# work 对比
+#work转为txt在对比 
+# 使用word 过滤器
+*.docx diff=word 
+# 1. 安装docx2txt
+# 2. 在可执行路径中建立Git支持格式脚本
+# #!/bin/bash 
+# docx2txt.pl $1 -  
+# $git config diff.word.textconv docx2txt配置git 
+# 使用
+# $ git diff 
+
+# 图片对比 exiftool
+*.png diff=exif 
+# 配置exitftool 转原数据文本
+# $git config diff.exif.textconv exiftool    
+# $ git diff a.png b.png 
+```
 
 
+### 关键字展开 
+
+*.txt ident 设置关键字过滤      
+git config --global filter.indent.clean indent  
+git config --global filter.indent.smudge cat    
+
+
+### 导出版本库 
+
+- export-ignore 
+打包忽略 git archive
+```
+# file .gitattributes
+# 忽略test目录
+test/ export-ignore 
+
+```
+
+- exprot-subst 
+gig log 格式化关键字被exprot-subst标记替换
+
+eg  
+
+echo 'Last commit date: $Format:%cd by %aN$' > LAST_COMMIT  
+echo "LAST_COMMIT export-subst" >> .gitattributes   
+git add .   
+git commit  
+git archive HEAD | tar xCf ../a -   
+cat ../a/LAST_COMMIT // 将被替换    
