@@ -1277,4 +1277,167 @@ echo "LAST_COMMIT export-subst" >> .gitattributes
 git add .   
 git commit  
 git archive HEAD | tar xCf ../a -   
-cat ../a/LAST_COMMIT // 将被替换    
+cat ../a/LAST_COMMIT // 将被替换   
+
+
+### 合并策略    
+
+```
+# file .gitattributes
+# 合并用本地的
+database.xml merge=outs 
+```
+
+打开虚拟合并策略 
+git config --global merge.ours.driver true  
+database.xml 将将不变 
+
+## Git钩子 
+特定动作触发自定义脚本  
+客户端:提交合并 
+服务器端：接收推送 
+
+### 安装钩子 
+.git/hooks      
+xx.sample 都是实例       
+
+### 客户端钩子 
+克隆时不被复制  
+1. 提交工作流钩子   
+- pre-commit 提交信息前运行     
+- prepare-commit-msg 启动提交信息编辑器之前，默认信息被创建之后运行    
+- commit-msg 提交验证状态   
+- post-commit 在提交完成后运行 
+
+2. 电子邮件钩子 
+applypath-msg pre-applypach post-applypatch     
+
+3.其他 
+- pre-rebase 变基前 pre-rebase.sample 禁止已推送变基提交
+- pre-rewrite 会替换记录的命令调用 
+- post-checkout 在git checkout 后运行 
+- post-merge 在git merge 成功运行后 
+- pre-push 在git push 运行期间 
+
+### 服务器端钩子
+- pre-receive 推送操作是，先调用pre-receive     
+- update 推送的每一个分支运行一次   
+- post-receive 运行以后     
+
+
+> 可以设置不能提交    
+
+# Git 与其他系统  
+
+1. git svn 桥接 svn 
+2. git 与 Mercurial
+
+
+# Git 内部原理
+git是内容寻址文件系统   
+
+
+## 底层命令和高层命令 
+
+```
+branches/
+COMMIT_EDITMSG
+config #项目特有的配置文件 
+description # GitWeb使用
+FETCH_HEAD
+HEAD #文件指示目前被检出的分支
+hooks/ # 钩子脚本
+index # 文件保存暂存区信息
+info/  # 目录包含一个全局性排除文件 
+logs/
+objects/ #目录存储所有数据内容 
+ORIG_HEAD
+packed-refs
+refs/ # 目录存储指向数据的提交对象的指针
+
+```
+    
+## Git 对象 
+Git的核心是一个简单的键值对数据库   
+向该数据库install返回sha1 使用sha1 返回该值     
+hash-object     
+储藏在 .git/objects     
+使用find .git/objects -type f 查看 
+1. 数据对象 
+仅仅保存文件的内容，没有文件名 
+// 储藏数据对象 
+echo 'test content' | git hash-object -w --stdin    
+// 取出值   
+git cat-file -p sha1    
+
+// 不断的储藏
+git hash-object -w test.txt     
+git hash-object -w test.txt     
+
+// 回滚
+git cat-file -p sha1 > test.txt     
+
+注意每一个 文件提交 都是一个新的数据对象 
+
+2. 树对象 
+对应目录项 包含1-n条对象数据 
+git cat-file -p master^{tree}
+```
+100644 blob a906cb2a4a904a152e80877d4088654daad0c859 README //数据对象
+100644 blob 8f94139338f9404f26296befa88755fc2598c289 Rakefile
+040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0 lib //树对象 
+```
+
+创建暂存区  
+git update-index --add --cacheinfo 100644 sha1 test.txt 
+
+add 加入跟踪  
+cacheinfo 添加的文件位于git数据库中 
+100644 普通文件 
+100755 可执行文件 
+120000 符号链接     
+git write-tree 创建新的树对象   
+git cat-file -t sha1 输出对象类型   
+git reed-tree --prefix-bak sha1 树对象存入暂存区    
+
+3. 提交对象 
+// 第一个对象   
+echo 'first commit ' | git commit-tree sha11        
+// 第二个提交对象 父对象为 第一个   
+echo 'second commit' | git commit-tree sha12 -p sha11   
+
+git log --stat sha12    
+
+## Git 引用 
+需要一个文件来保存sha1值，起一个简单的名字，然后用这个名字来替代原始的sha1值--引用（reference refs) 在 .git/refs下   
+```
+$ find .git/refs
+../.git/refs/
+../.git/refs/heads
+../.git/refs/heads/master
+../.git/refs/remotes
+../.git/refs/remotes/mygit
+../.git/refs/remotes/mygit/master
+../.git/refs/remotes/origin
+../.git/refs/remotes/origin/HEAD
+../.git/refs/remotes/origin/master
+../.git/refs/stash
+../.git/refs/tags
+../.git/refs/tags/v1.1
+../.git/refs/tags/v1.4
+../.git/refs/tags/v1.4-1w
+```
+写入引用位置    
+echo "提交对象sha1" > .git/refs/heads/master    
+查看提交    
+git log --pretty=oneline master     
+建议使用写入
+git update-ref refs/heads/master    
+拉分支  
+git update-ref refs/heads/test sha12        
+查看    
+git log --pretty=oneline test   
+
+> git branch (branch)实际运行 update-ref  
+
+
