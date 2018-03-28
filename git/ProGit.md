@@ -1440,4 +1440,106 @@ git log --pretty=oneline test
 
 > git branch (branch)实际运行 update-ref  
 
+### HEAD 引用 
+git branch 时 最新的sha-1在HEAD文件中   
+HEAD是符号引用，指向目前所有的分支  
+```
+# file .git/HEAD
+ref: refs/heads/master
+```
+git checkout test 跟换HEAD指向  
+安全查看    
+git symbolic-ref HEAD   
+设置    
+git symbolic-ref HEAD refs/heads/test   
+
+### 标签引用 
+
+4. 标签对象 
+包含标签创建信息，一个日期，一段注解信息，以及一个指针  
+轻量标签：  
+git  update-ref refs/tags/v1.0 sha1     
+附注标签：
+git tag -a v1.1 sha1 -m "test tag"  
+
+### 远程引用
+添加远程版本库并push,git会记录最近一次推送操作是每一个推送操作对应的每一个分支对应的值，并保存在refs/remotes目录下      
+git remote add origin git@github.com:acc/simp.git   
+git push origin master  
+远程引用vs分支 远程引用是只读的     
+
+## 包文件
+git gc 进行打包压缩
+打包对象是，会查找命名及大小相近的文件，并只保存文件不同版本直接的差异内容。    
+查看打包的内容  
+git verify-pack -v .git/objects/pack/pack-xxxx.idx  
+提交也会gc      
+
+
+
+## 引用规格
+
+git remote add origin https://github.comxxx
+
+```
+file:.git/config    
+[remote "origin"]   
+url = https://github.comxxx 
+fetch = +refs/head/*:refs/remotes/origin/* 
+# 引用规则                      
+# <src>:<dst> scr 远程版本 dst对应的远程引用在本地的对应 + 不能快进的情况下也要更新引用                 
+```
+
+引用规则由git remote add 自动生成   获取服务器refs/heads/下面的所有引用写入到本地的refs/remotes/origin/中 
+git log refs/remotes/origin/master  
+
+只拉取master    
+fetch = +refs/heads/master:refs/remotes/origin/master   
+指定拉取    
+git fetch origin master:refs/remotes/origin/mymaster    
+
+### 引用规则推送 
+git push origin master:refs/heads/qa/master     
+配置实现 
+```
+file:.git/config 
+[remote "origin"]
+push = refs/heads/master:refs/heads/qa/master   
+```
+强行推送 
+git push origin localname:master -f  
+
+### 删除引用
+git push origin :topic 
+
+## 传输协议 
+
+### 哑协议 
+服务器端不需要针对git特有代码 ，不能push
+
+### 智能协议 
+1. 上传数据 
+客户端send-pack --- 服务器端receive-pack    
+
+## 维护与数据恢复 
+git gc -auto 
+### 数据恢复
+git reflog  
+git log -g  
+查看已经的提交情况  
+git branch recover-branch sha1 上面的提交找的sha1   
+
+
+## 环境变量 
+
+1. 全局行为
+GIT_EXEC_PATH 找到他的子程序 git-commit git-diff 使用git --exec-path 
+
+GIT_PAGER 命令行输出多页的程序  
+GIT_EDITOR 编辑文件启用的编辑器 
+2. 版本库位置
+GIT_DIR .git位置    
+GIT_CEILING_DIRECTIORIES控制找.git行为  
+GIT_WORK_TREE 非空版库设置 
+
 
