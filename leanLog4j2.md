@@ -52,6 +52,11 @@
 ## 使用
 testLog4j.java 
 ```
+        File file = new File("D:/scf_log4j.xml");
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+        final ConfigurationSource source = new ConfigurationSource(in);
+        Configurator.initialize(null, source);
+
 private static Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 
 logger.info("aaa")

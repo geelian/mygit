@@ -1,5 +1,5 @@
 # 导出man文档
-man ls | col -b >man.text
+man ls | col -b >man.txt
 
 # 选中分类
 man 1 ls

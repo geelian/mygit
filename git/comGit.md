@@ -117,3 +117,13 @@ git add
 git commit
 
 git push origin localname:master  -f
+
+
+# 代码合并 
+git pull    
+复制    
+git checkout file 回滚本代码    
+git pull
+粘贴    
+git push 
+
