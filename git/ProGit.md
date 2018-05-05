@@ -323,6 +323,7 @@ git branch //分支类别
 git branch -v //最后一次提交 
 git branch --merged --no-merged 当前分支合的分支 未合并的分支       
 git branch -d testing // 没有合并过来帮你不能删除  -D 可以 
+git branch -a 查看所有分支  
 
 ## 分支开发工作流 
 master ---- develop ----topic       

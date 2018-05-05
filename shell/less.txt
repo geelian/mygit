@@ -18,40 +18,53 @@ SYNOPSIS 大纲
         参考选中部分和选中部分长选项名称的备选语法 
 DESCRIPTION 描述
        Less  is  a  program  similar  to  more (1), but it has many more features.  Less does not have to read the entire input file
-      less 是一个和more(1
+      less 是一个和more(1)[man 1 more]相识的查询,但是他有更多的特性,Less不是必须从文件开始的地方读入全部的文件 
        before starting, so with large input files it starts up faster than text editors like vi (1).  Less uses termcap (or terminfo
+               所以读取大文件比像vi一样文本编辑器更快，                                                Less 使用termcap[终端容量数据库]（或者terminfo在一些系统中）
        on  some  systems),  so	it  can run on a variety of terminals.	There is even limited support for hardcopy terminals.  (On a
+                            所以他能运行在多变的终端                    他们设置被硬拷贝终端支持    
        hardcopy terminal, lines which should be printed at the top of the screen are prefixed with a caret.)
-
+        在一个硬拷贝终端， 一行带前缀的插入字符被显示在显示器的头部 
        Commands are based on both more and vi.	Commands may be preceded by a decimal number, called N in  the	descriptions  below.
+       命令是基于more和vi的                      命令可以可以有一个十进制数 ，在下面的描述中被叫做 N
        The number is used by some commands, as indicated.
+       这个数被一些命令作为展示
 
-COMMANDS
+COMMANDS    指令 
        In  the following descriptions, ^X means control-X.  ESC stands for the ESCAPE key; for example ESC-v means the two character
        sequence "ESCAPE", then "v".
-
+        在下面的的描述中， ^X 代表ctrl-x[控制],             ESC 代表 ESC键；            比如 Esc-x 意味着2个键 先 esc再 v
        h or H Help: display a summary of these commands.  If you forget all the other commands, remember this one.
-
+                    显示这些命令的摘要                    如果你忘记了所有命令请记住这个 
        SPACE or ^V or f or ^F
 	      Scroll forward N lines, default one window (see option -z below).  If N is more than the screen size, only  the  final
 	      screenful is displayed.  Warning: some systems use ^V as a special literalization character.
-
+        空格 ctrl+v f ctrl+f
+            向前滚动N行 ，默认一个窗口（查看下面的选择-z）  如果N超过了屏幕的尺寸 ，只能在最整个屏幕显示 ，  
+            警告：一下系统使用 ctrl-v 作为 字面特殊字符
        z      Like SPACE, but if N is specified, it becomes the new window size.
+            和空格相同 ，但是如果N是被指定，it将变为新窗口的大小  
 
        ESC-SPACE
 	      Like SPACE, but scrolls a full screenful, even if it reaches end-of-file in the process.
-
+       esc-空格 
+            同空格 但是即使到了文本末尾也，要滚动一个屏幕
        ENTER or RETURN or ^N or e or ^E or j or ^J
 	      Scroll forward N lines, default 1.  The entire N lines are displayed, even if N is more than the screen size.
-
+        enter or [mac-enter]  ctrl+n  e ctrl+e j ctrl+j 
+          屏幕向前N行 默认 1，  整个N是显示的 ，甚至N是大于屏幕的尺寸  
        d or ^D
 	      Scroll forward N lines, default one half of the screen size.  If N is specified, it becomes the new default for subse‐
 	      quent d and u commands.
+        d ctrl-d 
+            down
+          屏幕向前N行， 默认一个屏幕的大小 ，  如果N是 被指定了， 他将变成后续d和u[up]命令的默认值 
 
        b or ^B or ESC-v
 	      Scroll backward N lines, default one window (see option -z below).  If N is more than the screen size, only the  final
 	      screenful is displayed.
-
+       b  ctrl-b  esc-v 
+         屏幕向后N行， 默认一个屏幕 （看选项下面  -z 
        w      Like ESC-v, but if N is specified, it becomes the new window size.
 
        y or ^Y or ^P or k or ^K
