@@ -1,27 +1,32 @@
 GREP(1) 		      General Commands Manual			    GREP(1)
-
+                    普通命令目录
 NAME
        grep, egrep, fgrep, rgrep - print lines matching a pattern
-
-SYNOPSIS
+       输出被你正则匹配中的一行  
+SYNOPSIS 大刚 
        grep [OPTIONS] PATTERN [FILE...]
        grep [OPTIONS] [-e PATTERN]...  [-f FILE]...  [FILE...]
 
-DESCRIPTION
-       grep  searches  the  named  input  FILEs for lines containing a match to the
+DESCRIPTION 描述 
+       grep  searches  the  named  input  FILEs for lines containing a match to the 
+       grep在输入文件中搜索包含正则匹配中的一行 
        given PATTERN.  If no files are specified, or if the file “-” is given, grep
+                        如果没有指定文件 ，或者 如果文件给“-”，   grep匹配标准输入 
        searches standard input.  By default, grep prints the matching lines.
-
+                                默认，grep 输出匹配的行                         
+            
        In  addition,  the  variant  programs egrep, fgrep and rgrep are the same as
+        在附加中，多样化程序  egrep  fgrep rgrep  是和分别和 grep -E  grep -F grep -r 相同
        grep -E, grep -F, and grep -r, respectively.  These variants are deprecated,
-       but are provided for backward compatibility.
+       but are provided for backward compatibility. 
+       这些变种是被抛弃的，但是 为了向后兼容提供的 
 
-OPTIONS
-   Generic Program Information
-       --help Output a usage message and exit.
+OPTIONS 选项 
+   Generic Program Information 通用程序信息
+       --help Output a usage message and exit. 输出 用法信息和退出 
 
        -V, --version
-	      Output the version number of grep and exit.
+	      Output the version number of grep and exit.   输出grep版本号 和退出 
 
    Matcher Selection
        -E, --extended-regexp
