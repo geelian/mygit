@@ -28,9 +28,9 @@ OPTIONS 选项
        -V, --version
 	      Output the version number of grep and exit.   输出grep版本号 和退出 
 
-   Matcher Selection
-       -E, --extended-regexp
-	      Interpret PATTERN as an extended regular expression (ERE, see below).
+   Matcher(匹配器) Selection
+       -E, --extended-regexp 
+	      Interpret说明 PATTERN as an extended regular expression 扩展正则表达式(ERE, see below下面).
 
        -F, --fixed-strings
 	      Interpret  PATTERN  as  a  list  of fixed strings (instead of regular
