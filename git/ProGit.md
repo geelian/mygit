@@ -105,8 +105,7 @@ glob匹配模式
 target/ 忽略目录下的所有    
 参考https://github.com/github/gitignore 
 
-
-### 文件diff 
+### 文件diff  查看要提交的文件
 git diff 工作区 vs 暂存区   
 git diff --staged 暂存区 vs 本地仓库
 git difftool 命令行工具 
