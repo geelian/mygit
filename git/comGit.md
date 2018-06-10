@@ -103,6 +103,16 @@ git log --graph
 # 跟换远程仓库url
 git remote set-url origin https://
 
+6，更改remote   
+使用git remote -v查看origin和upstream的url，把http更改为ssh地址，命令：git remote set-url origin（或者upstream） xxxx   
+例如：  
+git remote set-url origin git@gitlab.xxxx.com:xxx/server.git    
+git remote set-url upstream git@gitlab.xxxx.com:enterprise/server.git   
+
+7，验证是否设置成功 
+命令：ssh -T git@gitlab.xxxxxxxx.com    
+显示Welcome to GitLab, yourname! 代表成功。 
+
 
 # 强制push远程分支 push 
 
