@@ -296,6 +296,9 @@ master --> commit4
 ```
 git log --oneline --decorate --graph --all 各分支提交情况   
     
+#### 拉取远程分支 
+
+git checkout -b zhuanzhuan_scf_zzpaycore-feature-367-49  origin/zhuanzhuan_scf_zzpaycore-feature-367-49
 
 ## 分支的创建与合并
 
